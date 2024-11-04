@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Created by https://www.toptal.com/developers/gitignore/api/phpstorm,symfony
 # Edit at https://www.toptal.com/developers/gitignore?templates=phpstorm,symfony
 
@@ -173,6 +174,9 @@ fabric.properties
 /web/js/
 
 # End of https://www.toptal.com/developers/gitignore/api/phpstorm,symfony
+=======
+/.idea
+>>>>>>> 1842038c6eb2b540c4daa2a8e0fbd5aa08f1c858
 ###> symfony/framework-bundle ###
 /.env.local
 /.env.local.php
