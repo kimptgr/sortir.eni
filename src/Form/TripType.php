@@ -37,16 +37,17 @@ class TripType extends AbstractType
             ])
             ->add('participants', EntityType::class, [
                 'class' => Participant::class,
-                'choice_label' => 'id',
+                'choice_label' => function(Participant $participant) {
+                    return $participant->getFirstname() . ' ' . $participant->getLastname();
+                },
                 'multiple' => true,
             ])
-            ->add('organizer', EntityType::class, [
-                'class' => Participant::class,
-                'choice_label' => 'id',
-            ])
+
             ->add('place', EntityType::class, [
                 'class' => Place::class,
-                'choice_label' => 'id',
+                'choice_label' => function(Place $place) {
+                return $place->getName() . ' ' . $place->getCity()->getName();
+                },
             ])
         ;
     }
