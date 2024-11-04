@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Campus;
 use App\Entity\City;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -23,17 +24,20 @@ class CityFixtures extends Fixture
             ['name' => 'Bordeaux', 'postalCode' => '33000'],
             ['name' => 'Lille', 'postalCode' => '59000'],
         ];
-
+        $i=0;
         foreach ($cities as $cityData) {
             $city = new City();
             $city->setName($cityData['name']);
             $city->setPostalCode($cityData['postalCode']);
+            $this->addReference('city_' . $i, $city);
 
-            // Persister l'objet dans le gestionnaire d'objets
             $manager->persist($city);
+            $i++;
         }
 
         // Enregistrer tous les objets en une seule fois
         $manager->flush();
+
+
     }
 }

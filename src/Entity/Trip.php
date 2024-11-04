@@ -34,7 +34,7 @@ class Trip
     #[ORM\Column(length: 1000, nullable: true)]
     private ?string $info = null;
 
-    #[ORM\ManyToOne(inversedBy: 'trips')]
+    #[ORM\ManyToOne(cascade: ["persist"], inversedBy: 'trips')]
     #[ORM\JoinColumn(nullable: false)]
     private ?State $state = null;
 
