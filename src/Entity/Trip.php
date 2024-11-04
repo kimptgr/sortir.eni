@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\TripRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -31,6 +33,33 @@ class Trip
 
     #[ORM\Column(length: 1000, nullable: true)]
     private ?string $info = null;
+
+    #[ORM\ManyToOne(inversedBy: 'trips')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?State $state = null;
+
+    #[ORM\ManyToOne(inversedBy: 'trips')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Campus $relativeCampus = null;
+
+    /**
+     * @var Collection<int, Participant>
+     */
+    #[ORM\ManyToMany(targetEntity: Participant::class, mappedBy: 'enrolledTrips')]
+    private Collection $participants;
+
+    #[ORM\ManyToOne(inversedBy: 'organizedTrips')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Participant $organizer = null;
+
+    #[ORM\ManyToOne(inversedBy: 'trips')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Place $place = null;
+
+    public function __construct()
+    {
+        $this->participants = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -105,6 +134,81 @@ class Trip
     public function setInfo(?string $info): static
     {
         $this->info = $info;
+
+        return $this;
+    }
+
+    public function getState(): ?State
+    {
+        return $this->state;
+    }
+
+    public function setState(?State $state): static
+    {
+        $this->state = $state;
+
+        return $this;
+    }
+
+    public function getRelativeCampus(): ?Campus
+    {
+        return $this->relativeCampus;
+    }
+
+    public function setRelativeCampus(?Campus $relativeCampus): static
+    {
+        $this->relativeCampus = $relativeCampus;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Participant>
+     */
+    public function getParticipants(): Collection
+    {
+        return $this->participants;
+    }
+
+    public function addParticipant(Participant $participant): static
+    {
+        if (!$this->participants->contains($participant)) {
+            $this->participants->add($participant);
+            $participant->addEnrolledTrip($this);
+        }
+
+        return $this;
+    }
+
+    public function removeParticipant(Participant $participant): static
+    {
+        if ($this->participants->removeElement($participant)) {
+            $participant->removeEnrolledTrip($this);
+        }
+
+        return $this;
+    }
+
+    public function getOrganizer(): ?Participant
+    {
+        return $this->organizer;
+    }
+
+    public function setOrganizer(?Participant $organizer): static
+    {
+        $this->organizer = $organizer;
+
+        return $this;
+    }
+
+    public function getPlace(): ?Place
+    {
+        return $this->place;
+    }
+
+    public function setPlace(?Place $place): static
+    {
+        $this->place = $place;
 
         return $this;
     }
