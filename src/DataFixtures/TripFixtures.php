@@ -4,9 +4,10 @@ namespace App\DataFixtures;
 
 use App\Entity\Trip;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class TripFixtures extends Fixture
+class TripFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
@@ -33,5 +34,10 @@ class TripFixtures extends Fixture
         }
 
         $manager->flush();
+    }
+
+    public function getDependencies()
+    {
+        return [ParticipantFixtures::class];
     }
 }

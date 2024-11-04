@@ -12,17 +12,15 @@ class PlaceFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
-        $cities = $manager->getRepository(City::class)->findAll();
         $faker = \Faker\Factory::create('fr_FR');
         for ($i = 0; $i < 10; $i++) {
             $place = new Place();
-            $place->setCity($faker->randomElement($cities));
-            //$place->setCity($this->getReference('city_'. rand(0,9)));
+            $place->setCity($this->getReference('city_'. rand(0,9)));
             $place->setName($faker->word());
             $place->setStreet($faker->streetName());
             $place->setLatitude($faker->latitude());
             $place->setLongitude($faker->longitude());
-            //$this->addReference('place_'. $i, $place);
+            $this->addReference('place_'. $i, $place);
             $manager->persist($place);
         }
         $manager->flush();
