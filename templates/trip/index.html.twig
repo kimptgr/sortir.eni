@@ -8,10 +8,9 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Name</th>
                 <th>StartDateTime</th>
-                <th>Duration</th>
+                <th>Duration (minute)</th>
                 <th>RegistrationDeadline</th>
                 <th>NbRegistrationMax</th>
                 <th>Info</th>
@@ -22,7 +21,6 @@
         <tbody>
         {% for trip in trips %}
             <tr>
-                <td>{{ trip.id }}</td>
                 <td>{{ trip.name }}</td>
                 <td>{{ trip.startDateTime ? trip.startDateTime|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ trip.duration }}</td>

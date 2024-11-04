@@ -29,11 +29,11 @@ class TripType extends AbstractType
             ->add('info')
             ->add('state', EntityType::class, [
                 'class' => State::class,
-                'choice_label' => 'id',
+                'choice_label' => 'wording',
             ])
             ->add('relativeCampus', EntityType::class, [
                 'class' => Campus::class,
-                'choice_label' => 'id',
+                'choice_label' => 'name',
             ])
             ->add('participants', EntityType::class, [
                 'class' => Participant::class,
