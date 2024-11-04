@@ -19,16 +19,16 @@ class CampusFixtures extends Fixture
             'Campus en ligne',
         ];
 
+        $i=0;
         foreach ($campusNames as $name) {
             $campus = new Campus();
             $campus->setName($name);
-
-
-            // Persist the Campus object
             $manager->persist($campus);
+            $this->addReference('campus_'. $i, $campus);
+            $i++;
         }
 
-        // Flush pour enregistrer les changements dans la base de données
         $manager->flush();
+
     }
 }

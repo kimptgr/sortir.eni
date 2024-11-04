@@ -29,24 +29,25 @@ class TripType extends AbstractType
             ->add('info')
             ->add('state', EntityType::class, [
                 'class' => State::class,
-                'choice_label' => 'id',
+                'choice_label' => 'wording',
             ])
             ->add('relativeCampus', EntityType::class, [
                 'class' => Campus::class,
-                'choice_label' => 'id',
+                'choice_label' => 'name',
             ])
             ->add('participants', EntityType::class, [
                 'class' => Participant::class,
-                'choice_label' => 'id',
+                'choice_label' => function(Participant $participant) {
+                    return $participant->getFirstname() . ' ' . $participant->getLastname();
+                },
                 'multiple' => true,
             ])
-            ->add('organizer', EntityType::class, [
-                'class' => Participant::class,
-                'choice_label' => 'id',
-            ])
+
             ->add('place', EntityType::class, [
                 'class' => Place::class,
-                'choice_label' => 'id',
+                'choice_label' => function(Place $place) {
+                return $place->getName() . ' ' . $place->getCity()->getName();
+                },
             ])
         ;
     }

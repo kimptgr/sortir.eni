@@ -22,21 +22,6 @@ class ParticipantFixtures extends Fixture
         $faker = \Faker\Factory::create('fr_FR');
 
 
-        $campuses = [];
-        $campusNames = [
-            'Campus St-Herblain ( Nantes )',
-            'Campus Chartre-de-Bretagne ( Rennes )',
-            'Campus Quimper',
-            'Campus Niort',
-            'Campus en ligne'
-        ];
-
-        foreach ($campusNames as $campusName) {
-            $campus = new Campus();
-            $campus->setName($campusName);
-            $manager->persist($campus);
-            $campuses[] = $campus;
-        }
 
 
         for ($i = 0; $i < 10; $i++) {
@@ -45,10 +30,10 @@ class ParticipantFixtures extends Fixture
             $participant->setLastName($faker->lastName);
             $participant->setEmail($faker->unique()->email);
             $participant->setPhoneNumber($faker->phoneNumber);
-            $participant->IsActive($faker->boolean);
+            $participant->setActive($faker->numberBetween(0, 1));
 
 
-            $randomCampus = $faker->randomElement($campuses);
+            $randomCampus = $this->getReference("campus_".rand(0,4));
             $participant->setCampus($randomCampus);
 
 
@@ -56,8 +41,9 @@ class ParticipantFixtures extends Fixture
             $participant->setPassword($password);
 
             $participant->setRoles(['ROLE_USER']);
-
+            $this->addReference("participant_".$i, $participant);
             $manager->persist($participant);
+
         }
 
 

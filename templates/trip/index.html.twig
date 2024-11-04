@@ -8,26 +8,26 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Name</th>
                 <th>StartDateTime</th>
-                <th>Duration</th>
+                <th>Duration (minute)</th>
                 <th>RegistrationDeadline</th>
                 <th>NbRegistrationMax</th>
                 <th>Info</th>
+                <th>Place</th>
                 <th>actions</th>
             </tr>
         </thead>
         <tbody>
         {% for trip in trips %}
             <tr>
-                <td>{{ trip.id }}</td>
                 <td>{{ trip.name }}</td>
                 <td>{{ trip.startDateTime ? trip.startDateTime|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ trip.duration }}</td>
                 <td>{{ trip.registrationDeadline ? trip.registrationDeadline|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ trip.nbRegistrationMax }}</td>
                 <td>{{ trip.info }}</td>
+                <td>{{ trip.place.street }}</td>
                 <td>
                     <a href="{{ path('app_trip_show', {'id': trip.id}) }}">show</a>
                     <a href="{{ path('app_trip_edit', {'id': trip.id}) }}">edit</a>

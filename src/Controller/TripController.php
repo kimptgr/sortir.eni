@@ -30,6 +30,10 @@ final class TripController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            //On recupère le USER pour l'attribuer au Trip
+            $trip->setOrganizer($this->getUser());
+
             $entityManager->persist($trip);
             $entityManager->flush();
 

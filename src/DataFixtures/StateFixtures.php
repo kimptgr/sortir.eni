@@ -15,20 +15,16 @@ class StateFixtures extends Fixture
             'Ouverte',
             'Clôturée',
             'Activité en cours',
-            'Activité passé',
+            'Activité passée',
             'Activité annulée'
         ];
-
+        $i=0;
         foreach ($states as $wording) {
             $state = new State();
             $state->setWording($wording);
-
-
-            // Persist the Campus object
-            $manager->persist($state);
+            $this->addReference('state_' . $i, $state);
+            $i++;
         }
-
-        // Save data in db
         $manager->flush();
     }
 }
