@@ -6,6 +6,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Http\Authenticator\AbstractLoginFormAuthenticator;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\CsrfTokenBadge;
@@ -22,8 +23,11 @@ class ParticipantAuthenticator extends AbstractLoginFormAuthenticator
 
     public const LOGIN_ROUTE = 'app_login';
 
-    public function __construct(private UrlGeneratorInterface $urlGenerator)
+    private RouterInterface $router;
+
+    public function __construct(private UrlGeneratorInterface $urlGenerator, RouterInterface $router)
     {
+        $this->router = $router;
     }
 
     public function authenticate(Request $request): Passport
@@ -47,7 +51,7 @@ class ParticipantAuthenticator extends AbstractLoginFormAuthenticator
         // Redirige vers la page souhaitée après connexion réussie
         //$targetUrl = $this->getTargetPath($request->getSession(), $firewallName) ?? $this->router->generate('main');
 
-        return new RedirectResponse('app_profile');
+        return new RedirectResponse($this->router->generate('app_profile'));
     }
 
     protected function getLoginUrl(Request $request): string
