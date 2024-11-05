@@ -17,33 +17,50 @@ class TripType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name')
+            ->add('name', null,[
+                'label' => 'Nom de la sortie :',
+                'required' => true
+            ])
             ->add('startDateTime', null, [
-                'widget' => 'single_text',
+                'widget' => 'choice',
+                'label' => 'Date et heure de la sortie :',
+                'required' => true
             ])
-            ->add('duration')
             ->add('registrationDeadline', null, [
-                'widget' => 'single_text',
+                'required' => true,
+                'widget' => 'choice',
+                'label' => "Date limite de d'inscription :"
             ])
-            ->add('nbRegistrationMax')
-            ->add('info')
-            ->add('state', EntityType::class, [
-                'class' => State::class,
-                'choice_label' => 'wording',
+            ->add('nbRegistrationMax', null, [
+                'required' => true,
+                'label' => 'Nombre de places'
+            ])
+            ->add('duration', null, [
+                'required' => true,
+                'data' => 90,
+                'attr' => [
+                    'min' => 15,
+                    'max' => 240,
+                    'step' => 15,
+                ],
+                'label' => 'Durée',
+            ])
+            ->add('info', null, [
+                'label' => 'Description et infos :',
+                'required' => true,
+                'attr' => [
+                    'rows' => 15,
+                    'placeholder' => 'Entrez votre description ici...',
+                ],
             ])
             ->add('relativeCampus', EntityType::class, [
+                'required' => true,
                 'class' => Campus::class,
                 'choice_label' => 'name',
             ])
-            ->add('participants', EntityType::class, [
-                'class' => Participant::class,
-                'choice_label' => function(Participant $participant) {
-                    return $participant->getFirstname() . ' ' . $participant->getLastname();
-                },
-                'multiple' => true,
-            ])
 
             ->add('place', EntityType::class, [
+                'required' => true,
                 'class' => Place::class,
                 'choice_label' => function(Place $place) {
                 return $place->getName() . ' ' . $place->getCity()->getName();
