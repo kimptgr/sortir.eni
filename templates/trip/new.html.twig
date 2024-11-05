@@ -1,11 +1,18 @@
 {% extends 'base.html.twig' %}
 
+{% form_theme form 'tailwind_2_layout.html.twig' %}
+
 {% block title %}New Trip{% endblock %}
 
 {% block body %}
     <h1>Create new Trip</h1>
 
-    {{ include('trip/_form.html.twig') }}
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button type="submit" class="btn btn-primary">{{ button_label|default('Publier la sortie') }}</button>
+    <button type="submit" name="save" class="btn btn-secondary">Enregistrer</button>
+    <button type="button" class="btn btn-danger" onclick="window.history.back();">Annuler</button>
+    {{ form_end(form) }}
 
     <a href="{{ path('app_trip_index') }}">back to list</a>
 {% endblock %}
