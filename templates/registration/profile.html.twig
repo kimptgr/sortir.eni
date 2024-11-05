@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+
+{% block title %}Profil de {{ user.firstName }}{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Profil de {{ user.firstName }} {{ user.lastName }}</h1>
+
+        <h3>Informations personnelles</h3>
+        <ul>
+            <li><strong>Nom :</strong> {{ user.firstName }}</li>
+            <li><strong>Prénom :</strong> {{ user.lastName }}</li>
+            <li><strong>Email :</strong> {{ user.email }}</li>
+            {# <li><strong>Date d'inscription :</strong> {{ user.createdAt|date('Y-m-d') }}</li> #}
+            <li><strong>Statut :</strong> {{ user.isActive ? 'Actif' : 'Inactif' }}</li>
+        </ul>
+
+        <a href="{{ path('app_edit_profile') }}" class="btn btn-secondary">Modifier le profil</a>
+    </div>
+{% endblock %}
+
+
+
+
