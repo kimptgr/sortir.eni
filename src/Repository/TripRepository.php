@@ -47,16 +47,18 @@ class TripRepository extends ServiceEntityRepository
         }
 
         if ($filterChoices['iOrganized']) {
-            $qb->andWhere('t.organizer = :$organizer')
-                ->setParameter('$organizer', $userInSession);
+            $qb->andWhere('t.organizer = :organizer')
+                ->setParameter('organizer', $userInSession);
         }
         if ($filterChoices['iParticipate']) {
-            $qb->andWhere('t.participants = :$participants')
-                ->setParameter('$participants', $userInSession);
+            $qb->join('t.participants', 'p')
+                ->andWhere(':participants MEMBER OF t.participants')
+                ->setParameter('participants', $userInSession);
         }
         if ($filterChoices['imRegistered']) {
-            $qb->andWhere('t.participants = :$participants')
-                ->setParameter('$participants', $userInSession);
+            $qb->join('t.participants', 'pa')
+                ->andWhere(':participants NOT MEMBER OF t.participants')
+                ->setParameter('participants', $userInSession);
         }
         if ($filterChoices['oldTrips']) {
             $now = (new dateTime())->format('Y-m-d H:i:s');
@@ -68,28 +70,4 @@ class TripRepository extends ServiceEntityRepository
         return $qb->getQuery()->getResult();
     }
 
-//    /**
-//     * @return Trip[] Returns an array of Trip objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('t')
-//            ->andWhere('t.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('t.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?Trip
-//    {
-//        return $this->createQueryBuilder('t')
-//            ->andWhere('t.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
 }
