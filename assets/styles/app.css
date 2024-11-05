@@ -4,5 +4,5 @@
 
 body {
     background-color: lightblue;
-    @apply text-red-600;
+    /*@apply text-red-600;*/
 }
