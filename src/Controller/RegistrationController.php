@@ -47,6 +47,7 @@ class RegistrationController extends AbstractController
     #[Route('/profile', name: 'app_profile')]
     public function profile(): Response{
 
+
         $user = $this->getUser();
 
 
@@ -78,5 +79,5 @@ class RegistrationController extends AbstractController
         ]);
     }
 
-
+{# pouet #}
 }
