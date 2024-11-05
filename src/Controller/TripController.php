@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Trip;
+use App\Form\TripFilterType;
 use App\Form\TripType;
 use App\Repository\TripRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -14,11 +15,25 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/trip')]
 final class TripController extends AbstractController
 {
-    #[Route(name: 'app_trip_index', methods: ['GET'])]
-    public function index(TripRepository $tripRepository): Response
+    #[Route(name: 'app_trip_index', methods: ['GET', 'POST'])]
+    public function index(Request $request, TripRepository $tripRepository): Response
     {
+        $form = $this->createForm(TripFilterType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $filterChoices = $form->getData();
+
+            return $this->render('trip/index.html.twig', [
+                'trips' => $tripRepository->findAll(),
+                'form' => $form,
+                'choices' => $filterChoices,
+            ]);
+        }
+
         return $this->render('trip/index.html.twig', [
             'trips' => $tripRepository->findAll(),
+            'form' => $form
         ]);
     }
 

@@ -1,8 +1,60 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Trip index{% endblock %}
+{% block title %}Index des sorties | {{ parent() }}{% endblock %}
 
 {% block body %}
+    <main class="main-trip-index text-black">
+        <section class="container-filter flex-column"> 
+            <h2>
+                Filtrer les sorties
+            </h2>
+            <div class="list-filter">
+                {{ form_start(form) }}
+                <div class="input-group">
+                    {{ form_label(form.relativeCampus) }}
+                    {{ form_widget(form.relativeCampus) }}
+                </div>
+                <div class="input-group">
+                    {{ form_label(form.tripName) }}
+                    {{ form_widget(form.tripName) }}
+                </div>
+                <div class="input-group">
+                    {{ form_label(form.startDateTime) }}
+                    {{ form_widget(form.startDateTime) }}
+                </div>
+                <div class="input-group">
+                    {{ form_label(form.registrationDeadline) }}
+                    {{ form_widget(form.registrationDeadline) }}
+                </div>
+                <div class="input-group">
+                    <div class="input-group-checkbox">
+                    {{ form_widget(form.iOrganized) }}
+                    {{ form_label(form.iOrganized) }}
+                </div>
+                    <div class="input-group-checkbox">
+                    {{ form_widget(form.iParticipate) }}
+                    {{ form_label(form.iParticipate) }}
+                    </div>
+                        <div class="input-group-checkbox">
+                    {{ form_widget(form.imRegistered) }}
+                    {{ form_label(form.imRegistered) }}
+                        </div>
+                            <div class="input-group-checkbox">
+                    {{ form_widget(form.oldTrips) }}
+                    {{ form_label(form.oldTrips) }}
+                            </div>
+                </div>
+                <div class="div input-group">
+                    <button type="submit" class="bg-blue-600 text-white p-2 rounded hover:bg-blue-700">Rechercher</button>
+                </div>
+            </div>
+        </section>
+        {{ form_end(form) }}
+    </main>
+    {% if choices is defined and choices is not null %}
+    <p>{{ choices.tripName }}</p>
+        {{ dump(choices) }}
+    {% endif %}
     <h1>Trip index</h1>
 
     <table class="table">
