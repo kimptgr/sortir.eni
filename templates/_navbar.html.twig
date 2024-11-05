@@ -1,8 +1,8 @@
-<nav class="bg-white shadow">
+<nav class="bg-white">
     <div class="container mx-auto flex items-center justify-between p-4">
 
         <!-- Logo / Titre du site -->
-        <a class="text-xl font-bold text-gray-800" href="{{ path('main') }}">sortir.com</a>
+        <a class="text-3xl font-poppins text-gray-800 mr-auto" href="{{ path('main') }}">sortir.com</a>
 
         <!-- Bouton pour le mode mobile -->
         <button class="lg:hidden text-gray-800 focus:outline-none" type="button" aria-expanded="false" aria-label="Toggle navigation" onclick="document.getElementById('navbarSupportedContent').classList.toggle('hidden')">
@@ -43,4 +43,6 @@
             </ul>
         </div>
     </div>
+    <!-- Ombre au bas de la navbar -->
+    <div class="h-1 bg-gray-300 shadow-lg"></div> <!-- Utilisation d'une ombre plus forte et d'une couleur de fond plus claire -->
 </nav>

@@ -5,16 +5,21 @@ module.exports = {
     "./templates/**/*.html.twig",
     './assets/**/*.css',
   ],
+
+
   theme: {
     extend: {
-      colors: {
-        primary: '#1d4ed8',   // Couleur primaire (bleu)
-        secondary: '#fbbf24', // Couleur secondaire (jaune)
-        accent: '#ec4899',    // Couleur d'accent (rose)
-        // Ajoute d'autres couleurs personnalisées ici si besoin
+      fontFamily: {
+        sans: ['Roboto', 'sans-serif'], // Ajoute Roboto comme police sans-serif
+        serif: ['Merriweather', 'serif'], // Exemple d'ajout d'une police serif
+        mono: ['Menlo', 'monospace'], // Exemple d'ajout d'une police monospace
+        poppins: ['Poppins', 'sans-serif'],
       },
     },
   },
+
+
+
   plugins: [
     require('@tailwindcss/forms'),
   ],

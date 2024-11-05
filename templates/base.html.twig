@@ -1,28 +1,44 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('styles/app.css') }}">
+    {% endblock %}
 
+    {% block javascripts %}
+        <script src="{{ asset('assets/app.js') }}" type="module"></script>
+    {% endblock %}
 
-        {% block stylesheets %}
-            <link rel="stylesheet" href="{{ asset('styles/app.css') }}">
-        {% endblock %}
+    <style>
+        html, body {
+            height: 100%; /* S'assure que html et body prennent toute la hauteur */
+            margin: 0; /* Enlève les marges par défaut */
+        }
+        body {
+            background-image: url('https://firstclasse.com.my/wp-content/uploads/2019/01/Holiday-destinations-rich-famous-featured.jpg');
+            background-size: cover; /* Couvre tout le fond */
+            background-position: center; /* Centre l'image */
+            background-repeat: no-repeat; /* Ne répète pas l'image */
+            display: flex; /* Utilise Flexbox pour le positionnement */
+            flex-direction: column; /* Aligne les enfants en colonne */
+        }
+        footer {
+            margin-top: auto; /* Pousse le footer vers le bas */
+        }
+    </style>
+</head>
+<body class="bg-cover bg-center">
+{% include('_navbar.html.twig') %}
+{% block body %}{% endblock %}
 
-
-{#        {% block javascripts %}
-
-            {% block importmap %}{{ importmap('app') }}{% endblock %}
-        {% endblock %}#}
-
-        {% block javascripts %}
-            <script src="{{ asset('assets/app.js') }}" type="module"></script>
-        {% endblock %}
-
-    </head>
-    <body>
-        {% include('_navbar.html.twig') %}
-        {% block body %}{% endblock %}
-    </body>
+<footer class="bg-gray-800 text-white py-4">
+    <div class="container mx-auto text-center">
+        <p>&copy; 2024 sortir.com. Tous droits réservés.</p>
+    </div>
+</footer>
+</body>
 </html>

@@ -24,8 +24,20 @@ class ParticipantFixtures extends Fixture implements DependentFixtureInterface
 
 
 
-        $participant = new Participant();
+        $participantAdmin = new Participant();
+        $participantAdmin->setFirstName('admin');
+        $participantAdmin->setLastName('admin');
+        $participantAdmin->setEmail('admin@admin.com');
+        $participantAdmin->setPassword($this->passwordHasher->hashPassword($participantAdmin, 'password'));
+        $participantAdmin->setActive(1);
+        $participantAdmin->setPhoneNumber($faker->phoneNumber);
+        $randomCampusAdmin = $this->getReference("campus_".rand(0,4));
+        $participantAdmin->setCampus($randomCampusAdmin);
+        $participantAdmin->setRoles(['ROLE_USER','ROLE_ADMIN']);
 
+        $this->addReference("participant_admin", $participantAdmin);
+
+        $manager->persist($participantAdmin);
 
         for ($i = 0; $i < 10; $i++) {
             $participant = new Participant();
