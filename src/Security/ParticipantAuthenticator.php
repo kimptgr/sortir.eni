@@ -47,7 +47,7 @@ class ParticipantAuthenticator extends AbstractLoginFormAuthenticator
         // Redirige vers la page souhaitée après connexion réussie
         //$targetUrl = $this->getTargetPath($request->getSession(), $firewallName) ?? $this->router->generate('main');
 
-        return new RedirectResponse('/profile');
+        return new RedirectResponse('app_profile');
     }
 
     protected function getLoginUrl(Request $request): string

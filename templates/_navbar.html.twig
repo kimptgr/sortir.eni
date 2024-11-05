@@ -1,56 +1,45 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
+<nav class="bg-white shadow">
+    <div class="container mx-auto flex items-center justify-between p-4">
 
         <!-- Logo / Titre du site -->
-        <a class="navbar-brand" href="{{ path('main') }}"><h1>sortir.com</h1></a>
-
+        <a class="text-xl font-bold text-gray-800" href="{{ path('main') }}">sortir.com</a>
 
         <!-- Bouton pour le mode mobile -->
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
+        <button class="lg:hidden text-gray-800 focus:outline-none" type="button" aria-expanded="false" aria-label="Toggle navigation" onclick="document.getElementById('navbarSupportedContent').classList.toggle('hidden')">
+            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+            </svg>
         </button>
 
-
         <!-- Liens de navigation -->
-        <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
-            <ul class="navbar-nav mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('main') }}">Accueil</a>
+        <div class="hidden lg:flex lg:items-center lg:justify-end space-x-4" id="navbarSupportedContent">
+            <ul class="flex space-x-4">
+                <li>
+                    <a class="text-gray-600 hover:text-gray-800" href="{{ path('main') }}">Accueil</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('app_trip_index') }}">List des événements</a>
+                <li>
+                    <a class="text-gray-600 hover:text-gray-800" href="{{ path('app_trip_index') }}">Liste des événements</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('app_trip_new') }}">Créer un événement</a>
+                <li>
+                    <a class="text-gray-600 hover:text-gray-800" href="{{ path('app_trip_new') }}">Créer un événement</a>
                 </li>
             </ul>
-            <ul class="navbar-nav mb-2 mb-lg-0">
+            <ul class="flex space-x-4">
                 {% if app.user %}
-
-
-                    <li class="nav-item">
-                         <a class="nav-link" href="{{ path('app_profile') }}">Profil</a>
+                    <li>
+                        <a class="text-gray-600 hover:text-gray-800" href="{{ path('app_profile') }}">Profil</a>
                     </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('app_logout') }}">Se déconnecter</a>
-                </li>
+                    <li>
+                        <a class="text-gray-600 hover:text-gray-800" href="{{ path('app_logout') }}">Se déconnecter</a>
+                    </li>
                 {% else %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('app_login') }}">Se connecter</a>
-                </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('app_register') }}">Créer compte</a>
+                    <li>
+                        <a class="text-gray-600 hover:text-gray-800" href="{{ path('app_login') }}">Se connecter</a>
                     </li>
-
+                    <li>
+                        <a class="text-gray-600 hover:text-gray-800" href="{{ path('app_register') }}">Créer compte</a>
+                    </li>
                 {% endif %}
-                <li class="nav-item">
-                    {# <a class="nav-link" href="{{ path('') }}">Machin</a> #}
-                </li>
-                <li class="nav-item">
-                    {# <a class="nav-link" href="{{ path('') }}">Machin</a> #}
-                </li>
             </ul>
         </div>
     </div>
