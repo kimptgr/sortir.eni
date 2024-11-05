@@ -7,6 +7,7 @@ use App\Form\TripFilterType;
 use App\Form\TripType;
 use App\Repository\StateRepository;
 use App\Repository\TripRepository;
+use App\Service\Filters\TripFilterService;
 use App\Service\Trip\NewTripService;
 use Container3AjzDap\getStateRepositoryService;
 use Doctrine\ORM\EntityManagerInterface;
