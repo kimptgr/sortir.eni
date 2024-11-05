@@ -24,6 +24,8 @@ class ParticipantFixtures extends Fixture implements DependentFixtureInterface
 
 
 
+        $participant = new Participant();
+
 
         for ($i = 0; $i < 10; $i++) {
             $participant = new Participant();
