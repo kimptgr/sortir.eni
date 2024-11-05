@@ -2,12 +2,19 @@
 
 namespace App\Service\Filters;
 
+use App\Entity\Participant;
 use App\Repository\TripRepository;
 
 class TripFilterService
 {
-    public function getTripWithFilters(TripRepository $tripRepository, mixed $filterChoices):array
+    private $tripRepository;
+    public function __construct(TripRepository $tripRepository)
     {
-        return $tripRepository->findTripByFilters($filterChoices);
+        $this->tripRepository = $tripRepository;
+    }
+
+    public function getTripWithFilters(mixed $filterChoices, Participant $userInSession):array
+    {
+        return $this->tripRepository->findTripByFilters($filterChoices, $userInSession);
     }
 }

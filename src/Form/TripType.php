@@ -9,7 +9,6 @@ use App\Entity\State;
 use App\Entity\Trip;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -22,14 +21,14 @@ class TripType extends AbstractType
                 'label' => 'Nom de la sortie :',
                 'required' => true
             ])
-            ->add('startDateTime', DateTimeType::class, [
-                'widget' => 'single_text', // Affiche un champ unique avec le sélecteur de date et heure
+            ->add('startDateTime', null, [
+                'widget' => 'choice',
                 'label' => 'Date et heure de la sortie :',
-                'required' => true,
+                'required' => true
             ])
-            ->add('registrationDeadline', DateTimeType::class, [
+            ->add('registrationDeadline', null, [
                 'required' => true,
-                'widget' => 'single_text',
+                'widget' => 'choice',
                 'label' => "Date limite de d'inscription :"
             ])
             ->add('nbRegistrationMax', null, [
