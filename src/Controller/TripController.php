@@ -6,6 +6,7 @@ use App\Entity\Trip;
 use App\Form\TripFilterType;
 use App\Form\TripType;
 use App\Repository\TripRepository;
+use App\Service\Filters\TripFilterService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,16 +17,15 @@ use Symfony\Component\Routing\Attribute\Route;
 final class TripController extends AbstractController
 {
     #[Route(name: 'app_trip_index', methods: ['GET', 'POST'])]
-    public function index(Request $request, TripRepository $tripRepository): Response
+    public function index(Request $request, TripRepository $tripRepository, TripFilterService $tripFilterService): Response
     {
         $form = $this->createForm(TripFilterType::class);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $filterChoices = $form->getData();
 
             return $this->render('trip/index.html.twig', [
-                'trips' => $tripRepository->findAll(),
+                'trips' => $tripFilterService->getTripWithFilters($filterChoices),
                 'form' => $form,
                 'choices' => $filterChoices,
             ]);
@@ -33,7 +33,7 @@ final class TripController extends AbstractController
 
         return $this->render('trip/index.html.twig', [
             'trips' => $tripRepository->findAll(),
-            'form' => $form
+            'form' => $form,
         ]);
     }
 
