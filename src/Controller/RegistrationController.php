@@ -79,5 +79,5 @@ class RegistrationController extends AbstractController
         ]);
     }
 
-{# pouet #}
+
 }
