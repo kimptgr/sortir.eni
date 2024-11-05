@@ -3,8 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\Trip;
+use App\Form\TripFilterType;
 use App\Form\TripType;
+use App\Repository\StateRepository;
 use App\Repository\TripRepository;
+use App\Service\Filters\TripFilterService;
+use App\Service\Trip\NewTripService;
+use Container3AjzDap\getStateRepositoryService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,22 +19,41 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/trip')]
 final class TripController extends AbstractController
 {
-    #[Route(name: 'app_trip_index', methods: ['GET'])]
-    public function index(TripRepository $tripRepository): Response
+    #[Route(name: 'app_trip_index', methods: ['GET', 'POST'])]
+    public function index(Request $request, TripRepository $tripRepository, TripFilterService $tripFilterService): Response
     {
+        $form = $this->createForm(TripFilterType::class);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $filterChoices = $form->getData();
+
+            return $this->render('trip/index.html.twig', [
+                'trips' => $tripFilterService->getTripWithFilters($filterChoices),
+                'form' => $form,
+                'choices' => $filterChoices,
+            ]);
+        }
+
         return $this->render('trip/index.html.twig', [
             'trips' => $tripRepository->findAll(),
+            'form' => $form,
         ]);
     }
 
     #[Route('/new', name: 'app_trip_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request,NewTripService $tripService, EntityManagerInterface $entityManager): Response
     {
         $trip = new Trip();
         $form = $this->createForm(TripType::class, $trip);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            if ($request->request->has('save')) {
+                $tripService->NewTrip($trip, "Créée");
+            } else {
+                $tripService->NewTrip($trip, "Ouverte");
+            }
 
             //On recupère le USER pour l'attribuer au Trip
             $trip->setOrganizer($this->getUser());

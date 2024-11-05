@@ -12,8 +12,8 @@ class CampusFixtures extends Fixture
     {
         // Créer plusieurs campus avec des noms
         $campusNames = [
-            'Campus St-Herblain ( Nantes )',
-            'Campus Chartre-de-Bretagne ( Rennes )',
+            'Campus St-Herblain (Nantes)',
+            'Campus Chartre-de-Bretagne (Rennes)',
             'Campus Quimper',
             'Campus Niort',
             'Campus en ligne',
