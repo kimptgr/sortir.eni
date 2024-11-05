@@ -5,8 +5,10 @@ namespace App\Controller;
 use App\Entity\Trip;
 use App\Form\TripFilterType;
 use App\Form\TripType;
+use App\Repository\StateRepository;
 use App\Repository\TripRepository;
-use App\Service\Filters\TripFilterService;
+use App\Service\Trip\NewTripService;
+use Container3AjzDap\getStateRepositoryService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -38,13 +40,19 @@ final class TripController extends AbstractController
     }
 
     #[Route('/new', name: 'app_trip_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request,NewTripService $tripService, EntityManagerInterface $entityManager): Response
     {
         $trip = new Trip();
         $form = $this->createForm(TripType::class, $trip);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            if ($request->request->has('save')) {
+                $tripService->NewTrip($trip, "Créée");
+            } else {
+                $tripService->NewTrip($trip, "Ouverte");
+            }
 
             //On recupère le USER pour l'attribuer au Trip
             $trip->setOrganizer($this->getUser());

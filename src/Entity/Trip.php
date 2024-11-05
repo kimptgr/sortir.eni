@@ -7,6 +7,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 #[ORM\Entity(repositoryClass: TripRepository::class)]
 class Trip
@@ -17,12 +19,26 @@ class Trip
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
+    #[Assert\NotNull]
+    #[Assert\Length(max: 255)]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Assert\NotBlank]
+    #[Assert\NotNull]
+    #[Assert\GreaterThan('today',message: "La date de l'événement de peut pas être antérieur à la date d'aujourd'hui")]
     private ?\DateTimeInterface $startDateTime = null;
 
+
     #[ORM\Column(type: Types::BIGINT)]
+    #[Assert\NotBlank]
+    #[Assert\NotNull]
+    #[Assert\Range(
+        min: 15,
+        max: 380,
+        notInRangeMessage: 'La durée doit être comprise entre {{ min }} et {{ max }} minutes.',
+    )]
     private ?string $duration = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
@@ -55,6 +71,17 @@ class Trip
     #[ORM\ManyToOne(inversedBy: 'trips')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Place $place = null;
+
+    #[Assert\Callback]
+    public function validate(ExecutionContextInterface $context, mixed $payload): void
+    {
+        if($this->startDateTime <= $this->registrationDeadline){
+            $context->buildViolation("La date limite d'enregistrement des inscriptions ne peut pas être postérieure à la date de départ de l'événement !")
+                ->atPath('startDateTime')
+                ->atPath('registrationDeadline')
+                ->addViolation();
+        }
+    }
 
     public function __construct()
     {
