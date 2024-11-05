@@ -15,26 +15,41 @@
 
     <style>
         html, body {
-            height: 100%; /* S'assure que html et body prennent toute la hauteur */
-            margin: 0; /* Enlève les marges par défaut */
+            height: 100%;
+            margin: 0;
         }
         body {
             background-image: url('https://firstclasse.com.my/wp-content/uploads/2019/01/Holiday-destinations-rich-famous-featured.jpg');
-            background-size: cover; /* Couvre tout le fond */
-            background-position: center; /* Centre l'image */
-            background-repeat: no-repeat; /* Ne répète pas l'image */
-            display: flex; /* Utilise Flexbox pour le positionnement */
-            flex-direction: column; /* Aligne les enfants en colonne */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            display: flex;
+            flex-direction: column;
         }
         footer {
-            margin-top: auto; /* Pousse le footer vers le bas */
+            margin-top: auto;
+        }
+        nav {
+            width: 100vw;
+        }
+        main {
+            background: white;
+            margin-left: 10vw;
+            margin-right: 10vw;
+            margin-top: 2vh;
+            margin-bottom: 2vh;
+            min-height: 100vh; /* Hauteur minimale de 100vh */
+            border-radius: 10px;
+            padding: 20px; /* Ajoutez un remplissage pour le contenu */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optionnel : pour donner un effet d'ombre */
         }
     </style>
 </head>
 <body class="bg-cover bg-center">
 {% include('_navbar.html.twig') %}
-{% block body %}{% endblock %}
-
+<main>
+    {% block body %}{% endblock %}
+</main>
 <footer class="bg-gray-800 text-white py-4">
     <div class="container mx-auto text-center">
         <p>&copy; 2024 sortir.com. Tous droits réservés.</p>
