@@ -77,7 +77,6 @@ class Trip
     {
         if($this->startDateTime <= $this->registrationDeadline){
             $context->buildViolation("La date limite d'enregistrement des inscriptions ne peut pas être postérieure à la date de départ de l'événement !")
-                ->atPath('startDateTime')
                 ->atPath('registrationDeadline')
                 ->addViolation();
         }
