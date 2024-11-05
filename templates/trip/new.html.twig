@@ -8,11 +8,80 @@
     <h1>Create new Trip</h1>
 
     {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button type="submit" class="btn btn-primary">{{ button_label|default('Publier la sortie') }}</button>
-    <button type="submit" name="save" class="btn btn-secondary">Enregistrer</button>
-    <button type="button" class="btn btn-danger" onclick="window.history.back();">Annuler</button>
+
+{#    Utilisation d'un ternaire pour changer la couleur de "border" des champs ayant une erreur, le .vars est utilisé pour extraire les
+informations du champ  (état de validation / messages d'erreur) .
+    J'avais oublié un essapce après le rouded, cela créait une erreur lors de la concatenation avec ~
+
+    my-4 marge vertical (haut et bas de 4)
+#}
+
+    {{ form_row(form.name, {
+        row_class: 'my-4 ml-4',
+        label_class: 'block text-gray-700 font-bold mb-2',
+        widget_class: 'w-50 p-2 border border-gray-300 rounded ' ~ (form.name.vars.valid ? 'border-gray-300' : 'border-red-500'),
+        error_item_class: 'text-red-500 text-sm',
+    }) }}
+
+    {{ form_row(form.startDateTime, {
+        row_class: 'my-4 ml-4',
+        label_class: 'block text-gray-700 font-bold mb-2',
+        widget_class: 'w-60 p-2 border rounded ' ~ (form.startDateTime.vars.valid ? 'border-gray-300' : 'border-red-500'),
+        error_item_class: 'text-red-500 text-sm',
+    }) }}
+
+
+    {{ form_row(form.registrationDeadline, {
+        row_class: 'my-4 ml-4',
+        label_class: 'block text-gray-700 font-bold mb-2',
+        widget_class: 'w-60 p-2 border rounded '~ (form.registrationDeadline.vars.valid ? 'border-gray-300' : 'border-red-500'),
+        error_item_class: 'text-red-500 text-sm',
+    }) }}
+
+    {{ form_row(form.nbRegistrationMax, {
+        row_class: 'my-4 ml-4',
+        label_class: 'block text-gray-700 font-bold mb-2',
+        widget_class: 'w-50 p-2 border rounded ' ~ (form.nbRegistrationMax.vars.valid ? 'border-gray-300' : 'border-red-500'),
+        error_item_class: 'text-red-500 text-sm',
+    }) }}
+
+    {{ form_row(form.duration, {
+        row_class: 'my-4 ml-4',
+        label_class: 'block text-gray-700 font-bold mb-2',
+        widget_class: 'w-50 p-2 border rounded ' ~ (form.duration.vars.valid ? 'border-gray-300' : 'border-red-500'),
+        error_item_class: 'text-red-500 text-sm',
+    }) }}
+
+    {{ form_row(form.info, {
+        row_class: 'my-4 ml-4',
+        label_class: 'block text-gray-700 font-bold mb-2',
+        widget_class: 'w-50 p-2 border rounded ' ~ (form.duration.vars.valid ? 'border-gray-300' : 'border-red-500'),
+        error_item_class: 'text-red-500 text-sm',
+        attr: {
+            rows: 15,
+            placeholder: 'Entrez votre description ici...'
+        }
+    }) }}
+
+    {{ form_row(form.relativeCampus, {
+        row_class: 'my-4 ml-4',
+        label_class: 'block text-gray-700 font-bold mb-2',
+        widget_class: 'w-50 p-2 border rounded ' ~ (form.duration.vars.valid ? 'border-gray-300' : 'border-red-500'),
+        error_item_class: 'text-red-500 text-sm',
+    }) }}
+
+    {{ form_row(form.place, {
+        row_class: 'my-4 ml-4',
+        label_class: 'block text-gray-700 font-bold mb-2',
+        widget_class: 'w-50 p-2 border rounded ' ~ (form.duration.vars.valid ? 'border-gray-300' : 'border-red-500'),
+        error_item_class: 'text-red-500 text-sm',
+    }) }}
+
+    <button type="submit" class=" my-4 ml-4 rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">{{ button_label|default('Publier la sortie') }}</button>
+    <button type="submit" name="save" class="my-4 ml-4 rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Enregistrer</button>
+    <button type="button" class=" my-4 ml-4 text-sm/6 font-semibold text-gray-900" onclick="window.history.back();">Annuler</button>
+
     {{ form_end(form) }}
 
-    <a href="{{ path('app_trip_index') }}">back to list</a>
+    <a href="{{ path('app_trip_index') }}" class="text-blue-500 underline mt-4 inline-block">Retour à la liste</a>
 {% endblock %}
