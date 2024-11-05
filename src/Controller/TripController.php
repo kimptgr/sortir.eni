@@ -15,6 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/trip')]
 final class TripController extends AbstractController
@@ -71,6 +72,7 @@ final class TripController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_trip_show', methods: ['GET'])]
+    #[IsGranted("ROLE_USER")]
     public function show(Trip $trip): Response
     {
         return $this->render('trip/show.html.twig', [
@@ -79,8 +81,13 @@ final class TripController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_trip_edit', methods: ['GET', 'POST'])]
+    #[IsGranted("ROLE_USER")]
     public function edit(Request $request, Trip $trip, EntityManagerInterface $entityManager): Response
     {
+        if($this->getUser() != $trip->getOrganizer()){
+            throw $this->createAccessDeniedException();
+        }
+
         $form = $this->createForm(TripType::class, $trip);
         $form->handleRequest($request);
 
@@ -97,8 +104,12 @@ final class TripController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_trip_delete', methods: ['POST'])]
+    #[IsGranted("ROLE_USER")]
     public function delete(Request $request, Trip $trip, EntityManagerInterface $entityManager): Response
     {
+        if($this->getUser() != $trip->getOrganizer()){
+            throw $this->createAccessDeniedException();
+        }
         if ($this->isCsrfTokenValid('delete'.$trip->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($trip);
             $entityManager->flush();

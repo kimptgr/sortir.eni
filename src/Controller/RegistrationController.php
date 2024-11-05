@@ -78,4 +78,6 @@ class RegistrationController extends AbstractController
             'user' => $user,
         ]);
     }
+
+
 }
