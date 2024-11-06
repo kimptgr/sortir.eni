@@ -3,95 +3,105 @@
 {% block title %}Index des sorties | {{ parent() }}{% endblock %}
 
 {% block body %}
-    <main class="main-trip-index text-black">
-        <section class="container-filter flex-column"> 
-            <h2>
+    <main class="main-trip-index">
+        <section class="container-filter">
+            <h2 class="text-3xl">
                 Filtrer les sorties
             </h2>
-            <div class="list-filter">
                 {{ form_start(form) }}
-                <div class="input-group">
-                    {{ form_label(form.relativeCampus) }}
-                    {{ form_widget(form.relativeCampus) }}
-                </div>
-                <div class="input-group">
-                    {{ form_label(form.tripName) }}
-                    {{ form_widget(form.tripName) }}
-                </div>
-                <div class="input-group">
-                    {{ form_label(form.startDateTime) }}
-                    {{ form_widget(form.startDateTime) }}
-                </div>
-                <div class="input-group">
-                    {{ form_label(form.registrationDeadline) }}
-                    {{ form_widget(form.registrationDeadline) }}
-                </div>
-                <div class="input-group">
-                    <div class="input-group-checkbox">
-                    {{ form_widget(form.iOrganized) }}
-                    {{ form_label(form.iOrganized) }}
-                </div>
-                    <div class="input-group-checkbox">
-                    {{ form_widget(form.iParticipate) }}
-                    {{ form_label(form.iParticipate) }}
+            <div class="list-filter">
+                <div class="main-input-group">
+                    <div class="input-group">
+                        {{ form_label(form.relativeCampus) }}
+                        {{ form_widget(form.relativeCampus) }}
                     </div>
-                        <div class="input-group-checkbox">
-                    {{ form_widget(form.imRegistered) }}
-                    {{ form_label(form.imRegistered) }}
+                    <div class="input-group">
+                        {{ form_label(form.tripName) }}
+                        {{ form_widget(form.tripName) }}
+                    </div>
+                    <div class="inputDate">
+                        <div class="input-group">
+                            {{ form_label(form.startDateTime, 'De ') }}
+                            {{ form_widget(form.startDateTime) }}
                         </div>
-                            <div class="input-group-checkbox">
-                    {{ form_widget(form.oldTrips) }}
-                    {{ form_label(form.oldTrips) }}
-                            </div>
+                        <div class="input-group">
+                            {{ form_label(form.registrationDeadline, 'à ') }}
+                            {{ form_widget(form.registrationDeadline) }}
+                        </div>
+                    </div>
                 </div>
-                <div class="div input-group">
-                    <button type="submit" class="bg-blue-600 text-white p-2 rounded hover:bg-blue-700">Rechercher</button>
+                <div class="main-input-group">
+                    <div class="input-group">
+                        <div class="input-group-checkbox">
+                            {{ form_widget(form.iOrganized) }}
+                            {{ form_label(form.iOrganized) }}
+                        </div>
+                        <div class="input-group-checkbox">
+                            {{ form_widget(form.iParticipate) }}
+                            {{ form_label(form.iParticipate) }}
+                        </div>
+                        <div class="input-group-checkbox">
+                            {{ form_widget(form.imRegistered) }}
+                            {{ form_label(form.imRegistered) }}
+                        </div>
+                        <div class="input-group-checkbox">
+                            {{ form_widget(form.oldTrips) }}
+                            {{ form_label(form.oldTrips) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="main-input-group">
+                    <button type="submit" class="bg-purple-600 text-white font-bold py-2 px-4 rounded-lg shadow-md hover:bg-purple-700 hover:shadow-lg transition duration-200 ease-in-out">Rechercher
+                    </button>
                 </div>
             </div>
         </section>
         {{ form_end(form) }}
+        <div class="container-table">
+            <table class="table-trips">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>StartDateTime</th>
+                    <th>Duration (minute)</th>
+                    <th>RegistrationDeadline</th>
+                    <th>NbRegistrationMax</th>
+                    <th>Info</th>
+                    <th>Place</th>
+                    <th>actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for trip in trips %}
+                    <tr>
+                        <td>{{ trip.name }}</td>
+                        <td>{{ trip.startDateTime ? trip.startDateTime|date('Y-m-d H:i:s') : '' }}</td>
+                        <td>{{ trip.duration }}</td>
+                        <td>{{ trip.registrationDeadline ? trip.registrationDeadline|date('Y-m-d H:i:s') : '' }}</td>
+                        <td>{{ trip.nbRegistrationMax }}</td>
+                        <td>{{ trip.info }}</td>
+                        <td>{{ trip.place.street }}</td>
+                        <td>
+                            <a href="{{ path('app_trip_show', {'id': trip.id}) }}">show</a>
+                            <a href="{{ path('app_trip_edit', {'id': trip.id}) }}">edit</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="8">no records found</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <div class="container-btn-add">
+                <button class="btn-add" onclick='location.href="{{ path('app_trip_new') }}"'>Nouvelle sortie</button>
+            </div>
+        </div>
     </main>
-    {% if choices is defined and choices is not null %}
-    <p>{{ choices.tripName }}</p>
-        {{ dump(choices) }}
-    {% endif %}
-    <h1>Trip index</h1>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>StartDateTime</th>
-                <th>Duration (minute)</th>
-                <th>RegistrationDeadline</th>
-                <th>NbRegistrationMax</th>
-                <th>Info</th>
-                <th>Place</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for trip in trips %}
-            <tr>
-                <td>{{ trip.name }}</td>
-                <td>{{ trip.startDateTime ? trip.startDateTime|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ trip.duration }}</td>
-                <td>{{ trip.registrationDeadline ? trip.registrationDeadline|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ trip.nbRegistrationMax }}</td>
-                <td>{{ trip.info }}</td>
-                <td>{{ trip.place.street }}</td>
-                <td>
-                    <a href="{{ path('app_trip_show', {'id': trip.id}) }}">show</a>
-                    <a href="{{ path('app_trip_edit', {'id': trip.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="8">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_trip_new') }}">Create new</a>
+    <div class="absolute bottom-4 left-4">
+        <span class="sm:hidden">XS</span>
+        <span class="hidden sm:block md:hidden">SM</span>
+        <span class="hidden md:block lg:hidden">MD</span>
+        <span class="hidden lg:block xl:hidden">LG</span>
+    </div>
 {% endblock %}

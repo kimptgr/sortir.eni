@@ -38,7 +38,7 @@ class TripFilterType extends AbstractType
                 'required' => false,
             ])
             ->add('iParticipate', CheckboxType::class, [
-                'label'    => "Sorties auxquelles je suis inscrite",
+                'label'    => "Sorties auxquelles je suis inscrit·e",
                 'required' => false,
             ])
             ->add('imRegistered', CheckboxType::class, [

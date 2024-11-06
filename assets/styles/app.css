@@ -2,7 +2,34 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-    background-color: #b3bfe8;
-    /*@apply text-red-600;*/
+.main-trip-index {
+    @apply flex-1 flex flex-col overflow-hidden text-zinc-950 w-full
+}
+
+.container-filter {
+    @apply grow-0 flex-col bg-yellow-300/70 rounded-lg shadow-lg m-6 p-6;
+
+    h2 {
+        @apply font-bold
+    }
+
+    .list-filter {
+        @apply grid sm:grid-cols-1 md:grid-cols-[1fr_1fr_150px] gap-4 ;
+
+        .main-input-group {
+            @apply w-full flex justify-center md:items-center flex-col
+        }
+    }
+}
+
+.input-group {
+    @apply flex
+}
+
+.container-table {
+    @apply flex-1 p-4 bg-gray-300 overflow-y-auto
+}
+
+.table {
+    @apply min-w-full
 }
