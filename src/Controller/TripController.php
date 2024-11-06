@@ -42,6 +42,7 @@ final class TripController extends AbstractController
     }
 
     #[Route('/new', name: 'app_trip_new', methods: ['GET', 'POST'])]
+//    #[IsGranted("ROLE_USER")]
     public function new(Request $request,NewTripService $tripService, EntityManagerInterface $entityManager): Response
     {
         $trip = new Trip();
