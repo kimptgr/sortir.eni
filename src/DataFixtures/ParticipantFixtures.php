@@ -33,6 +33,7 @@ class ParticipantFixtures extends Fixture implements DependentFixtureInterface
         $participantAdmin->setPhoneNumber($faker->phoneNumber);
         $randomCampusAdmin = $this->getReference("campus_".rand(0,4));
         $participantAdmin->setCampus($randomCampusAdmin);
+
         $participantAdmin->setRoles(['ROLE_USER','ROLE_ADMIN']);
 
         $this->addReference("participant_admin", $participantAdmin);
