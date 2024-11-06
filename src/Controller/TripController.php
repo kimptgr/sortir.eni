@@ -103,8 +103,11 @@ final class TripController extends AbstractController
 
             if ($request->request->has('save')) {
                 $tripService->setTripState($trip, "Créée");
+
+
             } if ($request->request->has('delete')) {
                 $tripService->deleteTrip($trip);
+
             } else {
                 $tripService->setTripState($trip, "Ouverte");
             }
