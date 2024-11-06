@@ -36,8 +36,11 @@ class RefreshTripService
             $actualDateTime = new \DateTime('now');
             $diff = $actualDateTime->diff($tripDateTime);
             if($diff->invert){
-                $state = $this->stateRepository->findOneBy(['wording' => 'Clôturée']);
+                $stateWording = "Clôturée";
+                $state = $this->stateRepository->findByWording($stateWording);
                 $trip->setState($state);
+                $this->entityManager->persist($trip);
+                $this->entityManager->flush();
              }
 
     }
