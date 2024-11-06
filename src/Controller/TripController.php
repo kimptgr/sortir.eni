@@ -81,7 +81,7 @@ final class TripController extends AbstractController
         if ($this->getUser() != null && $request->getMethod() == 'POST') {
             $userInSession = $this->getUser();
             $tripService->addAParticipant($userInSession);
-            var_dump($this->getUser());
+            $this->addFlash('success', 'Amusez-vous bien ' . $userInSession->getUserIdentifier() . ' ! ');
         }
         return $this->render('trip/show.html.twig', [
             'trip' => $trip,
