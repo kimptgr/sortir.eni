@@ -52,5 +52,8 @@
     {%  if app.user.id == trip.organizer.id %}
         {{ include('trip/_delete_form.html.twig') }}
     {% endif %}
+    <form action="post">
+        <button type="submit">Participer</button>
+    </form>
 
 {% endblock %}
