@@ -22,10 +22,6 @@
     }
 }
 
-.input-group {
-    @apply flex
-}
-
 .container-table {
     @apply flex-1 p-4 bg-gray-300 overflow-y-auto
 }

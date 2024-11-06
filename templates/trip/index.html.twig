@@ -3,7 +3,7 @@
 {% block title %}Index des sorties | {{ parent() }}{% endblock %}
 
 {% block body %}
-    <main class="main-trip-index">
+    <div class="main-trip-index">
         <section class="container-filter">
             <h2 class="text-3xl">
                 Filtrer les sorties
@@ -97,7 +97,7 @@
                 <button class="btn-add" onclick='location.href="{{ path('app_trip_new') }}"'>Nouvelle sortie</button>
             </div>
         </div>
-    </main>
+    </div>
     <div class="absolute bottom-4 left-4">
         <span class="sm:hidden">XS</span>
         <span class="hidden sm:block md:hidden">SM</span>
