@@ -42,9 +42,15 @@
         </tbody>
     </table>
 
+
     <a href="{{ path('app_trip_index') }}">back to list</a>
 
-    <a href="{{ path('app_trip_edit', {'id': trip.id}) }}">edit</a>
+    {%  if app.user.id == trip.organizer.id %}
+    <a class="" href="{{ path('app_trip_edit', {'id': trip.id}) }}">edit</a>
+    {% endif %}
 
-    {{ include('trip/_delete_form.html.twig') }}
+    {%  if app.user.id == trip.organizer.id %}
+        {{ include('trip/_delete_form.html.twig') }}
+    {% endif %}
+
 {% endblock %}
