@@ -8,6 +8,7 @@ use App\Form\TripType;
 use App\Repository\StateRepository;
 use App\Repository\TripRepository;
 use App\Service\Filters\TripFilterService;
+use App\Service\Trip\DeleteTripService;
 use App\Service\Trip\NewTripService;
 use App\Service\Trip\TripService;
 use Container3AjzDap\getStateRepositoryService;
@@ -88,17 +89,26 @@ final class TripController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_trip_edit', methods: ['GET', 'POST'])]
-    #[IsGranted("ROLE_USER")]
-    public function edit(Request $request, Trip $trip, EntityManagerInterface $entityManager): Response
+//    #[IsGranted("ROLE_USER")]
+    public function edit(DeleteTripService $deleteTripService, $tripService,Request $request, Trip $trip, EntityManagerInterface $entityManager): Response
     {
-        if($this->getUser() != $trip->getOrganizer()){
-            throw $this->createAccessDeniedException();
-        }
+//        if($this->getUser() != $trip->getOrganizer()){
+//            throw $this->createAccessDeniedException();
+//        }
 
         $form = $this->createForm(TripType::class, $trip);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            if ($request->request->has('save')) {
+                $tripService->NewTrip($trip, "Créée");
+            } if ($request->request->has('delete')) {
+                $deleteTripService->deleteTrip($trip);
+            } else {
+                $tripService->NewTrip($trip, "Ouverte");
+            }
+
             $entityManager->flush();
 
             return $this->redirectToRoute('app_trip_index', [], Response::HTTP_SEE_OTHER);
