@@ -23,6 +23,7 @@ class TripService
 
     public function addAParticipant(Participant $userInSession)
     {
+
     }
 
 
