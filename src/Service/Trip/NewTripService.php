@@ -18,13 +18,5 @@ class NewTripService
         $this->stateRepository = $stateRepository;
     }
 
-    public function createTripWithState(Trip $trip, string $stateWording): void
-    {
-        $state = $this->stateRepository->findOneBy(['wording' => $stateWording]);
-        if ($state) {
-            $trip->setState($state);
-        } else {
-            throw new \Exception("State not found");
-        }
-    }
+
 }
