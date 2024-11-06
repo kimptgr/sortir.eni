@@ -61,14 +61,13 @@
             <table class="table-trips">
                 <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>StartDateTime</th>
-                    <th>Duration (minute)</th>
-                    <th>RegistrationDeadline</th>
-                    <th>NbRegistrationMax</th>
-                    <th>Info</th>
-                    <th>Place</th>
-                    <th>actions</th>
+                    <th>Nom de la sortie</th>
+                    <th>Date de la sortie</th>
+                    <th>Clôture</th>
+                    <th>inscrits/places</th>
+                    <th>Etat</th>
+                    <th>Organisateur</th>
+                    <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -76,14 +75,13 @@
                     <tr>
                         <td>{{ trip.name }}</td>
                         <td>{{ trip.startDateTime ? trip.startDateTime|date('Y-m-d H:i:s') : '' }}</td>
-                        <td>{{ trip.duration }}</td>
                         <td>{{ trip.registrationDeadline ? trip.registrationDeadline|date('Y-m-d H:i:s') : '' }}</td>
                         <td>{{ trip.nbRegistrationMax }}</td>
-                        <td>{{ trip.info }}</td>
-                        <td>{{ trip.place.street }}</td>
+                        <td>{{ trip.state.wording }}</td>
+                        <td>{{ trip.organizer.lastName ~ trip.organizer.firstName }}</td>
                         <td>
-                            <a href="{{ path('app_trip_show', {'id': trip.id}) }}">show</a>
-                            <a href="{{ path('app_trip_edit', {'id': trip.id}) }}">edit</a>
+                            <a class=" my-2 ml-2 rounded-md bg-green-600 px-4 py-10 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" href="{{ path('app_trip_show', {'id': trip.id}) }}">show</a>
+                            <a class=" my-2 ml-2 rounded-md bg-red-600 px-4 py-10 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" href="{{ path('app_trip_edit', {'id': trip.id}) }}">edit</a>
                         </td>
                     </tr>
                 {% else %}

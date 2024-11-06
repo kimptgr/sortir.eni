@@ -8,8 +8,10 @@ use App\Form\TripType;
 use App\Repository\StateRepository;
 use App\Repository\TripRepository;
 use App\Service\Filters\TripFilterService;
+use App\Service\Trip\DateTimeTripService;
 use App\Service\Trip\DeleteTripService;
 use App\Service\Trip\NewTripService;
+use App\Service\Trip\RefreshTripService;
 use App\Service\Trip\TripService;
 use Container3AjzDap\getStateRepositoryService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -23,10 +25,17 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 final class TripController extends AbstractController
 {
     #[Route(name: 'app_trip_index', methods: ['GET', 'POST'])]
-    public function index(Request $request, TripRepository $tripRepository, TripFilterService $tripFilterService): Response
+    public function index(RefreshTripService $refreshTripService,Request $request, TripRepository $tripRepository, TripFilterService $tripFilterService): Response
     {
+
+        $trips= $tripRepository->findAll();
+        $refreshTripService->refreshTrip($trips);
+
+
         $form = $this->createForm(TripFilterType::class);
         $form->handleRequest($request);
+
+
         if ($form->isSubmitted() && $form->isValid()) {
             $filterChoices = $form->getData();
 
