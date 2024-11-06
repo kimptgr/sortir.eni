@@ -1,20 +1,16 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Trip{% endblock %}
+{% block title %}Sortie | {{ parent() }}{% endblock %}
 
 {% block body %}
-    <h1>Trip</h1>
+<div class="mx-auto mt-10 px-4">
+    <h1 class="text-3xl font-semibold text-center mb-6">{{ trip.name }}</h1>
+
+    <div class="bg-white shadow-md rounded-lg text-center p-6">
 
     <table class="table">
         <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ trip.id }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ trip.name }}</td>
-            </tr>
+
             <tr>
                 <th>StartDateTime</th>
                 <td>{{ trip.startDateTime ? trip.startDateTime|date('Y-m-d H:i:s') : '' }}</td>
@@ -55,5 +51,6 @@
     <form method="post" action="{{ path('app_trip_show', { id: trip.id }) }}">
         <button type="submit">Participer</button>
     </form>
-
+    </div>
+</div>
 {% endblock %}
