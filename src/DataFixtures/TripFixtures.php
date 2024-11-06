@@ -14,7 +14,7 @@ class TripFixtures extends Fixture implements DependentFixtureInterface
         $faker = \Faker\Factory::create('fr_FR');
         for ($i = 0; $i < 10; $i++) {
             $trip = new Trip();
-            $trip->setName($faker->text);
+            $trip->setName($faker->words(5, true));
             $date = $faker->dateTime();
             $trip->setStartDateTime($date);
             $trip->setDuration($faker->numberBetween(30, 240));
@@ -38,6 +38,6 @@ class TripFixtures extends Fixture implements DependentFixtureInterface
 
     public function getDependencies()
     {
-        return [ParticipantFixtures::class];
+        return [ParticipantFixtures::class, StateFixtures::class, CampusFixtures::class];
     }
 }
