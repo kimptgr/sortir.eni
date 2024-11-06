@@ -24,6 +24,7 @@ class StateFixtures extends Fixture
             $state->setWording($wording);
             $this->addReference('state_' . $i, $state);
             $i++;
+            $manager->persist($state);
         }
         $manager->flush();
     }

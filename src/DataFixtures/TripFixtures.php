@@ -38,6 +38,6 @@ class TripFixtures extends Fixture implements DependentFixtureInterface
 
     public function getDependencies()
     {
-        return [ParticipantFixtures::class];
+        return [ParticipantFixtures::class, StateFixtures::class, CampusFixtures::class];
     }
 }
