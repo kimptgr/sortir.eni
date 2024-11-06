@@ -62,18 +62,20 @@ final class TripController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            $trip->setOrganizer($this->getUser());
             if ($request->request->has('save')) {
+
                 $message = $tripService->setTripState($trip, "Créée");
+
             } else {
                 $message = $tripService->setTripState($trip, "Ouverte");
+
             }
 
-            //On recupère le USER pour l'attribuer au Trip
-            $trip->setOrganizer($this->getUser());
+            $this->addFlash($message[0] , $message[1]);
 
             $entityManager->persist($trip);
             $entityManager->flush();
-            $this->addFlash("Votre évenement à bien été " . $message );
 
             return $this->redirectToRoute('app_trip_index', [], Response::HTTP_SEE_OTHER);
         }
