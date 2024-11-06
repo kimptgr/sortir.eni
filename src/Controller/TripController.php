@@ -28,8 +28,8 @@ final class TripController extends AbstractController
     public function index(RefreshTripService $refreshTripService,Request $request, TripRepository $tripRepository, TripFilterService $tripFilterService): Response
     {
 
-        $trips= $tripRepository->findAll();
-        $refreshTripService->refreshTrip($trips);
+
+        $refreshTripService->refreshTrip();
 
 
         $form = $this->createForm(TripFilterType::class);
