@@ -54,7 +54,7 @@ class TripService
     }
 
 
-    public function setTripState(Trip $trip, string $stateWording): string
+    public function setTripState(Trip $trip, string $stateWording): array
     {
         $state= $this->stateRepository->findByWording($stateWording);
 
@@ -68,12 +68,12 @@ class TripService
 
         switch($stateWording){
             case 'Créée':
-                return "enregistré";
+                $flashMessage= ["success","enregistré"];
             case 'Ouverte':
-                return "publiée";
+                $flashMessage= ["success", "publié"];
         }
 
-        return 'erreur';
+        return $flashMessage ;
     }
 
     public function deleteTrip(Trip $trip): void
