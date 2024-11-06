@@ -22,13 +22,13 @@ class TripType extends AbstractType
                 'required' => true
             ])
             ->add('startDateTime', null, [
-                'widget' => 'choice',
+                'widget' => 'single_text',
                 'label' => 'Date et heure de la sortie :',
                 'required' => true
             ])
             ->add('registrationDeadline', null, [
                 'required' => true,
-                'widget' => 'choice',
+                'widget' => 'single_text',
                 'label' => "Date limite de d'inscription :"
             ])
             ->add('nbRegistrationMax', null, [
