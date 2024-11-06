@@ -86,35 +86,6 @@
                 </table>
             </div>
         </div>
-        {#    <table class="table"> #}
-        {#        <tbody> #}
-
-        {#            <tr> #}
-        {#                <th>StartDateTime</th> #}
-        {#                <td>{{ trip.startDateTime ? trip.startDateTime|date('Y-m-d H:i:s') : '' }}</td> #}
-        {#            </tr> #}
-        {#            <tr> #}
-        {#                <th>Duration</th> #}
-        {#                <td>{{ trip.duration }}</td> #}
-        {#            </tr> #}
-        {#            <tr> #}
-        {#                <th>RegistrationDeadline</th> #}
-        {#                <td>{{ trip.registrationDeadline ? trip.registrationDeadline|date('Y-m-d H:i:s') : '' }}</td> #}
-        {#            </tr> #}
-        {#            <tr> #}
-        {#                <th>NbRegistrationMax</th> #}
-        {#                <td>{{ trip.nbRegistrationMax }}</td> #}
-        {#            </tr> #}
-        {#            <tr> #}
-        {#                <th>Info</th> #}
-        {#                <td>{{ trip.info }}</td> #}
-        {#            </tr> #}
-        {#            <tr> #}
-        {#                <th>Location</th> #}
-        {#                <td>{{ trip.place.street }}</td> #}
-        {#            </tr> #}
-        {#        </tbody> #}
-        {#    </table> #}
 
         {% if app.user.id == trip.organizer.id %}
             <a class="" href="{{ path('app_trip_edit', {'id': trip.id}) }}">edit</a>

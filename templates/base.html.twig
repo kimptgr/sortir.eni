@@ -14,12 +14,12 @@
     {% endblock %}
 
     <style>
-        html, body {
-            height: 100%;
-            margin: 0;
-        }
+        /*html, body {*/
+        /*    height: 100%;*/
+        /*    margin: 0;*/
+        /*}*/
         body {
-            height: 100vh;
+            /*height: 100vh;*/
             background-image: url('https://firstclasse.com.my/wp-content/uploads/2019/01/Holiday-destinations-rich-famous-featured.jpg');
             background-size: cover;
             background-position: center;
@@ -48,9 +48,9 @@
         }
     </style>
 </head>
-<body class="bg-cover bg-center">
+<body class="bg-cover bg-center h-full">
 {% include('_navbar.html.twig') %}
-<main>
+<main class="overflow-auto">
     {% for label, messages in app.flashes %}
         {% for message in messages %}
             <div>
