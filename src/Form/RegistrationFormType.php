@@ -1,8 +1,12 @@
 <?php
 
+// src/Form/RegistrationFormType.php
+
 namespace App\Form;
 
+use App\Entity\Campus;
 use App\Entity\Participant;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType; // Ajoutez cette ligne
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -68,17 +72,17 @@ class RegistrationFormType extends AbstractType
                     new NotBlank([
                         'message' => 'Please enter your phone number.',
                     ]),
-
-                     new Regex([
+                    new Regex([
                         'pattern' => '/^\+?[0-9]{7,15}$/',
-                         'message' => 'Please enter a valid phone number.',
-                     ]),
-                ]
+                        'message' => 'Please enter a valid phone number.',
+                    ]),
+                ],
             ])
-
-            ->add('campus', TextType::class, [
-            ])
-        ;
+            ->add('campus', EntityType::class, [ // Modifié ici pour utiliser EntityType
+                'class' => Campus::class,
+                'choice_label' => 'name',
+                'placeholder' => 'Select a Campus',
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
