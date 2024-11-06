@@ -3,6 +3,7 @@
 namespace App\Service\Trip;
 
 use App\Entity\Participant;
+use App\Entity\State;
 use App\Entity\Trip;
 use App\Repository\StateRepository;
 use DateTime;
@@ -53,14 +54,26 @@ class TripService
     }
 
 
-    public function setTripState(Trip $trip, string $stateWording): void
+    public function setTripState(Trip $trip, string $stateWording): string
     {
-        $state = $this->stateRepository->findOneBy(['wording' => $stateWording]);
+        $state= $this->stateRepository->findByWording($stateWording);
+
         if ($state) {
             $trip->setState($state);
+            $this->entityManager->persist($trip);
+            $this->entityManager->flush();
         } else {
             throw new \Exception("State not found");
         }
+
+        switch($stateWording){
+            case 'Créée':
+                return "enregistré";
+            case 'Ouverte':
+                return "publiée";
+        }
+
+        return 'erreur';
     }
 
     public function deleteTrip(Trip $trip): void

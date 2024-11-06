@@ -20,7 +20,6 @@ class TripRepository extends ServiceEntityRepository
         parent::__construct($registry, Trip::class);
     }
 
-
     public function findTripByFilters(mixed $filterChoices, Participant $userInSession): array
     {
         $qb = $this->createQueryBuilder('t');

@@ -16,6 +16,11 @@ class StateRepository extends ServiceEntityRepository
         parent::__construct($registry, State::class);
     }
 
+
+    public function findByWording(string $wording){
+        return $this->findOneBy(['wording' => $wording]);
+    }
+
     //    /**
     //     * @return State[] Returns an array of State objects
     //     */
