@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+{% form_theme form 'tailwind_2_layout.html.twig' %}
+
+{% block title %}Modifier mon Profil{% endblock %}
+
+{% block body %}
+    <div class="container mx-auto mt-10 px-4">
+        <h1 class="text-3xl font-semibold text-center mb-6">Modifier mon Profil</h1>
+
+        <div class="bg-white shadow-md rounded-lg text-center p-6">
+
+
+
+            <form method="post">
+                {{ form_start(form) }}
+                <div class="mb-4">
+                    {{ form_row(form.firstName) }}
+                </div>
+                <div class="mb-4">
+                    {{ form_row(form.lastName) }}
+                </div>
+                <div class="mb-4">
+                    {{ form_row(form.email) }}
+                </div>
+                <div class="mb-4">
+                    {{ form_row(form.phoneNumber) }}
+                </div>
+                <div class="mb-4">
+                    {{ form_row(form.password) }}
+                </div>
+{#                <div class="mb-4">
+                    {{ form_row(form.roles) }}
+                </div>#}
+
+
+                <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded-lg mt-4">Sauvegarder</button>
+                {{ form_end(form) }}
+            </form>
+
+        </div>
+
+        <div class="mt-4">
+            <a href="{{ path('app_profile') }}" class="text-blue-500">Retour au profil</a>
+        </div>
+    </div>
+{% endblock %}
