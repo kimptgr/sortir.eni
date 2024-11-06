@@ -76,7 +76,7 @@
                         <td>{{ trip.name }}</td>
                         <td>{{ trip.startDateTime ? trip.startDateTime|date('Y-m-d H:i:s') : '' }}</td>
                         <td>{{ trip.registrationDeadline ? trip.registrationDeadline|date('Y-m-d H:i:s') : '' }}</td>
-                        <td>{{ trip.nbRegistrationMax }}</td>
+                        <td>{{ (trip.participants | length + 1)  ~ " / " ~ trip.nbRegistrationMax  }}</td>
                         <td>{{ trip.state.wording }}</td>
                         <td>{{ trip.organizer.lastName ~ trip.organizer.firstName }}</td>
                         <td>

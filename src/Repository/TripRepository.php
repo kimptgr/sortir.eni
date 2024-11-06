@@ -20,6 +20,13 @@ class TripRepository extends ServiceEntityRepository
         parent::__construct($registry, Trip::class);
     }
 
+    public function findDateTime(){
+        $dateTime = new DateTime("now");
+        $querrybuilder = $this->createQueryBuilder('trip')
+            ->addSelect('trip.startDateTime >= :dateTime')
+            ->setParameter('dateTime', $dateTime);
+    }
+
     public function findTripByFilters(mixed $filterChoices, Participant $userInSession): array
     {
         $qb = $this->createQueryBuilder('t');
