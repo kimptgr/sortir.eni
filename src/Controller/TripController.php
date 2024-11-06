@@ -44,8 +44,8 @@ final class TripController extends AbstractController
     }
 
     #[Route('/new', name: 'app_trip_new', methods: ['GET', 'POST'])]
-//    #[IsGranted("ROLE_USER")]
-    public function new(Request $request,NewTripService $tripService, EntityManagerInterface $entityManager): Response
+    #[IsGranted("ROLE_USER")]
+    public function new(Request $request,TripService $tripService, EntityManagerInterface $entityManager): Response
     {
         $trip = new Trip();
         $form = $this->createForm(TripType::class, $trip);
@@ -89,12 +89,12 @@ final class TripController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_trip_edit', methods: ['GET', 'POST'])]
-//    #[IsGranted("ROLE_USER")]
-    public function edit(DeleteTripService $deleteTripService, $tripService,Request $request, Trip $trip, EntityManagerInterface $entityManager): Response
+    #[IsGranted("ROLE_USER")]
+    public function edit(TripService $tripService,Request $request, Trip $trip, EntityManagerInterface $entityManager): Response
     {
-//        if($this->getUser() != $trip->getOrganizer()){
-//            throw $this->createAccessDeniedException();
-//        }
+        if($this->getUser() != $trip->getOrganizer()){
+            throw $this->createAccessDeniedException();
+        }
 
         $form = $this->createForm(TripType::class, $trip);
         $form->handleRequest($request);
@@ -102,11 +102,11 @@ final class TripController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             if ($request->request->has('save')) {
-                $tripService->NewTrip($trip, "Créée");
+                $tripService->setTripState($trip, "Créée");
             } if ($request->request->has('delete')) {
-                $deleteTripService->deleteTrip($trip);
+                $tripService->deleteTrip($trip);
             } else {
-                $tripService->NewTrip($trip, "Ouverte");
+                $tripService->setTripState($trip, "Ouverte");
             }
 
             $entityManager->flush();
