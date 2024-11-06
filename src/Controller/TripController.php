@@ -9,6 +9,7 @@ use App\Repository\StateRepository;
 use App\Repository\TripRepository;
 use App\Service\Filters\TripFilterService;
 use App\Service\Trip\NewTripService;
+use App\Service\Trip\TripService;
 use Container3AjzDap\getStateRepositoryService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -72,10 +73,15 @@ final class TripController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_trip_show', methods: ['GET'])]
+    #[Route('/{id}', name: 'app_trip_show', methods: ['GET', 'POST'])]
     #[IsGranted("ROLE_USER")]
-    public function show(Trip $trip): Response
+    public function show(Trip $trip, Request $request,TripService $tripService,): Response
     {
+        if ($this->getUser() != null && $request->getMethod() == 'POST') {
+            $userInSession = $this->getUser();
+            $tripService->addAParticipant($userInSession);
+            var_dump($this->getUser());
+        }
         return $this->render('trip/show.html.twig', [
             'trip' => $trip,
         ]);
