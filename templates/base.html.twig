@@ -51,6 +51,13 @@
 <body class="bg-cover bg-center">
 {% include('_navbar.html.twig') %}
 <main>
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div>
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
     {% block body %}{% endblock %}
 </main>
 <footer class="bg-gray-800 text-white py-4">
