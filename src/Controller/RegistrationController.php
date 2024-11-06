@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Participant;
+use App\Form\ParticipantFormType;
 use App\Form\RegistrationFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -65,19 +66,36 @@ class RegistrationController extends AbstractController
 
 
     #[Route('/edit', name: 'app_edit_profile')]
-    public function editProfile(): Response{
-
+    public function editProfile(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        // Récupérer l'utilisateur connecté
         $user = $this->getUser();
+
+        dump($user); // DEVTEST
 
         if (!$user) {
             return $this->redirectToRoute('app_login');
         }
 
+        // Créer et remplir le formulaire avec les données de l'utilisateur
+        $form = $this->createForm(ParticipantFormType::class, $user);
 
+        // Traiter la soumission du formulaire
+        $form->handleRequest($request);
 
+        // Si le formulaire est soumis et valide, on met à jour l'utilisateur
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Mettre à jour les informations de l'utilisateur en BDD
+            $entityManager->flush();
 
+            // Rediriger l'utilisateur vers la page de profil après la mise à jour
+            $this->addFlash('success', 'Profil mis à jour avec succès.');
+            return $this->redirectToRoute('app_profile');
+        }
+
+        // Rendu de la vue avec le formulaire
         return $this->render('registration/editProfile.html.twig', [
-            'user' => $user,
+            'form' => $form->createView(),
         ]);
     }
 
