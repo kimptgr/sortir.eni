@@ -8,6 +8,7 @@ use App\Entity\Trip;
 use App\Repository\StateRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\SecurityBundle\Security;
 
 class TripService
 {

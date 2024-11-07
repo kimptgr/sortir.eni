@@ -71,11 +71,11 @@ class TripType extends AbstractType
                 'choice_label' => 'name',
                 'mapped' => false,
                 'class' => City::class,
-                'placeholder' => 'Choose a city',
+                'placeholder' => 'Choisissez une ville',
             ])
             ->add('place', ChoiceType::class, [
                 'choices' => [],
-                'placeholder' => 'Choose a place',
+                'placeholder' => 'Choisissez un lieu',
             ]);
     }
 

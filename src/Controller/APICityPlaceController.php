@@ -18,22 +18,18 @@ class APICityPlaceController extends AbstractController
     #[Route('/api/city/{cityId}/places', name: 'api_city_places', methods: ['GET'])]
     public function getPlaces(int $cityId, SerializerInterface $serializer, CityRepository $cityRepository): JsonResponse
     {
-        // Récupérer la ville par son ID
         $city = $cityRepository->find($cityId);
-
-        // Si la ville n'existe pas, retourner une réponse 404
         if (!$city) {
             return new JsonResponse(['error' => 'City not found'], JsonResponse::HTTP_NOT_FOUND);
         }
 
-        // Récupérer les places associées à la ville
         $places = $city->getPlaces();
 
-        // Sérialiser les données avec les groupes de sérialisation
-        $data = $serializer->serialize($places, 'json', ['groups' => 'place_list']);
 
-        // Retourner la réponse sous format JSON
-        return new JsonResponse($data, JsonResponse::HTTP_OK, [], true);
+        $data = $serializer->serialize($places, 'json', ['groups' => ['place_list']]);
+
+        return new JsonResponse($data, Response::HTTP_OK, [], true);
+
     }
 
 }

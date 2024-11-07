@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Trip;
 use App\Form\TripFilterType;
 use App\Form\TripType;
+use App\Models\TripFilterModel;
 use App\Repository\StateRepository;
 use App\Repository\TripRepository;
 use App\Service\Filters\TripFilterService;

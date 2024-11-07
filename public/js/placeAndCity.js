@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 })
                 .catch(error => console.error('Error fetching places:', error));
         } else {
-            placeSelect.innerHTML = '<option value="">Choose a place</option>';
+            placeSelect.innerHTML = '<option value="">Choisissez un lieu</option>';
         }
     });
 });
