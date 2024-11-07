@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Participant;
 use App\Entity\Trip;
 use App\Form\TripFilterType;
+use App\Models\TripFilterModel;
 use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
@@ -30,47 +31,47 @@ class TripRepository extends ServiceEntityRepository
         return new Paginator($querry);
     }
 
-    public function findTripByFilters(mixed $filterChoices, Participant $userInSession): array
+    public function findTripByFilters(TripFilterModel $filterChoices, Participant $userInSession): array
     {
         $qb = $this->createQueryBuilder('t');
 
-        if ($filterChoices['relativeCampus'] !== null) {
+        if ($filterChoices->getRelativeCampus() !== null) {
             $qb->andWhere('t.relativeCampus = :campus')
-                ->setParameter('campus', $filterChoices['relativeCampus']);
+                ->setParameter('campus', $filterChoices->getRelativeCampus());
         }
 
-        if (!empty($filterChoices['tripName'])) {
+        if (!empty($filterChoices->getTripName())) {
             $qb->andWhere('t.name LIKE :tripName')
-                ->setParameter('tripName', '%' . $filterChoices['tripName'] . '%');
+                ->setParameter('tripName', '%' . $filterChoices->getTripName() . '%');
         }
 
-        if (!empty($filterChoices['startDateTime'])) {
-            $stringStartDateTime = $filterChoices['startDateTime']->format('Y-m-d H:i:s');
+        if (!empty($filterChoices->getStartDateTime())) {
+            $stringStartDateTime = $filterChoices->getStartDateTime()->format('Y-m-d H:i:s');
             $qb->andWhere('t.startDateTime >= :startDateTime')
                 ->setParameter('startDateTime', $stringStartDateTime);
         }
 
-        if (!empty($filterChoices['registrationDeadline'])) {
-            $stringregistrationDeadline = $filterChoices['registrationDeadline']->format('Y-m-d H:i:s');
+        if (!empty($filterChoices->getRegistrationDeadline())) {
+            $stringregistrationDeadline = $filterChoices->getRegistrationDeadline()->format('Y-m-d H:i:s');
             $qb->andWhere('t.registrationDeadline <= :registrationDeadline')
                 ->setParameter('registrationDeadline', $stringregistrationDeadline);
         }
 
-        if ($filterChoices['iOrganized']) {
+        if ($filterChoices->getIOrganized()) {
             $qb->andWhere('t.organizer = :organizer')
                 ->setParameter('organizer', $userInSession);
         }
-        if ($filterChoices['iParticipate']) {
+        if ($filterChoices->getIParticipate()) {
             $qb->join('t.participants', 'p')
                 ->andWhere(':participants MEMBER OF t.participants')
                 ->setParameter('participants', $userInSession);
         }
-        if ($filterChoices['imRegistered']) {
+        if ($filterChoices->getImRegistered()) {
             $qb->join('t.participants', 'pa')
                 ->andWhere(':participants NOT MEMBER OF t.participants')
                 ->setParameter('participants', $userInSession);
         }
-        if ($filterChoices['oldTrips']) {
+        if ($filterChoices->getOldTrips()) {
             $now = (new dateTime())->format('Y-m-d H:i:s');
            // $dateEnd = $startDateTime + $duration
             $qb->andWhere('t.registrationDeadline < :registrationDeadline')

@@ -3,10 +3,13 @@
 {% block title %}Edit Trip{% endblock %}
 
 {% block body %}
-    <h1>Edit Trip</h1>
-
+<div class="main-container">
+    <h1>Modifier une sortie</h1>
+    <div class="bloc-article">
     {{ include('trip/_form.html.twig', {'button_label': 'Update', 'button_delete':'button_delete'})}}
 
-    <a href="{{ path('app_trip_index') }}">back to list</a>
+    </div>
 
+    <a href="{{ path('app_trip_index') }}" class="text-blue-500 underline mt-4 inline-block">Retour à la liste</a>
+</div>
 {% endblock %}
