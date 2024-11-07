@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Campus;
+use App\Models\TripFilterModel;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -55,7 +56,7 @@ class TripFilterType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => null, //pas de lien avec une entité
+            'data_class' => TripFilterModel::class,
         ]);
     }
 }

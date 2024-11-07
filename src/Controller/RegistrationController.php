@@ -15,11 +15,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 class RegistrationController extends AbstractController
 {
     #[Route('/register', name: 'app_register')]
+    #[isGranted('ROLE_ADMIN')]
     public function register(
         Request $request,
         UserPasswordHasherInterface $userPasswordHasher,
@@ -69,6 +71,7 @@ class RegistrationController extends AbstractController
 
 
     #[Route('/profile', name: 'app_profile')]
+    #[isGranted('ROLE_USER')]
     public function profile(): Response{
 
 
@@ -139,13 +142,37 @@ class RegistrationController extends AbstractController
 
             }
 
-            // Mettre à jour le mot de passe si nécessaire
-            $plainPassword = $user->getPassword();
-            if ($plainPassword) {
-                $hashedPassword = $userPasswordHasher->hashPassword($user, $plainPassword);
-                $user->setPassword($hashedPassword);
 
+
+
+
+
+
+
+            // Récupérer le mot de passe en clair (depuis le formulaire)
+            $newPassword = $form->get('password')->getData();
+
+            // Récupérer l'ancien mot de passe haché (depuis l'utilisateur)
+            $oldPassword = $user->getPassword(); // Ceci est le mot de passe haché
+
+            // Vérifier si le nouveau mot de passe est le même que l'ancien
+            if ($newPassword && $userPasswordHasher->isPasswordValid($user, $newPassword)) {
+                $this->addFlash('alert', 'Veuillez entrer un nouveau mot de passe.');
+            } else {
+                // Si un mot de passe a été fourni et qu'il est différent, on le hache et on le met à jour
+                if ($newPassword) {
+                    $hashedPassword = $userPasswordHasher->hashPassword($user, $newPassword);
+                    $user->setPassword($hashedPassword);
+                }
             }
+
+
+
+
+
+
+
+
 
             $entityManager->persist($user);
 

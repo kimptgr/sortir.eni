@@ -53,6 +53,7 @@ class ParticipantFixtures extends Fixture implements DependentFixtureInterface
         $participant->setPassword($password);
         $participant->setRoles(['ROLE_USER']);
         $this->addReference("participant_11", $participant);
+        $participant->setBrochureFilename('mtartine.png');
         $manager->persist($participant);
 
         for ($i = 0; $i < 10; $i++) {
