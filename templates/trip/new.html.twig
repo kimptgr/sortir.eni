@@ -4,86 +4,86 @@
 {% block title %}New Trip{% endblock %}
 
 {% block body %}
-    <div class="main-container">
-        <h1>Nouvelle Sortie</h1>
-        <div class="bloc-article">
-            <form method="post">
-                {{ form_start(form) }}
-                <div class="form-row">
-                    {{ form_label(form.name) }}
-                    {{ form_widget(form.name) }}
-                    <div class="label-error">
-                        {{ form_errors(form.name) }}
-                    </div>
-                </div>
+{#    <div class="main-container">#}
+{#        <h1>Nouvelle Sortie</h1>#}
+{#        <div class="bloc-article">#}
+{#            <form method="post">#}
+{#                {{ form_start(form) }}#}
+{#                <div class="form-row">#}
+{#                    {{ form_label(form.name) }}#}
+{#                    {{ form_widget(form.name) }}#}
+{#                    <div class="label-error">#}
+{#                        {{ form_errors(form.name) }}#}
+{#                    </div>#}
+{#                </div>#}
 
-                <div class="form-row">
-                    {{ form_label(form.startDateTime) }}
-                    {{ form_widget(form.startDateTime) }}
-                    <div class="label-error">
-                        {{ form_errors(form.startDateTime) }}
-                    </div>
-                </div>
+{#                <div class="form-row">#}
+{#                    {{ form_label(form.startDateTime) }}#}
+{#                    {{ form_widget(form.startDateTime) }}#}
+{#                    <div class="label-error">#}
+{#                        {{ form_errors(form.startDateTime) }}#}
+{#                    </div>#}
+{#                </div>#}
 
-                <div class="form-row">
-                    {{ form_label(form.registrationDeadline) }}
-                    {{ form_widget(form.registrationDeadline) }}
-                    <div class="label-error">
-                        {{ form_errors(form.registrationDeadline) }}
-                    </div>
-                </div>
+{#                <div class="form-row">#}
+{#                    {{ form_label(form.registrationDeadline) }}#}
+{#                    {{ form_widget(form.registrationDeadline) }}#}
+{#                    <div class="label-error">#}
+{#                        {{ form_errors(form.registrationDeadline) }}#}
+{#                    </div>#}
+{#                </div>#}
 
-                <div class="form-row">
-                    {{ form_label(form.nbRegistrationMax) }}
-                    {{ form_widget(form.nbRegistrationMax) }}
-                    <div class="label-error">
-                        {{ form_errors(form.nbRegistrationMax) }}
-                    </div>
-                </div>
+{#                <div class="form-row">#}
+{#                    {{ form_label(form.nbRegistrationMax) }}#}
+{#                    {{ form_widget(form.nbRegistrationMax) }}#}
+{#                    <div class="label-error">#}
+{#                        {{ form_errors(form.nbRegistrationMax) }}#}
+{#                    </div>#}
+{#                </div>#}
 
-                <div class="form-row">
-                    {{ form_label(form.duration) }}
-                    {{ form_widget(form.duration) }}
-                    <div class="label-error">
-                        {{ form_errors(form.duration) }}
-                    </div>
-                </div>
+{#                <div class="form-row">#}
+{#                    {{ form_label(form.duration) }}#}
+{#                    {{ form_widget(form.duration) }}#}
+{#                    <div class="label-error">#}
+{#                        {{ form_errors(form.duration) }}#}
+{#                    </div>#}
+{#                </div>#}
 
-                <div class="form-row">
-                    {{ form_label(form.info) }}
-                    {{ form_widget(form.info) }}
-                    <div class="label-error">
-                        {{ form_errors(form.info) }}
-                    </div>
-                </div>
+{#                <div class="form-row">#}
+{#                    {{ form_label(form.info) }}#}
+{#                    {{ form_widget(form.info) }}#}
+{#                    <div class="label-error">#}
+{#                        {{ form_errors(form.info) }}#}
+{#                    </div>#}
+{#                </div>#}
 
-                <div class="form-row">
-                    {{ form_label(form.relativeCampus) }}
-                    {{ form_widget(form.relativeCampus) }}
-                    <div class="label-error">
-                        {{ form_errors(form.relativeCampus) }}
-                    </div>
-                </div>
+{#                <div class="form-row">#}
+{#                    {{ form_label(form.relativeCampus) }}#}
+{#                    {{ form_widget(form.relativeCampus) }}#}
+{#                    <div class="label-error">#}
+{#                        {{ form_errors(form.relativeCampus) }}#}
+{#                    </div>#}
+{#                </div>#}
 
-                <div class="form-row">
-                    {{ form_label(form.place) }}
-                    {{ form_widget(form.place) }}
-                    <div class="label-error">
-                        {{ form_errors(form.place) }}
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="flex justify-between mt-5">
-                        <button type="submit" class="button-52">Enregistrer</button>
-                        <button type="reset" class="">
-                            Réinitialiser
-                        </button>
-                    </div>
-                    {{ form_end(form) }}
-                </div>
-            </form>
-        </div>
-        {#        {{ include('trip/_form.html.twig', {'button_label': 'Enregistrer', 'button_delete': ''}) }} #}
+{#                <div class="form-row">#}
+{#                    {{ form_label(form.place) }}#}
+{#                    {{ form_widget(form.place) }}#}
+{#                    <div class="label-error">#}
+{#                        {{ form_errors(form.place) }}#}
+{#                    </div>#}
+{#                </div>#}
+{#                <div class="form-group">#}
+{#                    <div class="flex justify-between mt-5">#}
+{#                        <button type="submit" class="button-52">Enregistrer</button>#}
+{#                        <button type="reset" class="">#}
+{#                            Réinitialiser#}
+{#                        </button>#}
+{#                    </div>#}
+{#                    {{ form_end(form) }}#}
+{#                </div>#}
+{#            </form>#}
+{#        </div>#}
+                {{ include('trip/_form.html.twig', {'button_label': 'Enregistrer', 'button_delete': ''}) }}
 
         <a href="{{ path('app_trip_index') }}" class="text-blue-500 underline mt-4 inline-block">Retour à la liste</a>
     </div>

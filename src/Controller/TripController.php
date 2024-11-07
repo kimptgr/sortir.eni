@@ -57,6 +57,8 @@ final class TripController extends AbstractController
     public function new(Request $request,TripService $tripService, EntityManagerInterface $entityManager): Response
     {
         $trip = new Trip();
+
+
         $form = $this->createForm(TripType::class, $trip);
         $form->handleRequest($request);
 

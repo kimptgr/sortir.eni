@@ -7,6 +7,7 @@ use App\Entity\Trip;
 use App\Form\TripFilterType;
 use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 use mysql_xdevapi\Statement;
 
@@ -22,9 +23,11 @@ class TripRepository extends ServiceEntityRepository
 
     public function findDateTime(){
         $dateTime = new DateTime("now");
-        $querrybuilder = $this->createQueryBuilder('trip')
-            ->addSelect('trip.startDateTime >= :dateTime')
+        $querybuilder = $this->createQueryBuilder('trip')
+            ->where('trip.startDateTime >= :dateTime')
             ->setParameter('dateTime', $dateTime);
+        $query = $querrybuilder->getQuery();
+        return new Paginator($querry);
     }
 
     public function findTripByFilters(mixed $filterChoices, Participant $userInSession): array
