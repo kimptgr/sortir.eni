@@ -87,6 +87,9 @@ class Participant implements UserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $brochureFilename = null;
 
+    #[ORM\Column(length: 50)]
+    private ?string $pseudo = null;
+
     public function __construct()
     {
         $this->enrolledTrips = new ArrayCollection();
@@ -290,6 +293,18 @@ class Participant implements UserInterface
     public function setBrochureFilename(?string $brochureFilename): static
     {
         $this->brochureFilename = $brochureFilename;
+
+        return $this;
+    }
+
+    public function getPseudo(): ?string
+    {
+        return $this->pseudo;
+    }
+
+    public function setPseudo(string $pseudo): static
+    {
+        $this->pseudo = $pseudo;
 
         return $this;
     }
