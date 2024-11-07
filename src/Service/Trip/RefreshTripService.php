@@ -26,17 +26,16 @@ class RefreshTripService
 
     function refreshTrip(){
 
-        $trips= $this->tripRepository->findAll();
+        $trips= $this->tripRepository->findDateTime();
 
         foreach($trips as $trip){
             $this->refreshDate($trip);
-            $this->checkNombreParticipant($trip);
         }
 
     }
 
 
-    private function checkNombreParticipant(Trip $trip)
+    public function checkNombreParticipant(Trip $trip)
     {
 
         $nombreParticipant = $trip->getNbRegistrationMax();

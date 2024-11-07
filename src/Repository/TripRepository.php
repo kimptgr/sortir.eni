@@ -27,8 +27,8 @@ class TripRepository extends ServiceEntityRepository
         $querybuilder = $this->createQueryBuilder('trip')
             ->where('trip.startDateTime >= :dateTime')
             ->setParameter('dateTime', $dateTime);
-        $query = $querrybuilder->getQuery();
-        return new Paginator($querry);
+        $query = $querybuilder->getQuery();
+        return new Paginator($query);
     }
 
     public function findTripByFilters(TripFilterModel $filterChoices, Participant $userInSession): array

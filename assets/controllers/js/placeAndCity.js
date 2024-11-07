@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const cityId = citySelect.value;
 
         if (cityId) {
-            fetch(`/api/city/${cityId}/places`)
+            fetch(`/sortir/sortir.com/public/api/city/${cityId}/places`)
                 .then(response => response.json())
                 .then(data => {
                     placeSelect.innerHTML = '<option value="">Choisissez un lieu</option>';
@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     data.forEach(place => {
                         const option = document.createElement('option');
                         option.value = place.id;
-                        option.textContent = place.name;
+                        option.textContent = place.name ;
                         placeSelect.appendChild(option);
                     });
                 })

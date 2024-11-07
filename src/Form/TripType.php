@@ -73,8 +73,9 @@ class TripType extends AbstractType
                 'class' => City::class,
                 'placeholder' => 'Choisissez une ville',
             ])
-            ->add('place', ChoiceType::class, [
-                'choices' => [],
+            ->add('place', EntityType::class, [
+                'class'=> Place::class,
+                'choice_label' => 'name',
                 'placeholder' => 'Choisissez un lieu',
             ]);
     }
