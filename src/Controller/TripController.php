@@ -35,7 +35,7 @@ final class TripController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             return $this->render('trip/index.html.twig', [
-                'trips' => $tripFilterService->getTripWithFilters($filterChoices, $this->getUser()),
+                'trips' => $tripFilterService->getTripWithFilters($filterChoices),
                 'form' => $form,
                 'choices' => $filterChoices,
             ]);
