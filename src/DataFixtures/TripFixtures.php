@@ -12,7 +12,7 @@ class TripFixtures extends Fixture implements DependentFixtureInterface
     public function load(ObjectManager $manager): void
     {
         $faker = \Faker\Factory::create('fr_FR');
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 100; $i++) {
             $trip = new Trip();
             $trip->setName($faker->words(5, true));
             $date = $faker->dateTime();

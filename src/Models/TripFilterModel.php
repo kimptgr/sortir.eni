@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use DateTime;
-use Proxies\__CG__\App\Entity\Campus;
+use App\Entity\Campus;
 
 class TripFilterModel
 {

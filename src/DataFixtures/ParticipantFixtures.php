@@ -34,11 +34,9 @@ class ParticipantFixtures extends Fixture implements DependentFixtureInterface
         $randomCampusAdmin = $this->getReference("campus_".rand(0,4));
         $participantAdmin->setCampus($randomCampusAdmin);
         $participantAdmin->setBrochureFilename('P3.PNG');
-
+        $participantAdmin->setPseudo('ADMIN');
         $participantAdmin->setRoles(['ROLE_USER','ROLE_ADMIN']);
-
         $this->addReference("participant_admin", $participantAdmin);
-
         $manager->persist($participantAdmin);
 
         $participant = new Participant();
@@ -51,6 +49,7 @@ class ParticipantFixtures extends Fixture implements DependentFixtureInterface
         $participant->setCampus($randomCampus);
         $password = $this->passwordHasher->hashPassword($participant, 'aaaaa1');
         $participant->setPassword($password);
+        $participant->setPseudo('Ricorée, l\'amie du petit déjeuner');
         $participant->setRoles(['ROLE_USER']);
         $this->addReference("participant_11", $participant);
         $participant->setBrochureFilename('mtartine.png');
@@ -71,6 +70,7 @@ class ParticipantFixtures extends Fixture implements DependentFixtureInterface
 
             $password = $this->passwordHasher->hashPassword($participant, 'password123');
             $participant->setPassword($password);
+            $participant->setPseudo($faker->userName);
 
             $participant->setRoles(['ROLE_USER']);
             $this->addReference("participant_".$i, $participant);

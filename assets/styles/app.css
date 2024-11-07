@@ -4,7 +4,6 @@
 
 body {
     background-image: url("../image/bg1.jpg");
-
     @apply min-h-screen bg-cover bg-fixed bg-center bg-no-repeat h-screen flex flex-col bg-gray-100;
 }
 
