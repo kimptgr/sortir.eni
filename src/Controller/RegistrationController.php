@@ -140,18 +140,29 @@ class RegistrationController extends AbstractController
             }
 
 
+
+
+
+
+
+
+            // Récupérer le mot de passe en clair (depuis le formulaire)
             $newPassword = $form->get('password')->getData();
-            $oldPassword = $user->getPassword();
 
+            // Récupérer l'ancien mot de passe haché (depuis l'utilisateur)
+            $oldPassword = $user->getPassword(); // Ceci est le mot de passe haché
 
-
-
-            if($newPassword == $oldPassword){
-                $this->addFlash('alert','Veuillez rentrer un nouveau mot de passe');
+            // Vérifier si le nouveau mot de passe est le même que l'ancien
+            if ($newPassword && $userPasswordHasher->isPasswordValid($user, $newPassword)) {
+                $this->addFlash('alert', 'Veuillez entrer un nouveau mot de passe.');
+            } else {
+                // Si un mot de passe a été fourni et qu'il est différent, on le hache et on le met à jour
+                if ($newPassword) {
+                    $hashedPassword = $userPasswordHasher->hashPassword($user, $newPassword);
+                    $user->setPassword($hashedPassword);
+                }
             }
-            elseif($newPassword !== null && $newPassword !== $oldPassword){
-                $user->setPassword($newPassword);
-            }
+
 
 
 
