@@ -3,17 +3,27 @@
 namespace App\Form;
 
 use App\Entity\Campus;
+use App\Entity\City;
 use App\Entity\Participant;
 use App\Entity\Place;
 use App\Entity\State;
 use App\Entity\Trip;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TripType extends AbstractType
 {
+
+    public function __construct(private EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -59,20 +69,23 @@ class TripType extends AbstractType
                 'choice_label' => 'name',
             ])
 
-            ->add('place', EntityType::class, [
-                'required' => true,
-                'class' => Place::class,
-                'choice_label' => function(Place $place) {
-                return $place->getName() . ' ' . $place->getCity()->getName();
-                },
+            ->add('city', EntityType::class, [
+                'choice_label' => 'name',
+                'mapped' => false,
+                'class' => City::class,
+                'placeholder' => 'Choose a city',
             ])
-        ;
+            ->add('place', EntityType::class, [
+                'class' => Place::class,
+                'choice_label' => 'name',
+                'placeholder' => 'Choose a place',
+            ]);
     }
 
-    public function configureOptions(OptionsResolver $resolver): void
+
+
+    public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults([
-            'data_class' => Trip::class,
-        ]);
+        $resolver->setDefaults([]);
     }
 }

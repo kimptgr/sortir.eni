@@ -8,8 +8,19 @@
         <h1>Modifier mon Profil</h1>
 
         <div class="bloc-article">
-            <form method="post">
+            <form method="post" enctype="multipart/form-data">
                 {{ form_start(form) }}
+                {% if user.brochureFilename %}
+                    <img src="{{ asset('uploads/' ~ user.brochureFilename) }}" alt="Image de profil" class="w-24 h-24 rounded-full mx-auto mb-4 object-cover">
+                {% else %}
+                    <img src="{{ asset('uploads/P1.PNG') }}" alt="Image de profil" class="w-24 h-24 rounded-full mx-auto mb-4 object-cover">
+                {% endif %}
+
+                <div class="form-row">
+                    {{ form_widget(form.brochure) }}
+                </div>
+
+
                 <div class="form-row">
                     {{ form_label(form.firstName) }}
                     {{ form_widget(form.firstName) }}
@@ -33,7 +44,7 @@
                     {{ form_label(form.password) }}
                     {{ form_widget(form.password) }}
                 </div>
-{#                {# <div class="mb-4">
+                {#                {# <div class="mb-4">
                     {{ form_row(form.roles) }}
                 </div> #}
                 <button type="submit">Sauvegarder</button>
