@@ -11,20 +11,19 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class TripService
 {
-
-
-    private $entityManager;
-    private $stateRepository;
-
-    public function __construct(EntityManagerInterface $entityManager, StateRepository $stateRepository)
+   public function __construct(private EntityManagerInterface $entityManager, private StateRepository $stateRepository, private Security $security)
     {
         $this->entityManager = $entityManager;
         $this->stateRepository = $stateRepository;
+        $this->security = $security;
     }
 
 
-    public function addAParticipant(Participant $userInSession, Trip $trip)
+    public function addAParticipant(Trip $trip)
     {
+        $security = $this->security;
+        $userInSession = $security->getUser();
+
         $flashMessage = [];
         if ($trip->getOrganizer() === $userInSession){
             $flashMessage = ['warning', "Vous êtes le leader de l'event, on compte sur vous !"];
