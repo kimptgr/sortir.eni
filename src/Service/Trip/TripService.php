@@ -68,6 +68,7 @@ class TripService
         switch($stateWording){
             case 'Créée':
                 $flashMessage= ["success","enregistré"];
+                break;
             case 'Ouverte':
                 $flashMessage= ["success", "publié"];
         }

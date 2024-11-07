@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Trip;
 use App\Form\TripFilterType;
 use App\Form\TripType;
+use App\Models\TripFilterModel;
 use App\Repository\StateRepository;
 use App\Repository\TripRepository;
 use App\Service\Filters\TripFilterService;
@@ -25,36 +26,31 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 final class TripController extends AbstractController
 {
     #[Route(name: 'app_trip_index', methods: ['GET', 'POST'])]
-    public function index(RefreshTripService $refreshTripService,Request $request, TripRepository $tripRepository, TripFilterService $tripFilterService): Response
+    public function index(RefreshTripService $refreshTripService, Request $request, TripRepository $tripRepository, TripFilterService $tripFilterService): Response
     {
-
-
         $refreshTripService->refreshTrip();
 
-
-        $form = $this->createForm(TripFilterType::class);
+        $filterChoices = new TripFilterModel();
+        $form = $this->createForm(TripFilterType::class, $filterChoices);
         $form->handleRequest($request);
-
-
         if ($form->isSubmitted() && $form->isValid()) {
-            $filterChoices = $form->getData();
-
             return $this->render('trip/index.html.twig', [
                 'trips' => $tripFilterService->getTripWithFilters($filterChoices, $this->getUser()),
                 'form' => $form,
                 'choices' => $filterChoices,
             ]);
         }
-
-        return $this->render('trip/index.html.twig', [
-            'trips' => $tripRepository->findAll(),
-            'form' => $form,
-        ]);
+        else {
+            return $this->render('trip/index.html.twig', [
+                'trips' => $tripRepository->findAll(),
+                'form' => $form,
+            ]);
+        }
     }
 
     #[Route('/new', name: 'app_trip_new', methods: ['GET', 'POST'])]
     #[IsGranted("ROLE_USER")]
-    public function new(Request $request,TripService $tripService, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, TripService $tripService, EntityManagerInterface $entityManager): Response
     {
         $trip = new Trip();
         $form = $this->createForm(TripType::class, $trip);
@@ -72,7 +68,7 @@ final class TripController extends AbstractController
 
             }
 
-            $this->addFlash($message[0] , $message[1]);
+            $this->addFlash($message[0], $message[1]);
 
             $entityManager->persist($trip);
             $entityManager->flush();
@@ -88,7 +84,7 @@ final class TripController extends AbstractController
 
     #[Route('/{id}', name: 'app_trip_show', methods: ['GET', 'POST'])]
     #[IsGranted("ROLE_USER")]
-    public function show(Trip $trip, Request $request,TripService $tripService): Response
+    public function show(Trip $trip, Request $request, TripService $tripService): Response
     {
         if ($this->getUser() != null && $request->getMethod() == 'POST') {
             $userInSession = $this->getUser();
@@ -103,9 +99,9 @@ final class TripController extends AbstractController
 
     #[Route('/{id}/edit', name: 'app_trip_edit', methods: ['GET', 'POST'])]
     #[IsGranted("ROLE_USER")]
-    public function edit(TripService $tripService,Request $request, Trip $trip, EntityManagerInterface $entityManager): Response
+    public function edit(TripService $tripService, Request $request, Trip $trip, EntityManagerInterface $entityManager): Response
     {
-        if($this->getUser() != $trip->getOrganizer()){
+        if ($this->getUser() != $trip->getOrganizer()) {
             throw $this->createAccessDeniedException();
         }
 
@@ -118,7 +114,8 @@ final class TripController extends AbstractController
                 $tripService->setTripState($trip, "Créée");
 
 
-            } if ($request->request->has('delete')) {
+            }
+            if ($request->request->has('delete')) {
                 $tripService->deleteTrip($trip);
 
             } else {
@@ -140,10 +137,10 @@ final class TripController extends AbstractController
     #[IsGranted("ROLE_USER")]
     public function delete(Request $request, Trip $trip, EntityManagerInterface $entityManager): Response
     {
-        if($this->getUser() != $trip->getOrganizer()){
+        if ($this->getUser() != $trip->getOrganizer()) {
             throw $this->createAccessDeniedException();
         }
-        if ($this->isCsrfTokenValid('delete'.$trip->getId(), $request->getPayload()->getString('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $trip->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($trip);
             $entityManager->flush();
         }
