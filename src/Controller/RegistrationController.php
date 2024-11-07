@@ -139,13 +139,26 @@ class RegistrationController extends AbstractController
 
             }
 
-            // Mettre à jour le mot de passe si nécessaire
-            $plainPassword = $user->getPassword();
-            if ($plainPassword) {
-                $hashedPassword = $userPasswordHasher->hashPassword($user, $plainPassword);
-                $user->setPassword($hashedPassword);
 
+            $newPassword = $form->get('password')->getData();
+            $oldPassword = $user->getPassword();
+
+
+
+
+            if($newPassword == $oldPassword){
+                $this->addFlash('alert','Veuillez rentrer un nouveau mot de passe');
             }
+            elseif($newPassword !== null && $newPassword !== $oldPassword){
+                $user->setPassword($newPassword);
+            }
+
+
+
+
+
+
+
 
             $entityManager->persist($user);
 

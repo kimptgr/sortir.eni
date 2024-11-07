@@ -3,7 +3,20 @@
 {% block title %}Mon Profil{% endblock %}
 
 {% block body %}
+
+
+    {% for label, messages in app.flashes %}
+        {% if label %}
+            <div class="flash-{{ label }}">
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endfor %}
+
     <div class="main-container">
+
         <h1>Profil de {{ user.firstname }} {{ user.lastname }}</h1>
         <div class="bloc-article">
             <h2>Informations personnelles</h2>
@@ -20,7 +33,15 @@
                 <p><strong>Nom :</strong> {{ user.lastname }}</p>
                 <p><strong>Prénom :</strong> {{ user.firstname }}</p>
                 <p><strong>Email :</strong> {{ user.email }}</p>
-                <p><strong>Rôle :</strong> {{ user.roles | join(', ') }}</p>
+                <p><strong>Rôle :</strong>
+                    {% if 'ROLE_ADMIN' in user.roles %}
+                        Administrateur
+                    {% elseif 'ROLE_USER' in user.roles %}
+                        Utilisateur
+                    {% else %}
+                        Rôle inconnu, la police arrive à votre domicile
+                    {% endif %}
+                </p>
                 <p><strong>Compte actif :</strong> {{ user.active ? 'Oui' : 'Non' }}</p>
             </div>
         </div>
@@ -31,4 +52,11 @@
             <a href="{{ path('app_logout') }}" class="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-6 rounded-lg shadow-md transition duration-300 ease-in-out">Déconnexion</a>
         </div>
     </div>
+    <style>
+        /* Style pour l'ensemble du container afin de gérer le défilement */
+        main{
+            display:flex;
+            flex-direction: column;
+        }
+    </style>
 {% endblock %}

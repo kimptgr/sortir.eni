@@ -75,11 +75,12 @@ class ParticipantFormType extends AbstractType
 
             ])*/
             -> add('password', RepeatedType::class, array(
-                'required' => true,
+                'required' => false,
                 'type' => PasswordType::class,
                 'first_options' => array('label' => 'password'),
                 'second_options' => array('label' => 'confirm password'),
                 'attr' => ['autocomplete' => 'new-password'],
+                'mapped' => false,
                 'constraints' => [
                 new NotBlank([
                     'message' => 'Please enter a password',
