@@ -1,5 +1,12 @@
 {% form_theme form 'tailwind_2_layout.html.twig' %}
 
+{% block javascript %}
+<script>
+    {% set apiCityPlacesUrl = path('api_city_places', {'cityId': 0}) %}
+    const apiCityPlacesUrl = '{{ apiCityPlacesUrl }}';
+</script>
+{% endblock %}
+
 {{ form_start(form) }}
 
     {#    Utilisation d'un ternaire pour changer la couleur de "border" des champs ayant une erreur, le .vars est utilisé pour extraire les
