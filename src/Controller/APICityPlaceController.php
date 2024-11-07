@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Category;
 use App\Entity\City;
 use App\Repository\CityRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -15,20 +14,18 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class APICityPlaceController extends AbstractController
 {
-    #[Route('/api/city/{cityId}/places', name: 'api_city_places', methods: ['GET'])]
-    public function getPlaces(int $cityId, SerializerInterface $serializer, CityRepository $cityRepository): JsonResponse
+    #[Route('/api/city_places/{cityId}', name: 'api_city_places', methods: ['GET'])]
+    public function getPlaces(int $cityId, CityRepository $cityRepository): JsonResponse
     {
         $city = $cityRepository->find($cityId);
         if (!$city) {
-            return new JsonResponse(['error' => 'City not found'], JsonResponse::HTTP_NOT_FOUND);
+            return $this->json(['error' => 'City not found'], Response::HTTP_NOT_FOUND);
         }
 
         $places = $city->getPlaces();
 
 
-        $data = $serializer->serialize($places, 'json', ['groups' => ['place_list']]);
-
-        return new JsonResponse($data, Response::HTTP_OK, [], true);
+        return $this->json($places, Response::HTTP_OK, [], ['groups' => ['place_list']]);
 
     }
 

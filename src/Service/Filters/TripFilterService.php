@@ -12,9 +12,6 @@ class TripFilterService
 {
     public function __construct(private TripRepository $tripRepository, private Security $security)
     {
-        $this->tripRepository = $tripRepository;
-        $this->security = $security;
-
     }
 
     public function getTripWithFilters(TripFilterModel $filterChoices):array

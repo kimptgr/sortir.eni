@@ -12,7 +12,7 @@ use Symfony\Bundle\SecurityBundle\Security;
 
 class TripService
 {
-   public function __construct(private EntityManagerInterface $entityManager, private StateRepository $stateRepository, private Security $security)
+   public function __construct(private EntityManagerInterface $entityManager, private StateRepository $stateRepository, private Security $security, private RefreshTripService $refreshTripService)
     {
         $this->entityManager = $entityManager;
         $this->stateRepository = $stateRepository;
@@ -44,6 +44,7 @@ class TripService
         }
         else {
             $trip->addParticipant($userInSession);
+            $this->refreshTripService-> checkNombreParticipant($trip);
             $this->entityManager->persist($trip);
             $this->entityManager->flush();
             $flashMessage = ['success', 'Amusez-vous bien ' . $userInSession->getFirstName() . ' ! '];

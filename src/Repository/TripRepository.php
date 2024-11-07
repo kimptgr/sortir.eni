@@ -22,21 +22,35 @@ class TripRepository extends ServiceEntityRepository
         parent::__construct($registry, Trip::class);
     }
 
-    public function findDateTime(){
+    public function findDateTime()
+    {
         $dateTime = new DateTime("now");
         $querybuilder = $this->createQueryBuilder('trip')
             ->where('trip.startDateTime >= :dateTime')
             ->setParameter('dateTime', $dateTime);
-        $query = $querrybuilder->getQuery();
-        return new Paginator($querry);
+        $query = $querybuilder->getQuery();
+        return new Paginator($query);
     }
 
     public function findTripByFilters(TripFilterModel $filterChoices, Participant $userInSession): array
     {
-        $qb = $this->createQueryBuilder('t');
+        $qb = $this->createQueryBuilder('t')
+            ->innerJoin('t.state', 's')
+            ->addSelect('s')
+            ->innerJoin('t.place', 'pl')
+            ->addSelect('pl')
+            ->innerJoin('pl.city', 'ci')
+            ->addSelect('ci')
+            ->innerJoin('t.relativeCampus', 'rc')
+            ->addSelect('rc')
+            ->innerJoin('t.participants', 'pa')
+            ->addSelect('pa')
+            ->innerJoin('pa.campus', 'pac')
+            ->addSelect('pac')
+        ;
 
         if ($filterChoices->getRelativeCampus() !== null) {
-            $qb->andWhere('t.relativeCampus = :campus')
+            $qb->andWhere('rc = :campus')
                 ->setParameter('campus', $filterChoices->getRelativeCampus());
         }
 
@@ -73,7 +87,7 @@ class TripRepository extends ServiceEntityRepository
         }
         if ($filterChoices->getOldTrips()) {
             $now = (new dateTime())->format('Y-m-d H:i:s');
-           // $dateEnd = $startDateTime + $duration
+            // $dateEnd = $startDateTime + $duration
             $qb->andWhere('t.registrationDeadline < :registrationDeadline')
                 ->setParameter('registrationDeadline', $now);
         }
