@@ -15,11 +15,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 class RegistrationController extends AbstractController
 {
     #[Route('/register', name: 'app_register')]
+    #[isGranted('ROLE_ADMIN')]
     public function register(
         Request $request,
         UserPasswordHasherInterface $userPasswordHasher,
@@ -69,6 +71,7 @@ class RegistrationController extends AbstractController
 
 
     #[Route('/profile', name: 'app_profile')]
+    #[isGranted('ROLE_USER')]
     public function profile(): Response{
 
 
