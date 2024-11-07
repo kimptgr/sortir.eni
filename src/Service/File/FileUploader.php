@@ -51,10 +51,10 @@ class FileUploader
     }
 
 
-    public function delete(?string $filename,string $rep){
+    public function delete(?string $filename){
         if(null!=$filename){
-            if(file_exists($rep.'/'.$filename)){
-                unlink($rep.'/'.$filename);
+            if(file_exists('/'.$filename)){
+                unlink('/'.$filename);
             }
         }
     }

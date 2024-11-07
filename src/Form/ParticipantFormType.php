@@ -18,6 +18,8 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class ParticipantFormType extends AbstractType
 {
@@ -25,7 +27,7 @@ class ParticipantFormType extends AbstractType
     {
         $builder
 
-            // EN COURS
+
             ->add('brochure', FileType::class, [
                 'label' => 'Moi',
 
@@ -75,8 +77,19 @@ class ParticipantFormType extends AbstractType
             -> add('password', RepeatedType::class, array(
                 'required' => true,
                 'type' => PasswordType::class,
-                'first_options' => array('label' => 'label.password'),
-                'second_options' => array('label' => 'label.confirm_password'),
+                'first_options' => array('label' => 'password'),
+                'second_options' => array('label' => 'confirm password'),
+                'attr' => ['autocomplete' => 'new-password'],
+                'constraints' => [
+                new NotBlank([
+                    'message' => 'Please enter a password',
+                ]),
+                new Length([
+                'min' => 6,
+                'minMessage' => 'Your password should be at least {{ limit }} characters',
+                'max' => 4096,
+                ]),
+    ],
                 ))
             ->add('lastName')
             ->add('firstName')

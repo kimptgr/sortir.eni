@@ -96,57 +96,47 @@ class RegistrationController extends AbstractController
                                 UserPasswordHasherInterface $userPasswordHasher,
                                 FileUploader $fileUploader
     ): Response {
+
+
+
+
         // Récupérer l'utilisateur connecté
         $user = $this->getUser();
+
+
 
         if (!$user) {
             return $this->redirectToRoute('app_login');
         }
 
-
+        dump($user);
 
         // Créer et remplir le formulaire avec les données de l'utilisateur
         $form = $this->createForm(ParticipantFormType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // Récupérer le fichier téléchargé (si présent)
+
+            dump('submit se lance');
+
             /** @var UploadedFile $brochureFile */
-            $brochureFile = $form->get('brochure')->getData();
+            $brochureFile = $form->get('brochure')->getData(); // est null
 
-            // $user->setBrochureFilename(null);
 
-            // Vérifier si un fichier a été téléchargé
+
+            dump($brochureFile);
+
             if ($brochureFile) {
+                // Utiliser le service FileUploader pour gérer l'upload
+                $oldFilename = $user->getBrochureFilename(); // on chope l'ancien repertoire
+                dump($oldFilename);
+                $brochureFileName = $fileUploader->upload($brochureFile); // on cree le nouveau et on met le fichier dans public/uploads/...
+                dump($brochureFileName);
+                $user->setBrochureFilename($brochureFileName); // Sauvegarder le nom du fichier dans la base de données
+                dump($user->getBrochureFilename());
+                $fileUploader->delete($oldFilename); // on supprime l'ancien repertoire parce qu'inutile
+                dump($oldFilename);
 
-
-                $imageFile=$form->get('image')->getData();
-                if(($form->has('deleteImage') && $form['deleteImage']->getData()||$imageFile)){
-                    //Suppression de l'ancienne image si on a coché l'option dans le formulaire
-                    //ou si on a changé l'image
-                    $fileUploader->delete($user->getBrochureFilename(),$this->getParameter('app.images_participants_directory'));
-
-                    if($imageFile){
-                        $user->setBrochureFilename($fileUploader->upload($imageFile));
-                    }else{
-                        $user->setBrochureFilename(null);
-                    }
-                }
-
-                /*// Si un fichier est téléchargé, le déplacer dans le répertoire des uploads
-                $brochureFileName = $fileUploader->upload($brochureFile);
-                // Mettre à jour l'entité avec le nom du fichier
-
-
-                // Si vous souhaitez supprimer l'ancien fichier avant de mettre à jour
-                if ($user->getBrochureFilename()) {
-                    $oldFilePath = $this->getParameter('uploads_directory') . '/' . $user->getBrochureFilename();
-                    if (file_exists($oldFilePath)) {
-                        unlink($oldFilePath);  // Supprimer l'ancien fichier
-                    }
-                }
-
-                $user->setBrochureFilename($brochureFileName); // $user->setBrochureFilename( 'P3.PNG');*/
             }
 
             // Mettre à jour le mot de passe si nécessaire
@@ -154,7 +144,10 @@ class RegistrationController extends AbstractController
             if ($plainPassword) {
                 $hashedPassword = $userPasswordHasher->hashPassword($user, $plainPassword);
                 $user->setPassword($hashedPassword);
+
             }
+
+            $entityManager->persist($user);
 
             // Sauvegarder les modifications dans la base de données
             $entityManager->flush();
