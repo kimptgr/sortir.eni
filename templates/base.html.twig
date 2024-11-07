@@ -14,54 +14,56 @@
     {% endblock %}
 
     <style>
-        html, body {
-            height: 100%;
-            margin: 0;
-        }
-        body {
-
-            background-image: url('https://firstclasse.com.my/wp-content/uploads/2019/01/Holiday-destinations-rich-famous-featured.jpg');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            display: flex;
-            flex-direction: column;
-        }
-        footer {
-            margin-top: auto;
-        }
-        nav {
-            width: 100vw;
-        }
-        main {
-            background: white;
-            margin-left: 10vw;
-            margin-right: 10vw;
-            margin-top: 2vh;
-            margin-bottom: 2vh;
-            border-radius: 10px;
-            padding: 20px; /* Ajoutez un remplissage pour le contenu */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optionnel : pour donner un effet d'ombre */
-            display: flex;
-            flex-direction: column;
-            height : 82vh;
-        }
+        /*html, body {*/
+        /*    height: 100%;*/
+        /*    margin: 0;*/
+        /*}*/
+        /*body {*/
+        /*    !*height: 100vh;*!*/
+        /*    background-image: url('https://firstclasse.com.my/wp-content/uploads/2019/01/Holiday-destinations-rich-famous-featured.jpg');*/
+        /*    background-size: cover;*/
+        /*    background-position: center;*/
+        /*    background-repeat: no-repeat;*/
+        /*    display: flex;*/
+        /*    flex-direction: column;*/
+        /*}*/
+        /*footer {*/
+        /*    margin-top: auto;*/
+        /*}*/
+        /*nav {*/
+        /*    width: 100vw;*/
+        /*}*/
+        /*main {*/
+        /*    background: white;*/
+        /*    margin-left: 10vw;*/
+        /*    margin-right: 10vw;*/
+        /*    margin-top: 2vh;*/
+        /*    margin-bottom: 2vh;*/
+        /*    border-radius: 10px;*/
+        /*    padding: 20px; !* Ajoutez un remplissage pour le contenu *!*/
+        /*    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); !* Optionnel : pour donner un effet d'ombre *!*/
+        /*    display: flex;*/
+        /*    flex-direction: column;*/
+        /*    height : 82vh;*/
+        /*}*/
     </style>
 </head>
-<body class="bg-cover bg-center">
+<body class="">
 {% include('_navbar.html.twig') %}
-<main>
+<main class="">
     {% for label, messages in app.flashes %}
         {% for message in messages %}
-            <div>
+            <div class="flash">
                 {{ message }}
             </div>
         {% endfor %}
     {% endfor %}
-    {% block body %}{% endblock %}
+    <div class="block-body">
+        {% block body %}{% endblock %}
+    </div>
 </main>
-<footer class="bg-gray-800 text-white py-4">
-    <div class="container mx-auto text-center">
+<footer class="">
+    <div class="mx-auto text-center">
         <p>&copy; 2024 sortir.com. Tous droits réservés.</p>
     </div>
 </footer>

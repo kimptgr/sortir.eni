@@ -4,46 +4,50 @@
 {% block title %}Modifier mon Profil{% endblock %}
 
 {% block body %}
-    <div class="container mx-auto mt-10 px-4">
-        <h1 class="text-3xl font-semibold text-center mb-6">Modifier mon Profil</h1>
+    <div class="main-container">
+        <h1>Modifier mon Profil</h1>
 
-        <div class="bg-white shadow-md rounded-lg text-center p-6">
+        <div class="bloc-article">
 
 
 
             <form method="post">
                 {{ form_start(form) }}
-
                 {% if user.brochureFilename %}
                     <img src="{{ asset('uploads/' ~ user.brochureFilename) }}" alt="Image de profil" class="w-24 h-24 rounded-full mx-auto mb-4 object-cover">
                 {% else %}
                     <img src="{{ asset('uploads/P1.PNG') }}" alt="Image de profil" class="w-24 h-24 rounded-full mx-auto mb-4 object-cover">
                 {% endif %}
 
-                <div class="mb-4">
-                    {{ form_row(form.brochure) }}
+                <div class="form-row">
+                    {{ form_label(form.firstName) }}
+                    {{ form_widget(form.firstName) }}
+                    <div class="label-error">
+                        {{ form_errors(form.firstName) }}
+                    </div>
                 </div>
-                <div class="mb-4">
-                    {{ form_row(form.firstName) }}
+                <div class="form-row">
+                    {{ form_label(form.lastName) }}
+                    {{ form_widget(form.lastName) }}
                 </div>
-                <div class="mb-4">
-                    {{ form_row(form.lastName) }}
+                <div class="form-row">
+                    {{ form_label(form.email) }}
+                    {{ form_widget(form.email) }}
                 </div>
-                <div class="mb-4">
-                    {{ form_row(form.email) }}
+                <div class="form-row">
+                    {{ form_label(form.phoneNumber) }}
+                    {{ form_widget(form.phoneNumber) }}
                 </div>
-                <div class="mb-4">
-                    {{ form_row(form.phoneNumber) }}
+                <div class="form-row">
+                    {{ form_label(form.password) }}
+                    {{ form_widget(form.password) }}
                 </div>
-                <div class="mb-4">
-                    {{ form_row(form.password) }}
-                </div>
-{#                <div class="mb-4">
+                {#                {# <div class="mb-4">
                     {{ form_row(form.roles) }}
-                </div>#}
+                </div> #}
 
 
-                <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded-lg mt-4">Sauvegarder</button>
+                <button type="submit">Sauvegarder</button>
                 {{ form_end(form) }}
             </form>
 
@@ -53,6 +57,4 @@
             <a href="{{ path('app_profile') }}" class="text-blue-500">Retour au profil</a>
         </div>
     </div>
-
-
 {% endblock %}

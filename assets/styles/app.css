@@ -2,6 +2,34 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+    background-image: url("../image/bg1.jpg");
+
+    @apply min-h-screen bg-cover bg-fixed bg-center bg-no-repeat h-screen flex flex-col bg-gray-100;
+}
+
+nav {
+    @apply bg-blue-500 text-white p-4;
+}
+
+main {
+    @apply flex-1 flex justify-center items-center p-4;
+}
+
+footer {
+    @apply bg-gray-800 text-white p-4;
+}
+
+
+main > div.flash {
+    @apply mb-4 text-center bg-yellow-100 text-yellow-800 p-2 rounded;
+}
+
+.block-body {
+    @apply bg-zinc-300/80 rounded-lg px-4 pb-4 pt-0 w-full sm:w-11/12 md:w-3/4 lg:w-2/3 xl:w-1/2;
+}
+
+/*Style for index trips*/
 .main-trip-index {
     @apply flex-1 flex flex-col overflow-hidden text-zinc-950 w-full
 }
@@ -29,3 +57,70 @@
 .table {
     @apply min-w-full
 }
+
+
+/*Style for profil*/
+.main-container {
+    @apply container mx-auto mt-7 px-4 flex-col ;
+}
+
+h1 {
+    @apply text-3xl font-semibold text-center mb-6 ;
+}
+
+h2 {
+    @apply text-xl font-semibold text-gray-700 mb-4
+}
+
+.bloc-article {
+    @apply bg-white shadow-md rounded-lg text-center p-6
+}
+
+/*Style pour show*/
+.main-content-box {
+    @apply grid gap-4 p-4;
+    /* Grille avec espace entre les éléments */
+    grid-template-columns: 1fr; /* Une colonne par défaut */
+}
+
+/* Passer en deux colonnes si la hauteur dépasse 100vh ET la largeur est supérieure à 768px */
+@media (min-height: 100vh) and (min-width: 768px) {
+    .main-content-box {
+        grid-template-columns: 1fr 1fr; /* Deux colonnes */
+    }
+}
+
+/*ediProfil*/
+.form-row {
+    @apply flex gap-2 p-4;
+}
+
+.form-row label {
+    width: 30%;
+    @apply items-center text-left font-medium text-gray-700 ;
+}
+
+.form-row input, .form-row select {
+    width: 70%;
+    @apply p-2 border border-gray-300 rounded-md focus:ring;
+}
+
+.label-error {
+    @apply text-red-500 text-sm h-4
+}
+
+/*button[type="submit"] {*/
+/*    @apply relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800*/
+/*}*/
+
+/*button[type="submit"] > span {*/
+/*    @apply relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md*/
+/*}*/
+
+button[type="submit"], input[type="submit"]  {
+    @apply bg-fuchsia-400 text-white py-2 p-2 rounded hover:bg-fuchsia-700
+}
+button[type="reset"], input[type="reset"] {
+    @apply bg-gray-300 text-gray-700 p-2 rounded hover:bg-gray-400
+}
+

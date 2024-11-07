@@ -50,6 +50,16 @@ class FileUploader
         return $fileName;
     }
 
+
+    public function delete(?string $filename,string $rep){
+        if(null!=$filename){
+            if(file_exists($rep.'/'.$filename)){
+                unlink($rep.'/'.$filename);
+            }
+        }
+    }
+
+
     /**
      * Retourne le répertoire cible pour les téléchargements.
      *

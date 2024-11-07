@@ -3,33 +3,21 @@
 {% block title %}Mon Profil{% endblock %}
 
 {% block body %}
-    <div class="container mx-auto mt-10 px-4">
-        <!-- Title -->
-        <h1 class="text-3xl font-semibold text-center mb-6">Profil de {{ user.firstname }} {{ user.lastname }}</h1>
-
-        <!-- Card for displaying user information -->
-        <div class="bg-white shadow-md rounded-lg text-center p-6">
-            <div class="text-xl font-semibold text-gray-700 mb-4">Informations personnelles</div>
-
-            <!-- Display user profile image if it exists -->
-            {% if user.brochureFilename %}
-                <img src="{{ asset('uploads/' ~ user.brochureFilename) }}" alt="Image de profil" class="w-24 h-24 rounded-full mx-auto mb-4 object-cover">
-            {% else %}
-                <img src="{{ asset('uploads/P1.PNG') }}" alt="Image de profil" class="w-24 h-24 rounded-full mx-auto mb-4 object-cover">
-            {% endif %}
-
-
-            <div class="space-y-3 text-left">
-                <p><strong class="text-gray-800">Nom :</strong> {{ user.lastname }}</p>
-                <p><strong class="text-gray-800">Prénom :</strong> {{ user.firstname }}</p>
-                <p><strong class="text-gray-800">Email :</strong> {{ user.email }}</p>
-                <p><strong class="text-gray-800">Rôle :</strong> {{ user.roles | join(', ') }}</p>
-                <p><strong class="text-gray-800">Compte actif :</strong> {{ user.active ? 'Oui' : 'Non' }}</p>
+    <div class="main-container">
+        <h1>Profil de {{ user.firstname }} {{ user.lastname }}</h1>
+        <div class="bloc-article">
+            <h2>Informations personnelles</h2>
+            <div class="text-gray-800">
+                <p><strong>Nom :</strong> {{ user.lastname }}</p>
+                <p><strong>Prénom :</strong> {{ user.firstname }}</p>
+                <p><strong>Email :</strong> {{ user.email }}</p>
+                <p><strong>Rôle :</strong> {{ user.roles | join(', ') }}</p>
+                <p><strong>Compte actif :</strong> {{ user.active ? 'Oui' : 'Non' }}</p>
             </div>
         </div>
 
         <!-- Buttons for editing profile and logging out -->
-        <div class="flex justify-between mt-6">
+        <div class="flex justify-between align-items-center mt-6">
             <a href="{{ path('app_edit_profile') }}" class="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 px-6 rounded-lg shadow-md transition duration-300 ease-in-out">Modifier le profil</a>
             <a href="{{ path('app_logout') }}" class="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-6 rounded-lg shadow-md transition duration-300 ease-in-out">Déconnexion</a>
         </div>

@@ -3,118 +3,91 @@
 {% block title %}Sortie | {{ parent() }}{% endblock %}
 
 {% block body %}
-    <div class="mx-auto mt-10 px-4 flex-col">
-        <h1 class="text-3xl font-semibold text-center mb-6">{{ trip.name }}</h1>
-        <div>
-            <div>
-                <div class="flex">
-                    <div>Nom de la sortie&nbsp;:&nbsp;</div>
-                    <div>{{ trip.name }}</div>
+    <div class="main-container">
+        <h1>{{ trip.name }}</h1>
+        <div class="bloc-article">
+            <div class="main-content-box">
+                <div class="content-box">
+                    <div class="flex">
+                        <div>Nom de la sortie&nbsp;:&nbsp;</div>
+                        <div>{{ trip.name }}</div>
+                    </div>
+                    <div class="flex">
+                        <div>Date et heure de la sortie&nbsp;:&nbsp;</div>
+                        <div>{{ trip.startDateTime | date("m/d/Y H:i") }}</div>
+                    </div>
+                    <div class="flex">
+                        <div>Date limite d'inscription&nbsp;:&nbsp;</div>
+                        <div>{{ trip.registrationDeadline | date("m/d/Y H:i") }}</div>
+                    </div>
+                    <div class="flex">
+                        <div>Nombre de places&nbsp;:&nbsp;</div>
+                        <div>{{ trip.nbRegistrationMax }}</div>
+                    </div>
+                    <div class="flex">
+                        <div>Durée&nbsp;:&nbsp;</div>
+                        <div>{{ trip.duration }} minutes</div>
+                    </div>
+                    <div class="flex">
+                        <div>description et infos&nbsp;:&nbsp;</div>
+                        <div>{{ trip.info }}</div>
+                    </div>
                 </div>
-                <div class="flex">
-                    <div>Date et heure de la sortie&nbsp;:&nbsp;</div>
-                    <div>{{ trip.startDateTime | date("m/d/Y H:i") }}</div>
-                </div>
-                <div class="flex">
-                    <div>Date limite d'inscription&nbsp;:&nbsp;</div>
-                    <div>{{ trip.registrationDeadline | date("m/d/Y H:i") }}</div>
-                </div>
-                <div class="flex">
-                    <div>Nombre de places&nbsp;:&nbsp;</div>
-                    <div>{{ trip.nbRegistrationMax }}</div>
-                </div>
-                <div class="flex">
-                    <div>Durée&nbsp;:&nbsp;</div>
-                    <div>{{ trip.duration }} minutes</div>
-                </div>
-                <div class="flex">
-                    <div>description et infos&nbsp;:&nbsp;</div>
-                    <div>{{ trip.info }}</div>
+                <div class="content-box">
+                    <div class="flex">
+                        <div>Campus&nbsp;:&nbsp;</div>
+                        <div>{{ trip.relativeCampus.name }}</div>
+                    </div>
+                    <div class="flex">
+                        <div>Lieu&nbsp;:&nbsp;</div>
+                        <div>{{ trip.place.name }}</div>
+                    </div>
+                    <div class="flex">
+                        <div>Rue&nbsp;:&nbsp;</div>
+                        <div>{{ trip.place.street }}</div>
+                    </div>
+                    <div class="flex">
+                        <div>Ville&nbsp;:&nbsp;</div>
+                        <div>{{ trip.place.city.name }} {{ trip.place.city.postalCode }}</div>
+                    </div>
+                    <div class="flex">
+                        <div>Latitude&nbsp;:&nbsp;</div>
+                        <div>{{ trip.place.latitude }}</div>
+                    </div>
+                    <div class="flex">
+                        <div>Longitude&nbsp;:&nbsp;</div>
+                        <div>{{ trip.place.longitude }}</div>
+                    </div>
                 </div>
             </div>
-            <div>
-                <div class="flex">
-                    <div>Campus&nbsp;:&nbsp;</div>
-                    <div>{{ trip.relativeCampus.name }}</div>
+            <div class="list-participant">
+                <div>
+                    <h2>Liste des participants inscrits</h2>
                 </div>
-                <div class="flex">
-                    <div>Lieu&nbsp;:&nbsp;</div>
-                    <div>{{ trip.place.name }}</div>
-                </div>
-                <div class="flex">
-                    <div>Rue&nbsp;:&nbsp;</div>
-                    <div>{{ trip.place.street }}</div>
-                </div>
-                <div class="flex">
-                    <div>Ville&nbsp;:&nbsp;</div>
-                    <div>{{ trip.place.city.name }} {{ trip.place.city.postalCode }}</div>
-                </div>
-                <div class="flex">
-                    <div>Latitude&nbsp;:&nbsp;</div>
-                    <div>{{ trip.place.latitude }}</div>
-                </div>
-                <div class="flex">
-                    <div>Longitude&nbsp;:&nbsp;</div>
-                    <div>{{ trip.place.longitude }}</div>
-                </div>
-            </div>
-        </div>
-        <div class="list-participant">
-            <div>
-                <h2>Liste des participants inscrits</h2>
-            </div>
-            <div>
-                <table>
-                    <thead>
-                    <tr>
-                        <th>Pseudo</th>
-                        <th>Nom</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for participant in trip.participants %}
-                        {% if participant.pseudo is defined and participant.pseudo is not null %}
-                            <tr>
-                            <th>{{ participant.pseudo }}</th>
-                        {% else %}
-                            <th>{{ participant.email }}</th>
-                        {% endif %}
-                        <th>{{ participant.firstName }} {{ participant.lastName }}</th>
+                <div>
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>Pseudo</th>
+                            <th>Nom</th>
                         </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                        {% for participant in trip.participants %}
+                            {% if participant.pseudo is defined and participant.pseudo is not null %}
+                                <tr>
+                                <th>{{ participant.pseudo }}</th>
+                            {% else %}
+                                <th>{{ participant.email }}</th>
+                            {% endif %}
+                            <th>{{ participant.firstName }} {{ participant.lastName }}</th>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-        {#    <table class="table"> #}
-        {#        <tbody> #}
-
-        {#            <tr> #}
-        {#                <th>StartDateTime</th> #}
-        {#                <td>{{ trip.startDateTime ? trip.startDateTime|date('Y-m-d H:i:s') : '' }}</td> #}
-        {#            </tr> #}
-        {#            <tr> #}
-        {#                <th>Duration</th> #}
-        {#                <td>{{ trip.duration }}</td> #}
-        {#            </tr> #}
-        {#            <tr> #}
-        {#                <th>RegistrationDeadline</th> #}
-        {#                <td>{{ trip.registrationDeadline ? trip.registrationDeadline|date('Y-m-d H:i:s') : '' }}</td> #}
-        {#            </tr> #}
-        {#            <tr> #}
-        {#                <th>NbRegistrationMax</th> #}
-        {#                <td>{{ trip.nbRegistrationMax }}</td> #}
-        {#            </tr> #}
-        {#            <tr> #}
-        {#                <th>Info</th> #}
-        {#                <td>{{ trip.info }}</td> #}
-        {#            </tr> #}
-        {#            <tr> #}
-        {#                <th>Location</th> #}
-        {#                <td>{{ trip.place.street }}</td> #}
-        {#            </tr> #}
-        {#        </tbody> #}
-        {#    </table> #}
 
         {% if app.user.id == trip.organizer.id %}
             <a class="" href="{{ path('app_trip_edit', {'id': trip.id}) }}">edit</a>
