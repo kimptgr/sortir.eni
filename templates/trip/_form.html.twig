@@ -63,6 +63,14 @@ informations du champ  (état de validation / messages d'erreur) .
         error_item_class: 'label-error',
     }) }}
 
+    {{ form_row(form.city, {
+        row_class: 'form-row',
+        label_class: 'label',
+        widget_class: 'w-50 p-2 border border-gray-300 rounded ' ~ (form.city.vars.valid ? 'border-gray-300' : 'border-red-500'),
+        error_item_class: 'label-error',
+    }) }}
+
+
     {{ form_row(form.place, {
         row_class: 'form-row',
         label_class: 'label',
@@ -71,12 +79,6 @@ informations du champ  (état de validation / messages d'erreur) .
     }) }}
 
 
-    {{ form_row(form.city, {
-        row_class: 'form-row',
-        label_class: 'label',
-        widget_class: 'w-50 p-2 border border-gray-300 rounded ' ~ (form.city.vars.valid ? 'border-gray-300' : 'border-red-500'),
-        error_item_class: 'label-error',
-    }) }}
 
 
 <button type="submit" class=" my-4 ml-4 rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">{{ button_label|default('Publier la sortie') }}</button>
@@ -87,3 +89,5 @@ informations du champ  (état de validation / messages d'erreur) .
 <button type="button" class=" my-4 ml-4 text-sm/6 font-semibold text-gray-900" onclick="window.history.back();">Annuler</button>
 
 {{ form_end(form) }}
+
+<script src="{{ asset('js/placeAndCity.js') }}"></script>

@@ -20,19 +20,25 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 #[Route('/trip')]
 final class TripController extends AbstractController
 {
+
+
     #[Route(name: 'app_trip_index', methods: ['GET', 'POST'])]
     public function index(RefreshTripService $refreshTripService,Request $request, TripRepository $tripRepository, TripFilterService $tripFilterService): Response
     {
 
 
+
         $refreshTripService->refreshTrip();
 
 
-        $form = $this->createForm(TripFilterType::class);
+        $form = $this->createForm(TripFilterType::class, [
+
+        ]);
         $form->handleRequest($request);
 
 
@@ -58,7 +64,6 @@ final class TripController extends AbstractController
     {
         $trip = new Trip();
 
-
         $form = $this->createForm(TripType::class, $trip);
         $form->handleRequest($request);
 
@@ -66,12 +71,9 @@ final class TripController extends AbstractController
 
             $trip->setOrganizer($this->getUser());
             if ($request->request->has('save')) {
-
                 $message = $tripService->setTripState($trip, "Créée");
-
             } else {
                 $message = $tripService->setTripState($trip, "Ouverte");
-
             }
 
             $this->addFlash($message[0] , $message[1]);
