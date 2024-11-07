@@ -5,18 +5,19 @@
 body {
     background-image: url("../image/bg1.jpg");
     @apply min-h-screen bg-cover bg-fixed bg-center bg-no-repeat h-screen flex flex-col bg-gray-100;
+    height : 100vh;
 }
 
 nav {
-    @apply bg-blue-500 text-white p-4;
+    @apply bg-blue-500 text-white shrink-0 ;
 }
 
 main {
-    @apply flex-1 flex justify-center items-center p-4;
+    @apply flex-1 flex justify-center items-center;
 }
 
 footer {
-    @apply bg-gray-800 text-white p-4;
+    @apply bg-gray-800 text-white p-4 shrink-0;
 }
 
 

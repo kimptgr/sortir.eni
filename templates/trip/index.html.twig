@@ -66,6 +66,7 @@
                     <th>Clôture</th>
                     <th>inscrits/places</th>
                     <th>Etat</th>
+                    <th>Inscrit</th>
                     <th>Organisateur</th>
                     <th>Actions</th>
                 </tr>
@@ -78,10 +79,25 @@
                         <td>{{ trip.registrationDeadline ? trip.registrationDeadline|date('Y-m-d H:i:s') : '' }}</td>
                         <td>{{ (trip.participants | length + 1)  ~ " / " ~ trip.nbRegistrationMax  }}</td>
                         <td>{{ trip.state.wording }}</td>
+                        <td>
+                            {% for participant in trip.participants %}
+                                {% if participant == app.user %}
+                                    X
+                                {% endif %}
+                            {% endfor %}
+                        </td>
                         <td>{{ trip.organizer.lastName ~ trip.organizer.firstName }}</td>
                         <td>
-                            <a class=" my-2 ml-2 rounded-md bg-green-600 px-4 py-10 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" href="{{ path('app_trip_show', {'id': trip.id}) }}">show</a>
-                            <a class=" my-2 ml-2 rounded-md bg-red-600 px-4 py-10 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" href="{{ path('app_trip_edit', {'id': trip.id}) }}">edit</a>
+                            <a href="{{ path('app_trip_show', {'id': trip.id}) }}">Afficher</a>
+                            {% for participant in trip.participants %}
+                                {% if participant == app.user %}
+                                    <a href="{{ path('app_trip_edit', {'id': trip.id}) }}">Se désister</a>
+                                {% else %}
+                                    <a class="" href="{{ path('app_trip_edit', {'id': trip.id}) }}">edit</a>
+                            {% endif %}
+                            {% endfor %}
+
+                            <a href="{{ path('app_trip_edit', {'id': trip.id}) }}">edit</a>
                         </td>
                     </tr>
                 {% else %}

@@ -33,19 +33,12 @@ final class TripController extends AbstractController
         $filterChoices = new TripFilterModel();
         $form = $this->createForm(TripFilterType::class, $filterChoices);
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            return $this->render('trip/index.html.twig', [
-                'trips' => $tripFilterService->getTripWithFilters($filterChoices),
-                'form' => $form,
-                'choices' => $filterChoices,
-            ]);
-        }
-        else {
-            return $this->render('trip/index.html.twig', [
-                'trips' => $tripRepository->findAll(),
-                'form' => $form,
-            ]);
-        }
+
+        return $this->render('trip/index.html.twig', [
+            'trips' => $tripFilterService->getTripWithFilters($filterChoices),
+            'form' => $form,
+            //'choices' => $filterChoices,
+        ]);
     }
 
     #[Route('/new', name: 'app_trip_new', methods: ['GET', 'POST'])]
@@ -86,7 +79,7 @@ final class TripController extends AbstractController
     {
         if ($this->getUser() != null && $request->getMethod() == 'POST') {
             $userInSession = $this->getUser();
-            $message = $tripService->addAParticipant($userInSession, $trip);
+            $message = $tripService->addAParticipant($trip);
 
             $this->addFlash($message[0], $message[1]);
         }

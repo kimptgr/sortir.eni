@@ -76,12 +76,12 @@ class TripRepository extends ServiceEntityRepository
                 ->setParameter('organizer', $userInSession);
         }
         if ($filterChoices->getIParticipate()) {
-            $qb->join('t.participants', 'p')
+            $qb
                 ->andWhere(':participants MEMBER OF t.participants')
                 ->setParameter('participants', $userInSession);
         }
         if ($filterChoices->getImRegistered()) {
-            $qb->join('t.participants', 'pa')
+            $qb
                 ->andWhere(':participants NOT MEMBER OF t.participants')
                 ->setParameter('participants', $userInSession);
         }
