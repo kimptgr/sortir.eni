@@ -13,7 +13,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[ORM\Entity(repositoryClass: ParticipantRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
-class Participant implements UserInterface, PasswordAuthenticatedUserInterface
+class Participant implements UserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -21,6 +21,12 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 180)]
+    #[Assert\NotBlank(message: 'L\'email ne peut pas être vide.')]
+    #[Assert\Email(message: 'Veuillez fournir une adresse email valide.')]
+    #[Assert\Regex(
+        pattern: '/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/',
+        message: 'Veuillez fournir une adresse email valide (exemple : utilisateur@domaine.com).'
+    )]
     private ?string $email = null;
 
     /**
@@ -33,6 +39,16 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      */
     #[ORM\Column]
+    #[Assert\NotBlank(message: 'Met au moins un truc !')]
+    #[Assert\Length(
+        min: 6,
+        minMessage: 'Votre mot de passe doit faire au moins {{ limit }} caractères de long',
+        max: 4096
+    )]
+    #[Assert\Regex(
+        pattern: '/^(?=.*[A-Z])(?=.*\d)(?=.*[a-z]).+$/',
+        message: 'Votre mot de passe doit contenir au moins une lettre minuscule, une majuscule, et un chiffre'
+    )]
     private ?string $password = null;
 
     #[ORM\Column(length: 255)]
@@ -42,6 +58,11 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $firstName = null;
 
     #[ORM\Column(length: 50, nullable: true)]
+    #[Assert\Length(max: 50, maxMessage: 'Phone number cannot be longer than {{ limit }} characters')]
+    #[Assert\Regex(
+        pattern: '/^\+?\d{1,4}?\s?\(?\d{1,4}?\)?[\d\s\-]{5,15}$/',
+        message: 'Please provide a valid phone number'
+    )]
     private ?string $phoneNumber = null;
 
     #[ORM\Column]
