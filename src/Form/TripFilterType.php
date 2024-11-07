@@ -35,7 +35,7 @@ class TripFilterType extends AbstractType
                 'required' => false,
             ])
             ->add('iOrganized', CheckboxType::class, [
-                'label'    => "Sorties dont je suis l'organisateur·ice",
+                'label'    => "Sorties dont je suis l'organisateur·rice",
                 'required' => false,
             ])
             ->add('iParticipate', CheckboxType::class, [
