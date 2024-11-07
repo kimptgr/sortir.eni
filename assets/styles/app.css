@@ -42,10 +42,40 @@ main > div.flash {
     }
 
     .list-filter {
-        @apply grid sm:grid-cols-1 md:grid-cols-[1fr_1fr_150px] gap-4 ;
+        @apply grid md:grid-cols-1 lg:grid-cols-[1fr_1fr_150px] gap-4 ;
 
         .main-input-group {
-            @apply w-full flex justify-center md:items-center flex-col
+            @apply w-full flex flex-col justify-items-start flex flex-col justify-between h-full;
+
+            .input-group {
+                @apply  items-center ;
+            }
+            .input-group label {
+                @apply font-semibold;
+            }
+
+            .input-group input {
+                @apply rounded ;
+            }
+            .input-group-checkbox {
+                @apply justify-center p-2;
+            }
+
+            .input-group-checkbox input[type="checkbox"] {
+                @apply w-5 h-5 accent-green-500 transition-all duration-300 ease-in-out;
+            }
+
+            .input-group-checkbox input[type="checkbox"]:hover {
+                @apply scale-110;
+            }
+
+            .input-group-checkbox label {
+                @apply font-semibold text-gray-700 cursor-pointer;
+            }
+
+            .input-group-checkbox input[type="checkbox"]:focus {
+                @apply outline-2 outline-purple-500 outline-offset-2;
+            }
         }
     }
 }
@@ -58,6 +88,49 @@ main > div.flash {
     @apply min-w-full
 }
 
+.table-trips th, .table-trips td {
+    @apply border text-left p-2;
+}
+
+.table-trips th {
+    @apply bg-purple-950 text-white ;
+}
+
+.table-trips td {
+    @apply text-sm ;
+}
+
+.table-trips tbody tr:nth-child(odd) {
+    @apply bg-yellow-100 ;
+}
+
+.table-trips tbody tr:nth-child(even) {
+    background-color: white;
+}
+
+.table-trips tbody tr:hover {
+    @apply bg-purple-200 ;
+}
+
+table a {
+    text-decoration: none;
+    position: relative;
+}
+
+table a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 0;
+    height: 1px;
+    background-color: currentColor;
+    transition: width 0.3s ease-in-out;
+}
+
+table a:hover::after {
+    width: 100%;
+}
 
 /*Style for profil*/
 .main-container {
@@ -91,16 +164,16 @@ h2 {
 }
 
 /*ediProfil*/
-.form-row {
+.form-row, .input-group {
     @apply flex gap-2 p-4;
 }
 
-.form-row label {
+.form-row label, .input-group label {
     width: 30%;
     @apply items-center text-left font-medium text-gray-700 ;
 }
 
-.form-row input, .form-row select {
+.form-row input, .form-row select, .input-group input, .input-group select {
     width: 70%;
     @apply p-2 border border-gray-300 rounded-md focus:ring;
 }
@@ -109,16 +182,11 @@ h2 {
     @apply text-red-500 text-sm h-4
 }
 
-/*button[type="submit"] {*/
-/*    @apply relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800*/
-/*}*/
-
-/*button[type="submit"] > span {*/
-/*    @apply relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md*/
-/*}*/
-
-button[type="submit"], input[type="submit"]  {
+.btn-add, button[type="submit"], input[type="submit"]  {
     @apply bg-fuchsia-400 text-white py-2 p-2 rounded hover:bg-fuchsia-700
+}
+.btn-search[type="submit"] {
+    @apply bg-lime-500 text-white font-bold py-2 px-4 rounded-lg shadow-md hover:bg-green-500 hover:shadow-lg transition duration-200 ease-in-out py-2 p-2
 }
 button[type="reset"], input[type="reset"] {
     @apply bg-gray-300 text-gray-700 p-2 rounded hover:bg-gray-400

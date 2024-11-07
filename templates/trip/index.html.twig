@@ -3,6 +3,20 @@
 {% block title %}Index des sorties | {{ parent() }}{% endblock %}
 
 {% block body %}
+    <style>
+        main {
+            align-items: flex-start;
+            overflow: hidden;
+        }
+
+        .block-body {
+            width: 105%;
+            height: 101%;
+            display: flex;
+            flex-direction: column;
+        }
+    </style>
+
     <div class="main-trip-index">
         <section class="container-filter">
             <h2 class="text-3xl">
@@ -20,18 +34,16 @@
                         {{ form_widget(form.tripName) }}
                     </div>
                     <div class="inputDate">
-                        <div class="input-group">
+                        <div class="input-group flex">
                             {{ form_label(form.startDateTime, 'De ') }}
                             {{ form_widget(form.startDateTime) }}
-                        </div>
-                        <div class="input-group">
                             {{ form_label(form.registrationDeadline, 'à ') }}
                             {{ form_widget(form.registrationDeadline) }}
                         </div>
                     </div>
                 </div>
                 <div class="main-input-group">
-                    <div class="input-group">
+                    <div class="flex flex-col justify-between h-full">
                         <div class="input-group-checkbox">
                             {{ form_widget(form.iOrganized) }}
                             {{ form_label(form.iOrganized) }}
@@ -51,14 +63,14 @@
                     </div>
                 </div>
                 <div class="main-input-group">
-                    <button type="submit" class="bg-purple-600 text-white font-bold py-2 px-4 rounded-lg shadow-md hover:bg-purple-700 hover:shadow-lg transition duration-200 ease-in-out">Rechercher
+                    <button type="submit" class="btn-search">Rechercher
                     </button>
                 </div>
             </div>
         </section>
         {{ form_end(form) }}
-        <div class="container-table">
-            <table class="table-trips">
+        <div class="overflow-auto flex-grow bg-transparent p-0 ">
+            <table class="table-trips table-trips w-full">
                 <thead>
                 <tr>
                     <th>Nom de la sortie</th>
@@ -75,8 +87,8 @@
                 {% for trip in trips %}
                     <tr>
                         <td>{{ trip.name }}</td>
-                        <td>{{ trip.startDateTime ? trip.startDateTime|date('Y-m-d H:i:s') : '' }}</td>
-                        <td>{{ trip.registrationDeadline ? trip.registrationDeadline|date('Y-m-d H:i:s') : '' }}</td>
+                        <td>{{ trip.startDateTime ? trip.startDateTime| date("d/m/Y H:i") : '' }}</td>
+                        <td>{{ trip.registrationDeadline ? trip.registrationDeadline|date| date("d/m/Y H:i") : '' }}</td>
                         <td>{{ (trip.participants | length + 1)  ~ " / " ~ trip.nbRegistrationMax  }}</td>
                         <td>{{ trip.state.wording }}</td>
                         <td>
@@ -88,16 +100,26 @@
                         </td>
                         <td>{{ trip.organizer.lastName ~ trip.organizer.firstName }}</td>
                         <td>
-                            <a href="{{ path('app_trip_show', {'id': trip.id}) }}">Afficher</a>
-                            {% for participant in trip.participants %}
-                                {% if participant == app.user %}
-                                    <a href="{{ path('app_trip_edit', {'id': trip.id}) }}">Se désister</a>
+                            {% if app.user in trip.participants and app.user == trip.organizer %}
+                                <a href="{{ path('app_trip_edit', {'id': trip.id}) }}">Modifier</a>
                                 {% else %}
-                                    <a class="" href="{{ path('app_trip_edit', {'id': trip.id}) }}">edit</a>
+                                    <a href="{{ path('app_trip_show', {'id': trip.id}) }}">Afficher</a>
                             {% endif %}
-                            {% endfor %}
 
-                            <a href="{{ path('app_trip_edit', {'id': trip.id}) }}">edit</a>
+                            {% if app.user in trip.participants and app.user == trip.organizer and trip.state.wording == 'Créée' %}
+                                <a href="{{ path('app_trip_edit', {'id': trip.id}) }}">Publier</a>
+                            {% endif %}
+
+                            {% if app.user in trip.participants and app.user == trip.organizer and (trip.state.wording != 'Annulée' or trip.state.wording != 'Activitée passée') %}
+                                <a href="{{ path('app_trip_edit', {'id': trip.id}) }}">Annuler</a>
+                            {% endif %}
+
+                            {% if app.user in trip.participants and (trip.state.wording == 'Ouverte' or trip.state.wording == 'Clôturée') %}
+                                <a href="{{ path('app_trip_edit', {'id': trip.id}) }}">Se désister</a>
+
+                            {% elseif trip.state.wording == 'Ouverte' %}
+                                <a href="{{ path('app_trip_edit', {'id': trip.id}) }}">S'inscrire</a>
+                            {% endif %}
                         </td>
                     </tr>
                 {% else %}
@@ -107,9 +129,9 @@
                 {% endfor %}
                 </tbody>
             </table>
-            <div class="container-btn-add">
-                <button class="btn-add" onclick='location.href="{{ path('app_trip_new') }}"'>Nouvelle sortie</button>
-            </div>
+        </div>
+        <div class="container-btn-add">
+            <button class="btn-add" onclick='location.href="{{ path('app_trip_new') }}"'>Nouvelle sortie</button>
         </div>
     </div>
     <div class="absolute bottom-4 left-4">
