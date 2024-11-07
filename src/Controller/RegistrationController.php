@@ -103,6 +103,7 @@ class RegistrationController extends AbstractController
 
 
 
+
         // Récupérer l'utilisateur connecté
         $user = $this->getUser();
 
