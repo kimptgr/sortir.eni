@@ -1,6 +1,12 @@
 {% extends 'base.html.twig' %}
 
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('controllers/js/placeAndCity.js') }}"></script>
+{% endblock %}
+
 {% block title %}New Trip{% endblock %}
+
 
 {% block body %}
 
@@ -93,8 +99,7 @@
         <a href="{{ path('app_trip_index') }}" class="text-blue-500 underline mt-4 inline-block">Retour à la liste</a>
     </div>
 
-{#    mettre dans un block #}
-    <script src="{{ asset('assets/controllers/js/placeAndCity.js') }}"></script>
+
 
 
 

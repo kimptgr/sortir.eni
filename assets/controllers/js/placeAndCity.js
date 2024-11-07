@@ -1,14 +1,17 @@
 document.addEventListener('DOMContentLoaded', function () {
 
+
     const citySelect = document.getElementById('trip_city');
     const placeSelect = document.getElementById('trip_place');
+
 
     citySelect.addEventListener('change', function () {
         const cityId = citySelect.value;
 
         if (cityId) {
-            fetch(`/sortir/sortir.com/public/api/city/${cityId}/places`)
-                .then(response => response.json())
+            const url = apiCityPlacesUrl.replace('0', cityId);
+            fetch(url)
+        .then(response => response.json())
                 .then(data => {
                     placeSelect.innerHTML = '<option value="">Choisissez un lieu</option>';
 

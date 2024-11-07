@@ -14,8 +14,8 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class APICityPlaceController extends AbstractController
 {
-    #[Route('/api/city/{cityId}/places', name: 'api_city_places', methods: ['GET'])]
-    public function getPlaces(int $cityId, SerializerInterface $serializer, CityRepository $cityRepository): JsonResponse
+    #[Route('/api/city_places/{cityId}', name: 'api_city_places', methods: ['GET'])]
+    public function getPlaces(int $cityId, CityRepository $cityRepository): JsonResponse
     {
         $city = $cityRepository->find($cityId);
         if (!$city) {
