@@ -32,14 +32,17 @@
                     <li>
                         <a class="text-gray-600 hover:text-gray-800" href="{{ path('app_logout') }}">Se déconnecter</a>
                     </li>
+                    {% if 'ROLE_ADMIN' in app.user.roles %}
+                        <li>
+                            <a class="text-gray-600 hover:text-gray-800" href="{{ path('app_register') }}">Créer compte</a>
+                        </li>
+                    {% endif %}
                 {% else %}
                     <li>
                         <a class="text-gray-600 hover:text-gray-800" href="{{ path('app_login') }}">Se connecter</a>
                     </li>
-                    <li>
-                        <a class="text-gray-600 hover:text-gray-800" href="{{ path('app_register') }}">Créer compte</a>
-                    </li>
                 {% endif %}
+
             </ul>
         </div>
     </div>

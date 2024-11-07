@@ -16,14 +16,12 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class TripType extends AbstractType
 {
 
-    public function __construct(private EntityManagerInterface $entityManager)
-    {
-        $this->entityManager = $entityManager;
-    }
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -73,12 +71,11 @@ class TripType extends AbstractType
                 'choice_label' => 'name',
                 'mapped' => false,
                 'class' => City::class,
-                'placeholder' => 'Choose a city',
+                'placeholder' => 'Choisissez une ville',
             ])
-            ->add('place', EntityType::class, [
-                'class' => Place::class,
-                'choice_label' => 'name',
-                'placeholder' => 'Choose a place',
+            ->add('place', ChoiceType::class, [
+                'choices' => [],
+                'placeholder' => 'Choisissez un lieu',
             ]);
     }
 

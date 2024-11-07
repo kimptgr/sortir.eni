@@ -50,10 +50,9 @@ final class TripController extends AbstractController
 
     #[Route('/new', name: 'app_trip_new', methods: ['GET', 'POST'])]
     #[IsGranted("ROLE_USER")]
-    public function new(Request $request, TripService $tripService, EntityManagerInterface $entityManager): Response
+    public function new(Request $request,TripService $tripService, EntityManagerInterface $entityManager): Response
     {
         $trip = new Trip();
-
 
         $form = $this->createForm(TripType::class, $trip);
         $form->handleRequest($request);
@@ -62,15 +61,12 @@ final class TripController extends AbstractController
 
             $trip->setOrganizer($this->getUser());
             if ($request->request->has('save')) {
-
                 $message = $tripService->setTripState($trip, "Créée");
-
             } else {
                 $message = $tripService->setTripState($trip, "Ouverte");
-
             }
 
-            $this->addFlash($message[0], $message[1]);
+            $this->addFlash($message[0] , $message[1]);
 
             $entityManager->persist($trip);
             $entityManager->flush();
