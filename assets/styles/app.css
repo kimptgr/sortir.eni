@@ -89,8 +89,12 @@ main > div.flash {
     @apply min-w-full
 }
 
+.table-trips tbody {
+    @apply hover:cursor-pointer ;
+}
+
 .table-trips th, .table-trips td {
-    @apply border text-left p-2;
+    @apply border text-left p-2 ;
 }
 
 .table-trips th {

@@ -12,9 +12,9 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class MainController extends AbstractController
 {
     #[Route('/', name: 'main')]
-    #[isGranted('ROLE_USER')]
+    #[IsGranted('ROLE_USER')]
     public function index(): Response
     {
-        return $this->redirectToRoute('app_trip_index');
+        return $this->redirectToRoute('app_trip_index');;
     }
 }
