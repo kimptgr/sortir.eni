@@ -114,11 +114,11 @@
                                 <a href="{{ path('app_trip_edit', {'id': trip.id}) }}">Annuler</a>
                             {% endif %}
 
-                            {% if app.user in trip.participants and (trip.state.wording == 'Ouverte' or trip.state.wording == 'Clôturée') %}
+                            {% if app.user in trip.participants and app.user != trip.organizer and (trip.state.wording == 'Ouverte' or trip.state.wording == 'Clôturée') %}
                                 <a href="{{ path('app_trip_edit', {'id': trip.id}) }}">Se désister</a>
 
-                            {% elseif trip.state.wording == 'Ouverte' %}
-                                <a href="{{ path('app_trip_edit', {'id': trip.id}) }}">S'inscrire</a>
+                            {% elseif trip.state.wording == 'Ouverte' and app.user != trip.organizer %}
+                                <a href="{{ path('app_trip_participate', {'id': trip.id}) }}">S'inscrire</a>
                             {% endif %}
                         </td>
                     </tr>

@@ -51,7 +51,6 @@ final class TripController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $trip->setOrganizer($this->getUser());
             if ($request->request->has('save')) {
                 $message = $tripService->setTripState($trip, "Créée");
@@ -150,6 +149,17 @@ final class TripController extends AbstractController
             $tripService->setTripState($trip, 'Ouverte');
             $entityManager->persist($trip);
             $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('app_trip_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/{id}/participate', name: 'app_trip_participate', methods: ['GET'])]
+    #[IsGranted("ROLE_USER")]
+    public function participate(Trip $trip, TripService $tripService): Response
+    {
+        if ($this->getUser() !== $trip->getOrganizer()) {
+            $tripService->addAParticipant($trip);
         }
 
         return $this->redirectToRoute('app_trip_index', [], Response::HTTP_SEE_OTHER);

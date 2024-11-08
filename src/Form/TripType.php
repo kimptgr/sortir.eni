@@ -32,16 +32,18 @@ class TripType extends AbstractType
             ->add('startDateTime', null, [
                 'widget' => 'single_text',
                 'label' => 'Date et heure de la sortie :',
-                'required' => true
+                'required' => true,
+                'data' =>(new \DateTime())->modify('+1 hour'),
             ])
             ->add('registrationDeadline', null, [
                 'required' => true,
                 'widget' => 'single_text',
-                'label' => "Date limite de d'inscription :"
+                'label' => "Date limite de d'inscription :",
+                'data' => new \DateTime(),
             ])
             ->add('nbRegistrationMax', null, [
                 'required' => true,
-                'label' => 'Nombre de places'
+                'label' => 'Nombre de places :'
             ])
             ->add('duration', null, [
                 'required' => true,
@@ -51,7 +53,7 @@ class TripType extends AbstractType
                     'max' => 240,
                     'step' => 15,
                 ],
-                'label' => 'Durée',
+                'label' => 'Durée :',
             ])
             ->add('info', null, [
                 'label' => 'Description et infos :',
