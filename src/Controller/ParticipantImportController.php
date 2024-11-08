@@ -13,6 +13,7 @@ use Symfony\Component\Routing\Attribute\Route;
 class ParticipantImportController extends AbstractController
 {
     #[Route('/participant-import', name: 'app_import_users')]
+    #[isGranted('ROLE_ADMIN')]
     public function importComptes(ParticipantImportService $participantImportService, Request $request): Response
     {
 

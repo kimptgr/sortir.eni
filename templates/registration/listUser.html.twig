@@ -39,6 +39,14 @@
         <ul class="space-y-4">
             {% for participant in participants %}
                 <li class="flex items-center justify-between p-4 bg-gray-100 rounded-lg">
+
+{#                                        {% if participant.isActive %}
+                    <button class="w-full py-3 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-500 transition ">Rendre inactif</button>
+                    {% else %}
+                    <button class="w-full py-3 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-500 transition ">Rendre actif</button>
+                    {% endif %}
+                    <button class="w-full py-3 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-500 transition ">supprimer</button>#}
+
                     <div class="flex items-center space-x-4">
                         <input name='selected' type="checkbox" class="form-checkbox text-blue-600">
                         <div>
@@ -48,6 +56,7 @@
                     <div class="text-sm text-gray-500">
                         <em class="text-green-600">{{ participant.isActive ? 'Actif' : 'Inactif' }}</em>
                     </div>
+
                 </li>
             {% endfor %}
         </ul>
