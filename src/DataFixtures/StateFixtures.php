@@ -16,7 +16,8 @@ class StateFixtures extends Fixture
             'Clôturée',
             'Activité en cours',
             'Activité passée',
-            'Activité annulée'
+            'Activité annulée',
+            'Historisée',
         ];
         $i=0;
         foreach ($states as $wording) {
