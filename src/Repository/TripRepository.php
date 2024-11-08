@@ -25,7 +25,7 @@ class TripRepository extends ServiceEntityRepository
     public function findTripRefresh()
     {
         $dateTime = new DateTime("now");
-        $dateTime->modify('-1 month');
+        $dateTime->modify('-1 month -1 day');
         $querybuilder = $this->createQueryBuilder('trip')
             ->where('trip.startDateTime >= :dateTime')
             ->setParameter('dateTime', $dateTime);

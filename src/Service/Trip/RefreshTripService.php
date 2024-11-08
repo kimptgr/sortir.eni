@@ -33,40 +33,46 @@ class RefreshTripService
 
     private function refreshStartDate(Trip $trip, $states): void
     {
-        $tripDateTime = $trip->getStartDateTime();
-        $tripEndDateTime = clone $tripDateTime;
-        $tripRegistrationDeadLine = $trip->getRegistrationDeadLine();
+        $tripStartDateTime = $trip->getStartDateTime();
+        $tripEndDateTime = clone $tripStartDateTime;
         $tripEndDateTime->modify('+' . $trip->getDuration() . ' minutes');
+        $tripRegistrationDeadLine = $trip->getRegistrationDeadLine();
         $actualDateTime = new \DateTime('now');
 
+
+        $diffEndDateTime = $actualDateTime->diff($tripEndDateTime);
+        $diffRegistrationDeadLine = $actualDateTime->diff($tripRegistrationDeadLine);
+        $diffStartActual = $actualDateTime->diff($tripStartDateTime);
+
         // Check si archivé -> historisé
-        $diff = $actualDateTime->diff($tripEndDateTime);
-        if (($diff->m >= 1 || $diff->y > 0) && $trip->getState()->getWording() !== 'Historisée') {
+        // Le diff() permet de retourner un dateInterval
+        if (($diffEndDateTime->m >= 1 || $diffEndDateTime->y > 0) && $trip->getState()->getWording() !== 'Historisée') {
             $trip->setState($this->findStateByWording($states, "Historisée"));
             $this->entityManager->persist($trip);
         }
 
-        // Check si activité est terminée
-        $diff = $actualDateTime->diff($tripEndDateTime);
-        if ($diff->invert) {
-            $trip->setState($this->findStateByWording($states, "Activité passée"));
+        //        Test si activité a dépassé la date d'inscription
+        if ($diffRegistrationDeadLine->invert) {
+            $trip->setState($this->findStateByWording($states, "Clôturée"));
             $this->entityManager->persist($trip);
         }
 
-//        Test si activité en cour
-        $diff = $actualDateTime->diff($tripEndDateTime);
-        $diff2 = $actualDateTime->diff($tripDateTime);
-        if (!$diff->invert && $diff2->invert) {
+        //        Test si activité en cour
+        if (!$diffEndDateTime->invert && $diffStartActual->invert) {
             $trip->setState($this->findStateByWording($states, "Activité en cours"));
             $this->entityManager->persist($trip);
         }
 
-//        Test si activité a dépassé la date d'inscription
-        $diff = $actualDateTime->diff($tripRegistrationDeadLine);
-        if ($diff->invert) {
-            $trip->setState($this->findStateByWording($states, "Clôturée"));
+        // Check si activité est terminée
+//        Le ->invert permet de retourner un +1 si la date est suppérieur à la date passé dans le diff() et -1 pour l'inverse
+        if ($diffEndDateTime->invert) {
+            $trip->setState($this->findStateByWording($states, "Activité passée"));
             $this->entityManager->persist($trip);
         }
+
+
+
+
     }
 
     private function findStateByWording($states, $wording)
