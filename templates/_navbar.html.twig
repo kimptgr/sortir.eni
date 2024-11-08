@@ -1,4 +1,4 @@
-<nav class="bg-white bg-[url('{{ asset('img/logo_bus.png') }}')] bg-no-repeat bg-cover bg-center">
+<nav class="bg-white bg-no-repeat bg-cover bg-center">
     <div class="container mx-auto flex items-center justify-between p-4">
 
         <!-- Logo / Titre du site -->
@@ -37,6 +37,9 @@
                     {% if 'ROLE_ADMIN' in app.user.roles %}
                         <li>
                             <a class="text-gray-600 hover:text-gray-800" href="{{ path('app_register') }}">Créer compte</a>
+                        </li>
+                        <li>
+                            <a class="text-gray-600 hover:text-gray-800" href="{{ path('participant_list') }}">Consulter comptes existants</a>
                         </li>
                     {% endif %}
                 {% else %}
