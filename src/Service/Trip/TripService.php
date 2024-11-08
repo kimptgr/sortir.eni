@@ -68,6 +68,17 @@ class TripService
                 break;
             case 'Ouverte':
                 $flashMessage = ["success", "publié"];
+                break;
+            case 'Clôturée':
+                $flashMessage = ["success", "Clôture des inscriptions"];
+            case 'Activité en cours':
+                $flashMessage = ["success", "Activité en cours"];
+                break;
+            case 'Activité passée':
+                $flashMessage = ["success", "Activité passée"];
+                break;
+            case 'Activité annulée':
+                $flashMessage = ["success", "Sortie annulée"];
         }
 
         return $flashMessage;
@@ -94,5 +105,19 @@ class TripService
         return $flashMessage;
     }
 
+    public function cancelTrip(Trip $trip, string $reason)
+    {
+        // recupère le motif, change la description, change le statut, supprime tous les participants
+        $flashMessage = [];
+        $newDescription = $trip->getInfo() . '[MOTIF D\'ANNULATION : ' . $reason . ']';
+        $trip->setInfo($newDescription);
+//        $participants = $trip->getParticipants();
+//        foreach ($participants as $participant) {
+//            $trip->removeParticipant($participant);
+//        }
+
+        $flashMessage = $this->setTripState($trip, 'Activité annulée');
+        return $flashMessage;
+    }
 
 }

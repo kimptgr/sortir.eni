@@ -21,6 +21,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use function PHPUnit\Framework\isNull;
 
 #[Route('/trip')]
 final class TripController extends AbstractController
@@ -138,19 +139,11 @@ final class TripController extends AbstractController
         return $this->redirectToRoute('app_trip_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/{id}/publish', name: 'app_trip_publish', methods: ['POST'])]
+    #[Route('/{id}/publish', name: 'app_trip_publish', methods: ['GET'])]
     #[IsGranted("ROLE_USER")]
-    public function publish(Request $request, Trip $trip, TripService $tripService, EntityManagerInterface $entityManager): Response
+    public function publish(Trip $trip, TripService $tripService): Response
     {
-        if ($this->getUser() != $trip->getOrganizer()) {
-            throw $this->createAccessDeniedException();
-        }
-        if ($this->isCsrfTokenValid('publish' . $trip->getId(), $request->getPayload()->getString('_token'))) {
-            $tripService->setTripState($trip, 'Ouverte');
-            $entityManager->persist($trip);
-            $entityManager->flush();
-        }
-
+        $tripService->setTripState($trip, 'Ouverte');
         return $this->redirectToRoute('app_trip_index', [], Response::HTTP_SEE_OTHER);
     }
 
@@ -177,5 +170,28 @@ final class TripController extends AbstractController
         if (count($message)>0){
             $this->addFlash($message[0] , $message[1]);}
         return $this->redirectToRoute('app_trip_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/{id}/cancel', name: 'app_trip_cancel', methods: ['GET', 'POST'])]
+    #[IsGranted("ROLE_USER")]
+    public function cancel(TripService $tripService, Request $request, Trip $trip): Response
+    {
+        if ($this->getUser() != $trip->getOrganizer()) {
+            throw $this->createAccessDeniedException();
+        }
+
+        if ($request->isMethod('POST')) {
+            $reason = $request->request->get('reason');
+            $message = $tripService->cancelTrip($trip, $reason);
+
+            if (count($message) > 0) {
+                $this->addFlash($message[0], $message[1]);
+            }
+                return $this->redirectToRoute('app_trip_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('trip/cancel.html.twig', [
+            'trip' => $trip,
+        ]);
     }
 }
