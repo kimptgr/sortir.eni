@@ -224,7 +224,7 @@ class Trip
     public function setOrganizer(?Participant $organizer): static
     {
         $this->organizer = $organizer;
-
+        $this->addParticipant($organizer);
         return $this;
     }
 
