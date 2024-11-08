@@ -10,6 +10,7 @@ use App\Service\File\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Container\ContainerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -20,7 +21,10 @@ use Symfony\Component\Mime\Email;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\Security\Http\Logout\LogoutUrlGenerator;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+
 
 class RegistrationController extends AbstractController
 {
@@ -84,19 +88,27 @@ class RegistrationController extends AbstractController
     }
 
 
+    // ---------------------------------------------------------------------------------------------------------------------
+
 
     #[Route('/profile', name: 'app_profile')]
     #[isGranted('ROLE_USER')]
-    public function profile(): Response{
-
-
+    public function profile(Security $security, LogoutUrlGenerator $logoutUrlGenerator): Response
+    {
         $user = $this->getUser();
-
 
         if (!$user) {
             return $this->redirectToRoute('app_login');
         }
 
+
+        if (!$user->isActive()) {
+            $this->addFlash('danger', 'Votre compte est désactivé. Veuillez contacter l\'administration.');
+
+            // Déconnecter l'utilisateur en générant l'URL de déconnexion
+            $logoutUrl = $logoutUrlGenerator->getLogoutUrl('main'); // 'main' > nom du proxy => on a besoin d'une url securisée sinon le token est invalidé
+            return new RedirectResponse($logoutUrl);
+        }
 
         return $this->render('registration/profile.html.twig', [
             'user' => $user,
@@ -223,7 +235,7 @@ public function changerPassword(Request $request,UserPasswordHasherInterface $us
         // Récupérer l'ancien mot de passe haché (depuis l'utilisateur)
         $oldPassword = $user->getPassword(); // mot de passe haché de l'utilisateur ( BDD )
 
-        // Vérifier si le nouveau mot de passe est le même que l'ancien
+        // Vérifier si le nouveau mot de passe est le même que l'ancien // ??? > pas le bon commentaire ?
         if ($newPassword && $userPasswordHasher->isPasswordValid($user, $newPassword)) {
             $this->addFlash('alert', 'Veuillez entrer un nouveau mot de passe.');
         } else {
