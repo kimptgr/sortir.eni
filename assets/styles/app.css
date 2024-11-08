@@ -22,7 +22,7 @@ footer {
 
 
 main > div.flash {
-    @apply mb-4 text-center bg-yellow-100 text-yellow-800 p-2 rounded;
+    @apply mb-4 text-center bg-yellow-100 text-yellow-800 p-2 rounded absolute;
 }
 
 

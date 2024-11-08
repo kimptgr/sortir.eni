@@ -15,7 +15,8 @@ class TripFixtures extends Fixture implements DependentFixtureInterface
         for ($i = 0; $i < 100; $i++) {
             $trip = new Trip();
             $trip->setName($faker->words(5, true));
-            $date = $faker->dateTime();
+            //$date = $faker->dateTime();
+            $date =$faker->dateTimeBetween('-1 week', '+1 week');
             $trip->setStartDateTime($date);
             $trip->setDuration($faker->numberBetween(30, 240));
             $registrationDeadline = clone $date;

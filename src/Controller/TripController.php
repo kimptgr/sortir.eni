@@ -159,9 +159,23 @@ final class TripController extends AbstractController
     public function participate(Trip $trip, TripService $tripService): Response
     {
         if ($this->getUser() !== $trip->getOrganizer()) {
-            $tripService->addAParticipant($trip);
+            $message = $tripService->addAParticipant($trip);
         }
+        if (count($message)>0){
+            $this->addFlash($message[0] , $message[1]);}
 
+        return $this->redirectToRoute('app_trip_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/{id}/desist', name: 'app_trip_desist', methods: ['GET'])]
+    #[IsGranted("ROLE_USER")]
+    public function desist(Trip $trip, TripService $tripService): Response
+    {
+        if ($this->getUser() !== $trip->getOrganizer()) {
+            $message = $tripService->removeAParticipant($trip);
+        }
+        if (count($message)>0){
+            $this->addFlash($message[0] , $message[1]);}
         return $this->redirectToRoute('app_trip_index', [], Response::HTTP_SEE_OTHER);
     }
 }

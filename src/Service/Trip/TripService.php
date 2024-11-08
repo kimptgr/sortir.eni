@@ -12,7 +12,7 @@ use Symfony\Bundle\SecurityBundle\Security;
 
 class TripService
 {
-   public function __construct(private EntityManagerInterface $entityManager, private StateRepository $stateRepository, private Security $security, private RefreshTripService $refreshTripService)
+    public function __construct(private EntityManagerInterface $entityManager, private StateRepository $stateRepository, private Security $security, private RefreshTripService $refreshTripService)
     {
         $this->entityManager = $entityManager;
         $this->stateRepository = $stateRepository;
@@ -26,25 +26,20 @@ class TripService
         $userInSession = $security->getUser();
 
         $flashMessage = [];
-        if ($trip->getOrganizer() === $userInSession){
+        if ($trip->getOrganizer() === $userInSession) {
             $flashMessage = ['warning', "Vous êtes le leader de l'event, on compte sur vous !"];
-        }
-        else if ($trip->getParticipants()->contains($userInSession)) {
+        } else if ($trip->getParticipants()->contains($userInSession)) {
             $flashMessage = ['warning', "Vous êtes déjà sur la liste des participants, pensez à l'enregistrer dans votre agenda ;)"];
-        }
-        else if ($trip->getParticipants()->count() >= $trip->getNbRegistrationMax()) {
+        } else if ($trip->getParticipants()->count() >= $trip->getNbRegistrationMax()) {
             $flashMessage = ['error', 'Oups, évènement full !'];
 
-        }
-        else if ($trip->getState()->getWording() != 'Ouverte'){
+        } else if ($trip->getState()->getWording() != 'Ouverte') {
             $flashMessage = ['error', 'Désolé les inscriptions ne sont pas ouvertes !'];
-        }
-        else if ($trip->getRegistrationDeadline() > new DateTime() ){
+        } else if ($trip->getRegistrationDeadline() <= new DateTime()) {
             $flashMessage = ['error', 'Les inscriptions sont closes, fallait être plus rapide !'];
-        }
-        else {
+        } else {
             $trip->addParticipant($userInSession);
-            $this->refreshTripService-> checkNombreParticipant($trip);
+            $this->refreshTripService->checkNombreParticipant($trip);
             $this->entityManager->persist($trip);
             $this->entityManager->flush();
             $flashMessage = ['success', 'Amusez-vous bien ' . $userInSession->getFirstName() . ' ! '];
@@ -57,7 +52,7 @@ class TripService
 
     public function setTripState(Trip $trip, string $stateWording): array
     {
-        $state= $this->stateRepository->findByWording($stateWording);
+        $state = $this->stateRepository->findByWording($stateWording);
 
         if ($state) {
             $trip->setState($state);
@@ -67,20 +62,36 @@ class TripService
             throw new \Exception("State not found");
         }
 
-        switch($stateWording){
+        switch ($stateWording) {
             case 'Créée':
-                $flashMessage= ["success","enregistré"];
+                $flashMessage = ["success", "enregistré"];
                 break;
             case 'Ouverte':
-                $flashMessage= ["success", "publié"];
+                $flashMessage = ["success", "publié"];
         }
 
-        return $flashMessage ;
+        return $flashMessage;
     }
 
     public function deleteTrip(Trip $trip): void
     {
         $this->entityManager->remove($trip);
+    }
+
+    public function removeAParticipant(Trip $trip)
+    {
+        $security = $this->security;
+        $userInSession = $security->getUser();
+        $flashMessage = [];
+        if ($userInSession != $trip->getOrganizer()
+            && $trip->getParticipants()->contains($userInSession)
+            && ($trip->getState()->getWording() == 'Ouverte' || $trip->getState()->getWording() == 'Clôturée')) {
+            $trip->removeParticipant($userInSession);
+            $this->entityManager->persist($trip);
+            $this->entityManager->flush();
+            $flashMessage = ["success", "Désinscription effectuée"];
+        }
+        return $flashMessage;
     }
 
 
