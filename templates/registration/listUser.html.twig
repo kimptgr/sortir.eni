@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+{#{% form_theme registrationForm 'tailwind_2_layout.html.twig' %}#}
+
+
+{% block title %}Comptes existants{% endblock %}
+
+
+{% block body %}
+{{ form_start(form) }}
+    {{ form_row(form.username) }}
+    {{ form_row(form.email) }}
+    {{ form_row(form.role) }}
+    {{ form_row(form.isActive) }}
+<button type="submit">Filtrer</button>
+{{ form_end(form) }}
+
+<ul>
+    {% for participant in participants %}
+        <li>{{ participant.pseudo }} - {{ participant.email }} - {{ participant.roles|join(', ') }} - {{ participant.isActive ? 'Actif' : 'Inactif' }}</li>
+    {% endfor %}
+</ul>
+
+{% endblock %}

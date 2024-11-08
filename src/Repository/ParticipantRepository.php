@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Participant;
+use App\Models\ParticipantFilterModel;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
@@ -32,6 +33,36 @@ class ParticipantRepository extends ServiceEntityRepository implements PasswordU
         $this->getEntityManager()->persist($user);
         $this->getEntityManager()->flush();
     }
+
+
+    public function findParticipantsByFilters(ParticipantFilterModel $filterModel): array
+    {
+        $qb = $this->createQueryBuilder('p');
+
+        if ($filterModel->getUsername()) {
+            $qb->andWhere('p.pseudo LIKE :username')
+                ->setParameter('username', '%' . $filterModel->getUsername() . '%');
+        }
+
+        if ($filterModel->getEmail()) {
+            $qb->andWhere('p.email LIKE :email')
+                ->setParameter('email', '%' . $filterModel->getEmail() . '%');
+        }
+
+        if ($filterModel->getRole()) {
+            $qb->andWhere('p.roles LIKE :role')
+                ->setParameter('role', '%' . $filterModel->getRole() . '%');
+        }
+
+        if ($filterModel->getIsActive() !== null) {
+            $qb->andWhere('p.isActive = :isActive')
+                ->setParameter('isActive', $filterModel->getIsActive());
+        }
+
+        return $qb->getQuery()->getResult();
+    }
+
+
 
     //    /**
     //     * @return Participant[] Returns an array of Participant objects

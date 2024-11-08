@@ -25,6 +25,7 @@ main > div.flash {
     @apply mb-4 text-center bg-yellow-100 text-yellow-800 p-2 rounded;
 }
 
+
 .block-body {
     @apply bg-zinc-300/80 rounded-lg px-4 pb-4 pt-0 w-full sm:w-11/12 md:w-3/4 lg:w-2/3 xl:w-1/2;
 }

@@ -1,8 +1,10 @@
-<nav class="bg-white ">
+<nav class="bg-white bg-no-repeat bg-cover bg-center">
     <div class="container mx-auto flex items-center justify-between p-4">
 
         <!-- Logo / Titre du site -->
-        <a class="text-3xl font-poppins text-gray-800 mr-auto" href="{{ path('main') }}">sortir.com</a>
+        <div class="w-64 flex items-center space-x-4">
+            <a class="text-3xl font-poppins text-gray-800 mr-auto mx-2" href="{{ path('main') }}">sortir.com</a>
+        </div>
 
         <!-- Bouton pour le mode mobile -->
         <button class="lg:hidden text-gray-800 focus:outline-none" type="button" aria-expanded="false" aria-label="Toggle navigation" onclick="document.getElementById('navbarSupportedContent').classList.toggle('hidden')">
@@ -35,6 +37,9 @@
                     {% if 'ROLE_ADMIN' in app.user.roles %}
                         <li>
                             <a class="text-gray-600 hover:text-gray-800" href="{{ path('app_register') }}">Créer compte</a>
+                        </li>
+                        <li>
+                            <a class="text-gray-600 hover:text-gray-800" href="{{ path('participant_list') }}">Consulter comptes existants</a>
                         </li>
                     {% endif %}
                 {% else %}
