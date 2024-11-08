@@ -138,4 +138,20 @@ final class TripController extends AbstractController
 
         return $this->redirectToRoute('app_trip_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    #[Route('/{id}/publish', name: 'app_trip_publish', methods: ['POST'])]
+    #[IsGranted("ROLE_USER")]
+    public function publish(Request $request, Trip $trip, TripService $tripService, EntityManagerInterface $entityManager): Response
+    {
+        if ($this->getUser() != $trip->getOrganizer()) {
+            throw $this->createAccessDeniedException();
+        }
+        if ($this->isCsrfTokenValid('publish' . $trip->getId(), $request->getPayload()->getString('_token'))) {
+            $tripService->setTripState($trip, 'Ouverte');
+            $entityManager->persist($trip);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('app_trip_index', [], Response::HTTP_SEE_OTHER);
+    }
 }
