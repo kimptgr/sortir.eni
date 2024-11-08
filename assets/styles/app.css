@@ -22,7 +22,7 @@ footer {
 
 
 main > div.flash {
-    @apply mb-4 text-center bg-yellow-100 text-yellow-800 p-2 rounded;
+    @apply mb-4 text-center bg-yellow-100 text-yellow-800 p-2 rounded absolute;
 }
 
 
@@ -89,8 +89,12 @@ main > div.flash {
     @apply min-w-full
 }
 
+.table-trips tbody {
+    @apply hover:cursor-pointer ;
+}
+
 .table-trips th, .table-trips td {
-    @apply border text-left p-2;
+    @apply border text-left p-2 ;
 }
 
 .table-trips th {

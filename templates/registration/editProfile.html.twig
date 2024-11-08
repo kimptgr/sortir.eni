@@ -22,6 +22,10 @@
 
 
                 <div class="form-row">
+                    {{ form_label(form.pseudo) }}
+                    {{ form_widget(form.pseudo) }}
+                </div>
+                <div class="form-row">
                     {{ form_label(form.firstName) }}
                     {{ form_widget(form.firstName) }}
                     <div class="label-error">
@@ -41,8 +45,7 @@
                     {{ form_widget(form.phoneNumber) }}
                 </div>
                 <div class="form-row">
-                    {{ form_label(form.password) }}
-                    {{ form_widget(form.password) }}
+                    <a href="/passwordModifier">changer le mot passe</a>
                 </div>
                 {#                {# <div class="mb-4">
                     {{ form_row(form.roles) }}

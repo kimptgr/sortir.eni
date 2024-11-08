@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Annuler sortie | {{ parent() }}{% endblock %}
+
+{% block body %}
+
+    <div class="main-container">
+        <h1>Annuler une sortie</h1>
+        <div class="bloc-article">
+            <div class="main-content-box">
+                <div class="content-box">
+                    <div class="flex">
+                        <div>Nom de la sortie&nbsp;:&nbsp;</div>
+                        <div>{{ trip.name }}</div>
+                    </div>
+                    <div class="flex">
+                        <div>Date de la sortie&nbsp;:&nbsp;</div>
+                        <div>{{ trip.startDateTime | date("d/m/Y") }}</div>
+                    </div>
+                    <div class="flex">
+                        <div>Campus&nbsp;:&nbsp;</div>
+                        <div>{{ trip.relativeCampus.name }}</div>
+                    </div>
+                    <div class="flex">
+                        <div>Lieu&nbsp;:&nbsp;</div>
+                        <div>{{ trip.place.name }}</div>
+                    </div>
+                    <div class="flex">
+                        <form method="post">
+                            <div><label for="reason">Motif&nbsp;:</label></div>
+                            <div><input type="text" id="reason" name="reason"></div>
+                            <div>        {% if app.user.id == trip.organizer.id %}
+                                    <button type="submit">Annuler la sortie</button>
+                                {% endif %}
+                                <a href="{{ path('app_trip_index') }}">Retour</a></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="absolute bottom-4 left-4">
+        <span class="sm:hidden">XS</span>
+        <span class="hidden sm:block md:hidden">SM</span>
+        <span class="hidden md:block lg:hidden">MD</span>
+        <span class="hidden lg:block xl:hidden">LG</span>
+    </div>
+{% endblock %}
