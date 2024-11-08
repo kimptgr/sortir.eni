@@ -4,15 +4,19 @@ namespace App\Controller;
 
 use App\Entity\Participant;
 use App\Form\ParticipantFormType;
+use App\Form\ParticipantFormTypePassword;
 use App\Form\RegistrationFormType;
 use App\Service\File\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Container\ContainerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
@@ -20,6 +24,17 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 
 class RegistrationController extends AbstractController
 {
+
+
+    public function __construct(private MailerInterface $mailer)
+    {
+
+    }
+
+
+
+
+
     #[Route('/register', name: 'app_register')]
     #[isGranted('ROLE_ADMIN')]
     public function register(
@@ -96,7 +111,7 @@ class RegistrationController extends AbstractController
     #[Route('/edit', name: 'app_edit_profile')]
     public function editProfile(Request $request,
                                 EntityManagerInterface $entityManager,
-                                UserPasswordHasherInterface $userPasswordHasher,
+
                                 FileUploader $fileUploader
     ): Response {
 
@@ -113,7 +128,7 @@ class RegistrationController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
 
-        dump($user);
+
 
         // Créer et remplir le formulaire avec les données de l'utilisateur
         $form = $this->createForm(ParticipantFormType::class, $user);
@@ -121,25 +136,24 @@ class RegistrationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            dump('submit se lance');
+
 
             /** @var UploadedFile $brochureFile */
             $brochureFile = $form->get('brochure')->getData(); // est null
 
 
 
-            dump($brochureFile);
+
 
             if ($brochureFile) {
                 // Utiliser le service FileUploader pour gérer l'upload
                 $oldFilename = $user->getBrochureFilename(); // on chope l'ancien repertoire
-                dump($oldFilename);
+
                 $brochureFileName = $fileUploader->upload($brochureFile); // on cree le nouveau et on met le fichier dans public/uploads/...
-                dump($brochureFileName);
+
                 $user->setBrochureFilename($brochureFileName); // Sauvegarder le nom du fichier dans la base de données
-                dump($user->getBrochureFilename());
+
                 $fileUploader->delete($oldFilename); // on supprime l'ancien repertoire parce qu'inutile
-                dump($oldFilename);
 
             }
 
@@ -150,22 +164,7 @@ class RegistrationController extends AbstractController
 
 
 
-            // Récupérer le mot de passe en clair (depuis le formulaire)
-            $newPassword = $form->get('password')->getData();
 
-            // Récupérer l'ancien mot de passe haché (depuis l'utilisateur)
-            $oldPassword = $user->getPassword(); // Ceci est le mot de passe haché
-
-            // Vérifier si le nouveau mot de passe est le même que l'ancien
-            if ($newPassword && $userPasswordHasher->isPasswordValid($user, $newPassword)) {
-                $this->addFlash('alert', 'Veuillez entrer un nouveau mot de passe.');
-            } else {
-                // Si un mot de passe a été fourni et qu'il est différent, on le hache et on le met à jour
-                if ($newPassword) {
-                    $hashedPassword = $userPasswordHasher->hashPassword($user, $newPassword);
-                    $user->setPassword($hashedPassword);
-                }
-            }
 
 
 
@@ -195,7 +194,85 @@ class RegistrationController extends AbstractController
     }
 
 
+//-----------------------------------------------------------------------------------------------
 
+
+#[Route('/passwordModifier', name: 'password_modifier')]
+#[isGranted('ROLE_USER')]
+public function changerPassword(Request $request,UserPasswordHasherInterface $userPasswordHasher,
+                                EntityManagerInterface $entityManager,
+): Response
+{
+   $user = $this->getUser();
+
+   $form= $this->createForm(ParticipantFormTypePassword::class, $user);
+
+   $form->handleRequest($request);
+
+   if (!$user) {
+       return $this->redirectToRoute('app_login');
+   }
+
+
+    if($form->isSubmitted() && $form->isValid()){
+
+
+        // Récupérer le mot de passe en clair (depuis le formulaire)
+        $newPassword = $form->get('password')->getData(); // MDP form
+
+        // Récupérer l'ancien mot de passe haché (depuis l'utilisateur)
+        $oldPassword = $user->getPassword(); // mot de passe haché de l'utilisateur ( BDD )
+
+        // Vérifier si le nouveau mot de passe est le même que l'ancien
+        if ($newPassword && $userPasswordHasher->isPasswordValid($user, $newPassword)) {
+            $this->addFlash('alert', 'Veuillez entrer un nouveau mot de passe.');
+        } else {
+            // Si un mot de passe a été fourni et qu'il est différent, on le hache et on le met à jour
+            if ($newPassword) {
+                $hashedPassword = $userPasswordHasher->hashPassword($user, $newPassword);
+                $user->setPassword($hashedPassword);
+            }
+        }
+
+
+        $entityManager->persist($user);
+
+        // Sauvegarder les modifications dans la base de données
+        $entityManager->flush();
+
+        // Ajouter un message flash pour indiquer le succès de l'opération
+        $this->addFlash('success', 'Mot de passe mis à jour avec succès.');
+
+        // Rediriger l'utilisateur vers la page de son profil
+        return $this->redirectToRoute('app_profile');
+    }
+
+
+   return $this->render('registration/passwordModifier.html.twig', [
+       'user' => $user,
+       'form' => $form->createView()
+   ]);
+
+}
+
+
+
+
+// =============================================== FONCTIONS =======================================================
+
+
+    public function sendEmail(): Response
+    {
+        $email = (new Email())
+            ->from('sender@example.com')
+            ->to('recipient@example.com')
+            ->subject('Hello from Symfony!')
+            ->text('This is a test email.');
+
+        $this->mailer->send($email);
+
+        return new Response('Email sent!');
+    }
 
 }
 

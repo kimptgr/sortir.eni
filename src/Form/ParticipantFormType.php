@@ -75,7 +75,7 @@ class ParticipantFormType extends AbstractType
 /*            ->add('roles', Array_::class, [
 
             ])*/
-            -> add('password', RepeatedType::class, array(
+/*            -> add('password', RepeatedType::class, array(
                 'required' => false,
                 'type' => PasswordType::class,
                 'first_options' => array('label' => 'password'),
@@ -92,7 +92,7 @@ class ParticipantFormType extends AbstractType
                 'max' => 4096,
                 ]),
     ],
-                ))
+                ))*/
             ->add('lastName')
             ->add('firstName')
             ->add('pseudo', TextType::class, [
