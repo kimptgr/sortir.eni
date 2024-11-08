@@ -3,6 +3,7 @@
 {% block title %}Sortie | {{ parent() }}{% endblock %}
 
 {% block body %}
+
     <div class="main-container">
         <h1>{{ trip.name }}</h1>
         <div class="bloc-article">
@@ -14,11 +15,11 @@
                     </div>
                     <div class="flex">
                         <div>Date et heure de la sortie&nbsp;:&nbsp;</div>
-                        <div>{{ trip.startDateTime | date("m/d/Y H:i") }}</div>
+                        <div>{{ trip.startDateTime | date("d/m/Y H:i") }}</div>
                     </div>
                     <div class="flex">
                         <div>Date limite d'inscription&nbsp;:&nbsp;</div>
-                        <div>{{ trip.registrationDeadline | date("m/d/Y H:i") }}</div>
+                        <div>{{ trip.registrationDeadline | date("d/m/Y H:i") }}</div>
                     </div>
                     <div class="flex">
                         <div>Nombre de places&nbsp;:&nbsp;</div>
