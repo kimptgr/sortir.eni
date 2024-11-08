@@ -35,17 +35,17 @@ class TripRepository extends ServiceEntityRepository
     public function findTripByFilters(TripFilterModel $filterChoices, Participant $userInSession): array
     {
         $qb = $this->createQueryBuilder('t')
-            ->innerJoin('t.state', 's')
+            ->leftJoin('t.state', 's')
             ->addSelect('s')
-            ->innerJoin('t.place', 'pl')
+            ->leftJoin('t.place', 'pl')
             ->addSelect('pl')
-            ->innerJoin('pl.city', 'ci')
+            ->leftJoin('pl.city', 'ci')
             ->addSelect('ci')
-            ->innerJoin('t.relativeCampus', 'rc')
+            ->leftJoin('t.relativeCampus', 'rc')
             ->addSelect('rc')
-            ->innerJoin('t.participants', 'pa')
+            ->leftJoin('t.participants', 'pa')
             ->addSelect('pa')
-            ->innerJoin('pa.campus', 'pac')
+            ->leftJoin('pa.campus', 'pac')
             ->addSelect('pac')
         ;
 
@@ -92,7 +92,7 @@ class TripRepository extends ServiceEntityRepository
                 ->setParameter('registrationDeadline', $now);
         }
 
-        return $qb->getQuery()->getResult();
+       return $qb->getQuery()->getResult();
     }
 
 }
