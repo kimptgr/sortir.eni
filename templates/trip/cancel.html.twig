@@ -25,16 +25,17 @@
                         <div>Lieu&nbsp;:&nbsp;</div>
                         <div>{{ trip.place.name }}</div>
                     </div>
-                    <div class="flex">
-                        <form method="post">
+                    <form method="post" class="flex flex-col">
+                        <div class="flex">
+
                             <div><label for="reason">Motif&nbsp;:</label></div>
                             <div><input type="text" id="reason" name="reason"></div>
-                            <div>        {% if app.user.id == trip.organizer.id %}
-                                    <button type="submit">Annuler la sortie</button>
-                                {% endif %}
-                                <a href="{{ path('app_trip_index') }}">Retour</a></div>
-                        </form>
-                    </div>
+                        </div>
+                        <div>        {% if app.user.id == trip.organizer.id %}
+                                <button type="submit">Annuler la sortie</button>
+                            {% endif %}
+                            <a href="{{ path('app_trip_index') }}">Retour</a></div>
+                    </form>
                 </div>
             </div>
         </div>
