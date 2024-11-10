@@ -22,9 +22,10 @@ class TripRepository extends ServiceEntityRepository
         parent::__construct($registry, Trip::class);
     }
 
-    public function findDateTime()
+    public function findTripRefresh()
     {
         $dateTime = new DateTime("now");
+        $dateTime->modify('-1 month -1 day');
         $querybuilder = $this->createQueryBuilder('trip')
             ->where('trip.startDateTime >= :dateTime')
             ->setParameter('dateTime', $dateTime);

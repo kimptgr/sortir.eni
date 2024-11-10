@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Importer comptes{% endblock %}
+
+{% block body %}
+    <h1>Importer comptes</h1>
+
+    <form action="{{ path('app_import_users') }}" method="post" enctype="multipart/form-data">
+        <label for="csv_file">Choisir un fichier CSV</label>
+        <input type="file" id="csv_file" name="csv_file" accept=".csv" required>
+        <button type="submit">Importer</button>
+    </form>
+
+{% endblock %}

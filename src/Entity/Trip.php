@@ -27,8 +27,20 @@ class Trip
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     #[Assert\NotBlank]
     #[Assert\NotNull]
-    #[Assert\GreaterThan('today',message: "La date de l'événement de peut pas être antérieur à la date d'aujourd'hui")]
     private ?\DateTimeInterface $startDateTime = null;
+
+//    #[Assert\Callback]
+//    public function validateStartDateTime(ExecutionContextInterface $context){
+//        $dateNow = new \DateTime();
+//        $tomorow = $dateNow->modify('+2 day');
+//        if ($this->startDateTime < $tomorow){
+//            $context->buildViolation("La date du début de l'évenement doit être postérieur à jour + 2 à la date actuelle")
+//                ->atPath('startDateTime')
+//                ->addViolation();
+//        }
+//    }
+
+
 
 
     #[ORM\Column(type: Types::BIGINT)]
@@ -42,7 +54,20 @@ class Trip
     private ?string $duration = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Assert\NotBlank]
+    #[Assert\NotNull]
     private ?\DateTimeInterface $registrationDeadline = null;
+
+//    #[Assert\Callback]
+//    public function validateDateRegistration(ExecutionContextInterface $context){
+//        $dateNow = new \DateTime();
+//        $tomorow = $dateNow->modify('+1 day');
+//        if ($this->registrationDeadline < $tomorow){
+//            $context->buildViolation("La date de fin de l'évenement doit être postérieur à jour + 1 à la date actuelle")
+//                ->atPath('registrationDeadline')
+//                ->addViolation();
+//        }
+//    }
 
     #[ORM\Column]
     private ?int $nbRegistrationMax = null;
@@ -72,16 +97,7 @@ class Trip
     #[ORM\JoinColumn(nullable: false)]
     private ?Place $place = null;
 
-    #[Assert\Callback]
-    public function validate(ExecutionContextInterface $context, mixed $payload): void
-    {
-        if($this->startDateTime <= $this->registrationDeadline){
-            $context->buildViolation("La date limite d'enregistrement des inscriptions ne peut pas être postérieure à la date de départ de l'événement !")
-                ->atPath('startDateTime')
-                ->atPath('registrationDeadline')
-                ->addViolation();
-        }
-    }
+
 
     public function __construct()
     {
