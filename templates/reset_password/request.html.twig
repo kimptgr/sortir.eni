@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mot de passe oublié | {{ parent() }}{% endblock %}
+
+{% block body %}
+    <div class="main-container">
+        <h1>Mot de passe oublié</h1>
+        <div class="bloc-article flex flex-col items-center justify-center">
+            {{ form_start(requestForm) }}
+            <div class="main-content-box">
+                <div class="content-box">
+                    <div class="form-row mb-4">
+                        {{ form_label(requestForm.email, null, {'label_attr': {'class': 'block text-gray-700 font-semibold'}}) }}
+                        {{ form_widget(requestForm.email, {'attr': {'class': 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500'}}) }}
+                    </div>
+                </div>
+            </div>
+            <div>
+                <small>
+                    Entrez votre adresse e-mail. Si elle correspond à un compte, vous recevrez un message pour réinitialiser votre mot de passe.
+                </small>
+            </div>
+            <button class="btn-add btn-primary">Envoyer mail</button>
+            {{ form_end(requestForm) }}
+        </div>
+    </div>
+{% endblock %}

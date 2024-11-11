@@ -15,6 +15,6 @@ class MainController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function index(): Response
     {
-        return $this->redirectToRoute('app_trip_index');;
+        return $this->redirectToRoute('app_trip_index');
     }
 }

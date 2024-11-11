@@ -33,16 +33,16 @@ class ParticipantFormTypePassword extends AbstractType
                             'required' => false,
                             'type' => PasswordType::class,
                             'first_options' => array('label' => 'Mot de passe'),
-                            'second_options' => array('label' => 'confirmez mot de passe'),
+                            'second_options' => array('label' => 'Confirmez mot de passe'),
                             'attr' => ['autocomplete' => 'new-password'],
                             'mapped' => false,
                             'constraints' => [
                             new NotBlank([
-                                'message' => 'Please enter a password',
+                                'message' => 'Entrez un mot de passe',
                             ]),
                             new Length([
                             'min' => 6,
-                            'minMessage' => 'Your password should be at least {{ limit }} characters',
+                            'minMessage' => 'Votre mot de passe doit faire au moins {{ limit }} caractères',
                             'max' => 4096,
                             ]),
                             ],

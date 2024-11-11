@@ -9,6 +9,11 @@ framework:
     #esi: true
     #fragments: true
 
+    #force Symfony à utiliser cette url pour générer les URLs absolues (comme mail)
+    router:
+        default_uri: 'http://127.0.0.1:8000'
+
+
 when@test:
     framework:
         test: true

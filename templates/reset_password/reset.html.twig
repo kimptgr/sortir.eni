@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Réinitialisation mot de passe | {{ parent() }}{% endblock %}
+{% block body %}
+{#    {{ form_start(resetForm) }}#}
+{#        {{ form_row(resetForm.plainPassword) }}#}
+{#        <button class="btn btn-primary">Reset password</button>#}
+{#    {{ form_end(resetForm) }}#}
+{#    #}
+    <div class="main-container">
+        <h1>Réinitialiser mot de passe</h1>
+        <div class="bloc-article flex flex-col items-center justify-center">
+            {{ form_start(resetForm) }}
+                    <div class="form-row mb-1">
+                        {{ form_label(resetForm.plainPassword.first, null, {'label_attr': {'class': 'block text-gray-700 font-semibold'}}) }}
+                        {{ form_widget(resetForm.plainPassword.first, {'attr': {'class': 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500'}}) }}
+                    </div>
+            <div class="form-row mb-1">
+                {{ form_label(resetForm.plainPassword.second, null, {'label_attr': {'class': 'block text-gray-700 font-semibold'}}) }}
+                {{ form_widget(resetForm.plainPassword.second, {'attr': {'class': 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500'}}) }}
+            </div>
+            <div class="text-red-500 text-xs h-10">
+                {{ form_errors(resetForm.plainPassword.first) }}
+                {{ form_errors(resetForm.plainPassword.second) }}
+            </div>
+            <button class="btn-add btn-primary">Réinitialiser mot de passe</button>
+            {{ form_end(resetForm) }}
+        </div>
+    </div>
+{% endblock %}
