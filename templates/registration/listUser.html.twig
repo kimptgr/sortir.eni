@@ -32,7 +32,7 @@
                             </div>
                         </div>
                         <div class="text-sm text-gray-500">
-                            <em class="{{ participant.isActive ? 'text-green-600' : 'text-red-600' }}">{{ participant.isActive ? 'Actif' : 'Inactif' }}</em>
+                            <em class="{{ participant.isActive ? 'text-green-600 activOne'  : 'text-red-600 nonActivOne' }}">{{ participant.isActive ? 'Actif' : 'Inactif' }}</em>
                         </div>
                     </li>
                 {% endfor %}
@@ -59,12 +59,22 @@
                         }
                     });
 
-                    // Vous pouvez ajouter un appel AJAX ici pour supprimer les éléments du serveur si nécessaire
+                    // appel ajax
                     console.log('Suppression des éléments avec les identifiants : ', idsToDelete);
                 } else {
                     alert('Veuillez sélectionner au moins un participant à supprimer.');
                 }
             });
+
+/*            document.getElementsByClassName('activOne').addEventListener('click', function (){
+                // passer en inactif
+                const element = document.
+            });
+
+            document.getElementsByClassName('nonActivOne').addEventListener('click', function (){
+                // passer en inactif
+
+            });*/
         </script>
     {% endblock %}
 
