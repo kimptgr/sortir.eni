@@ -25,6 +25,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Security\Http\Logout\LogoutUrlGenerator;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security as SensioSecurity;
 
 
 class RegistrationController extends AbstractController
@@ -93,25 +94,16 @@ class RegistrationController extends AbstractController
 
 
     #[Route('/profile/{pseudo?}', name: 'app_profile')]
-    #[isGranted('ROLE_USER')]
+    #[SensioSecurity("is_granted('EDIT', participant)")]
     public function profile(Security $security, LogoutUrlGenerator $logoutUrlGenerator, ParticipantRepository $repository, ?string $pseudo=null): Response
     {
-        if($pseudo !== null){
+        if ($pseudo === null){
+            $participant = $this->getUser();
+        }else {
             $participant = $repository->findOneBy(['pseudo' => $pseudo]);
-            return $this->render('registration/profile.html.twig', [
-                'user' => $participant,
-            ]);
-
         }
 
-        $user = $this->getUser();
-
-        if (!$user) {
-            return $this->redirectToRoute('app_login');
-        }
-
-
-        if (!$user->isActive()) {
+        if ($participant === $this->getUser() && !$participant->isActive()) {
             $this->addFlash('danger', 'Votre compte est désactivé. Veuillez contacter l\'administration.');
 
             // Déconnecter l'utilisateur en générant l'URL de déconnexion
@@ -120,7 +112,7 @@ class RegistrationController extends AbstractController
         }
 
         return $this->render('registration/profile.html.twig', [
-            'user' => $user,
+            'user' => $participant,
         ]);
     }
 
