@@ -8,9 +8,9 @@
     <div class="bloc-article">
 
         {% if trip.state.wording == "Créée" %}
-    {{ include('trip/_form.html.twig', {'button_label': 'Update', 'button_delete':'button_delete', 'button_annuler':''})}}
+    {{ include('trip/_form.html.twig', {'button_label': 'Publier la sortie', 'button_delete':'button_delete', 'button_annuler':''})}}
         {% else %}
-        {{ include('trip/_form.html.twig', {'button_label': 'Update', 'button_delete':'','button_annuler':'button_annuler'})}}
+        {{ include('trip/_form.html.twig', {'button_label': '','button_delete':'','button_annuler':'button_annuler'})}}
         {% endif %}
 
     </div>

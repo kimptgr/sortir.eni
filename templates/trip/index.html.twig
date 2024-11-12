@@ -101,7 +101,7 @@
                         </td>
                         <td><a href="{{ path('app_profile', {'pseudo': trip.organizer.pseudo }) }}">{{ trip.organizer.lastName ~ trip.organizer.firstName }}</a></td>
                         <td>
-                            {% if is_granted('EDIT', trip) %}
+                            {% if is_granted('EDIT', trip) and trip.state.wording =="Créée" %}
                                 <a href="{{ path('app_trip_edit', {'id': trip.id}) }}">Modifier</a>
                                 {% else %}
                                     <a href="{{ path('app_trip_show', {'id': trip.id}) }}">Afficher</a>
