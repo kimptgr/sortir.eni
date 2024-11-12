@@ -61,7 +61,7 @@ class ParticipantImportService
         $user->setPseudo($pseudo);
         $user->setPhoneNumber($phoneNumber);
         $user->setCampus($campus);
-        $user->setBrochureFilename(null); // Laisser null pour un champ de fichier
+        $user->setBrochureFilename(null); 
 
         // Hacher le mot de passe
         $hashedPassword = $this->passwordHasher->hashPassword($user, $password);

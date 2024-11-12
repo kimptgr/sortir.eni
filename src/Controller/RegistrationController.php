@@ -154,10 +154,10 @@ class RegistrationController extends AbstractController
             $brochureFile = $form->get('brochure')->getData(); // est null
 
 
+            $allowedMimeTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
 
 
-
-            if ($brochureFile) {
+            if ($brochureFile && in_array($brochureFile->getMimeType(), $allowedMimeTypes)) {
                 // Utiliser le service FileUploader pour gérer l'upload
                 $oldFilename = $user->getBrochureFilename(); // on chope l'ancien repertoire
 
@@ -167,6 +167,9 @@ class RegistrationController extends AbstractController
 
                 $fileUploader->delete($oldFilename); // on supprime l'ancien repertoire parce qu'inutile
 
+            }
+            else{
+                throw new \Exception('Type de fichier non autorisé ou inexistant');
             }
 
 
