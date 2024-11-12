@@ -69,7 +69,7 @@ class RefreshTripService
         }
 
         // Check si activité est terminée
-        if ($tripEndDateTime<$actualDateTime) {
+        if ($tripEndDateTime>$actualDateTime) {
             $trip->setState($this->findStateByWording($states, STATE_ACTIVITY_PAST));
             $this->entityManager->persist($trip);
         }
