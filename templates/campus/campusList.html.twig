@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion campus | {{ parent() }}{% endblock %}
+
+{% block body %}
+    <h1 class="mt-2">Gérer les campus</h1>
+    <div class="main-container">
+        <div class="bloc-article">
+            <table class="table-trips table-trips w-full">
+                <thead>
+            <tr>
+                <th>Campus</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for campus in campuses %}
+            <tr>
+                <td>{{ campus.name }}</td>
+                <td>
+                    <a href="{{ path('app_campus_edit', {'id': campus.id}) }}">Modifier</a>
+                    - {{ include('campus/_delete_form.html.twig') }}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        <tr>
+            {{ form_start(form) }}
+            <td>{{ form_widget(form, { 'label': false }) }}</td>
+            <td><button class="btn-add">{{ button_label|default('Enregistrer') }}</button></td>
+            {{ form_end(form) }}
+        </tr>
+        </tbody>
+    </table>
+    </div>
+    </div>
+{% endblock %}

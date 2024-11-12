@@ -169,43 +169,11 @@ final class TripController extends AbstractController
             if (count($message) > 0) {
                 $this->addFlash($message[0], $message[1]);
             }
-                return $this->redirectToRoute('app_trip_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_trip_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('trip/cancel.html.twig', [
             'trip' => $trip,
         ]);
     }
-
-
-    private function deleteTrip(TripService $tripService, Trip $trip, EntityManagerInterface $entityManager)
-    {
-        if ($trip->getState()->getWording() != STATE_CREATED){
-            $this->addflash("error","Vous ne pouvez pas supprimer un evenement publié, vous devez l'annulez");
-            return $this->redirectToRoute('app_trip_index', [], Response::HTTP_SEE_OTHER);
-        }
-        $tripService->deleteTrip($trip);
-        $this->addFlash("success", "Événement supprimé");
-        $entityManager->flush();
-
-        return $this->redirectToRoute('app_trip_index', [], Response::HTTP_SEE_OTHER);
-    }
-
-    private function submitTrip(TripService $tripService, Trip $trip, Request $request, EntityManagerInterface $entityManager)
-    {
-        $trip->setOrganizer($this->getUser());
-        if ($request->request->has('save')) {
-            $message = $tripService->setTripState($trip, STATE_CREATED);
-        } else {
-            $message = $tripService->setTripState($trip, STATE_OPEN);
-        }
-
-        $this->addFlash($message[0] , $message[1]);
-
-        $entityManager->persist($trip);
-        $entityManager->flush();
-
-        return $this->redirectToRoute('app_trip_index', [], Response::HTTP_SEE_OTHER);
-    }
-
 }

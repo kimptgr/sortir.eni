@@ -22,7 +22,7 @@
             <h2 class="text-lg sm:text-3xl ">
                 Filtrer les sorties
             </h2>
-                {{ form_start(form) }}
+            {{ form_start(form) }}
             <div class="list-filter">
                 <div class="main-input-group">
                     <div class="input-group">
@@ -103,8 +103,8 @@
                         <td>
                             {% if is_granted('EDIT', trip) and trip.state.wording =="Créée" %}
                                 <a href="{{ path('app_trip_edit', {'id': trip.id}) }}">Modifier</a>
-                                {% else %}
-                                    <a href="{{ path('app_trip_show', {'id': trip.id}) }}">Afficher</a>
+                            {% else %}
+                                <a href="{{ path('app_trip_show', {'id': trip.id}) }}">Afficher</a>
                             {% endif %}
 
                             {% if is_granted('PUBLISH', trip) %}
@@ -121,7 +121,7 @@
                             {% elseif is_granted('PARTICIPATE', trip) %}
                                 - <a href="{{ path('app_trip_participate', {'id': trip.id}) }}"> S'inscrire</a>
                             {% endif %}
-                            </td>
+                        </td>
                     </tr>
                 {% else %}
                     <tr>
