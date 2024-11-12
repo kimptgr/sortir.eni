@@ -6,6 +6,7 @@ use App\Entity\Participant;
 use App\Form\ParticipantFormType;
 use App\Form\ParticipantFormTypePassword;
 use App\Form\RegistrationFormType;
+use App\Repository\ParticipantRepository;
 use App\Service\File\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Container\ContainerInterface;
