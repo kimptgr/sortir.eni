@@ -43,11 +43,6 @@ class RefreshTripService
         //Negatif si $actualDateTime est antérieur à $tripEndDateTime.
         $diffEndDateTime = $actualDateTime->diff($tripEndDateTime);
 
-        dump($actualDateTime);
-        dump($tripStartDateTime);
-        dump($tripEndDateTime);
-
-
         // Check si archivé -> historisé
         // Le diff() permet de retourner un dateInterval
         if (($diffEndDateTime->m >= 1 || $diffEndDateTime->y > 0) && $trip->getState()->getWording() !== STATE_HISTORICIZED) {
@@ -69,7 +64,7 @@ class RefreshTripService
         }
 
         // Check si activité est terminée
-        if ($tripEndDateTime<$actualDateTime) {
+        if ($tripEndDateTime>$actualDateTime) {
             $trip->setState($this->findStateByWording($states, STATE_ACTIVITY_PAST));
             $this->entityManager->persist($trip);
         }
