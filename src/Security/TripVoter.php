@@ -113,10 +113,5 @@ class TripVoter extends Voter{
             && $trip->getState()->getWording() == STATE_OPEN ;
     }
 
-//    private function canEditTrip(Trip $trip, Participant $participant): bool {
-//        $organizer = $trip->getOrganizer();
-//        $tripStatus = $trip->getState()->getWording();
-//        return $participant !== $organizer &&
-//            $tripStatus !== STATE_CREATED;
-//    }
+
 }

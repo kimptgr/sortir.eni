@@ -13,98 +13,110 @@
 
 {{ form_start(form) }}
 
-    {#    Utilisation d'un ternaire pour changer la couleur de "border" des champs ayant une erreur, le .vars est utilisé pour extraire les
-informations du champ  (état de validation / messages d'erreur) .
-    J'avais oublié un essapce après le rouded, cela créait une erreur lors de la concatenation avec ~
-
-    my-4 marge vertical (haut et bas de 4)
-    #}
-
-    {{ form_row(form.name, {
-        row_class: 'form-row',
-        label_class: 'label',
-        widget_class: 'w-50 p-2 border border-gray-300 rounded ' ~ (form.name.vars.valid ? 'border-gray-300' : 'border-red-500'),
-        error_item_class: 'label-error',
-    }) }}
-
-    {{ form_row(form.startDateTime, {
-        row_class: 'form-row',
-        label_class: 'label',
-        widget_class: 'w-50 p-2 border border-gray-300 rounded ' ~ (form.startDateTime.vars.valid ? 'border-gray-300' : 'border-red-500'),
-        error_item_class: 'label-error',
-    }) }}
+        <div class="form-row">
+            {{ form_label(form.name) }}
+            {{ form_widget(form.name, {'attr': {'class': (form.name.vars.errors|length > 0 ? 'error' : '')}}) }}
+            <div class="label-error">
+                {{ form_errors(form.name) }}
+            </div>
+        </div>
 
 
-    {{ form_row(form.registrationDeadline, {
-        row_class: 'form-row',
-        label_class: 'label',
-        widget_class: 'w-50 p-2 border border-gray-300 rounded ' ~ (form.registrationDeadline.vars.valid ? 'border-gray-300' : 'border-red-500'),
-        error_item_class: 'label-error',
-    }) }}
 
-    {{ form_row(form.nbRegistrationMax, {
-        row_class: 'form-row',
-        label_class: 'label',
-        widget_class: 'w-50 p-2 border border-gray-300 rounded ' ~ (form.nbRegistrationMax.vars.valid ? 'border-gray-300' : 'border-red-500'),
-        error_item_class: 'label-error',
-    }) }}
-
-    {{ form_row(form.duration, {
-        row_class: 'form-row',
-        label_class: 'label',
-        widget_class: 'w-50 p-2 border border-gray-300 rounded ' ~ (form.duration.vars.valid ? 'border-gray-300' : 'border-red-500'),
-        error_item_class: 'label-error',
-    }) }}
-
-    {{ form_row(form.info, {
-        row_class: 'form-row',
-        label_class: 'label',
-        widget_class: 'w-50 p-2 border border-gray-300 rounded ' ~ (form.info.vars.valid ? 'border-gray-300' : 'border-red-500'),
-        error_item_class: 'label-error',
-        attr: {
-            rows: 15,
-            placeholder: 'Entrez votre description ici...'
-        }
-    }) }}
-
-    {{ form_row(form.relativeCampus, {
-        row_class: 'form-row',
-        label_class: 'label',
-        widget_class: 'w-50 p-2 border border-gray-300 rounded ' ~ (form.relativeCampus.vars.valid ? 'border-gray-300' : 'border-red-500'),
-        error_item_class: 'label-error',
-    }) }}
-
-    {{ form_row(form.city, {
-        row_class: 'form-row',
-        label_class: 'label',
-        widget_class: 'w-50 p-2 border border-gray-300 rounded ' ~ (form.city.vars.valid ? 'border-gray-300' : 'border-red-500'),
-        error_item_class: 'label-error',
-    }) }}
-
-
-    {{ form_row(form.place, {
-        row_class: 'form-row',
-        label_class: 'label',
-        widget_class: 'w-50 p-2 border border-gray-300 rounded ' ~ (form.place.vars.valid ? 'border-gray-300' : 'border-red-500'),
-        error_item_class: 'label-error',
-    }) }}
 
 <div class="form-row">
-    <label class="label">Rue :</label>
-    <input type="text" id="street" class="w-50 p-2 border border-gray-300 rounded" readonly />
-</div>
+            {{ form_label(form.startDateTime) }}
+            {{ form_widget(form.startDateTime, {'attr': {'class': (form.startDateTime.vars.errors|length > 0 ? 'error' : '')}}) }}
+            <div class="label-error">
+                {{ form_errors(form.startDateTime) }}
+            </div>
+        </div>
+
+
+
 <div class="form-row">
-    <label class="label">Code postal :</label>
-    <input type="text" id="postalCode" class="w-50 p-2 border border-gray-300 rounded" readonly />
-</div>
+            {{ form_label(form.registrationDeadline) }}
+            {{ form_widget(form.registrationDeadline, {'attr': {'class': (form.registrationDeadline.vars.errors|length > 0 ? 'error' : '')}}) }}
+            <div class="label-error">
+                {{ form_errors(form.registrationDeadline) }}
+            </div>
+        </div>
+
 <div class="form-row">
-    <label class="label">Latitude :</label>
-    <input type="text" id="latitude" class="w-50 p-2 border border-gray-300 rounded" readonly />
-</div>
+            {{ form_label(form.nbRegistrationMax) }}
+            {{ form_widget(form.nbRegistrationMax, {'attr': {'class': (form.nbRegistrationMax.vars.errors|length > 0 ? 'error' : '')}}) }}
+            <div class="label-error">
+                {{ form_errors(form.nbRegistrationMax) }}
+            </div>
+        </div>
+
+
 <div class="form-row">
-    <label class="label">Longitude :</label>
-    <input type="text" id="longitude" class="w-50 p-2 border border-gray-300 rounded" readonly />
-</div>
+            {{ form_label(form.duration) }}
+            {{ form_widget(form.duration, {'attr': {'class': (form.duration.vars.errors|length > 0 ? 'error' : '')}}) }}
+            <div class="label-error">
+                {{ form_errors(form.duration) }}
+            </div>
+        </div>
+
+
+<div class="form-row">
+            {{ form_label(form.info) }}
+            {{ form_widget(form.info, {
+                'attr': {
+                    'class': form.info.vars.errors|length > 0 ? 'error' : '',
+                }
+            }) }}
+            <div class="label-error">
+                {{ form_errors(form.info) }}
+            </div>
+        </div>
+
+
+
+<div class="form-row">
+            {{ form_label(form.relativeCampus) }}
+            {{ form_widget(form.relativeCampus, {'attr': {'class': (form.relativeCampus.vars.errors|length > 0 ? 'error' : '')}}) }}
+            <div class="label-error">
+                {{ form_errors(form.relativeCampus) }}
+            </div>
+        </div>
+
+
+<div class="form-row">
+            {{ form_label(form.city) }}
+            {{ form_widget(form.city, {'attr': {'class': (form.city.vars.errors|length > 0 ? 'error' : '')}}) }}
+            <div class="label-error">
+                {{ form_errors(form.city) }}
+            </div>
+        </div>
+
+<div class="form-row">
+            {{ form_label(form.place) }}
+            {{ form_widget(form.place, {'attr': {'class': (form.place.vars.errors|length > 0 ? 'error' : '')}}) }}
+            <div class="label-error">
+                {{ form_errors(form.place) }}
+            </div>
+        </div>
+
+
+
+<div class="form-row">
+            <label class="label">Rue :</label>
+            <input type="text" id="street" class="w-50 p-2 border border-gray-300 rounded" readonly />
+        </div>
+<div class="form-row">
+            <label class="label">Code postal :</label>
+            <input type="text" id="postalCode" class="w-50 p-2 border border-gray-300 rounded" readonly />
+        </div>
+<div class="form-row">
+            <label class="label">Latitude :</label>
+            <input type="text" id="latitude" class="w-50 p-2 border border-gray-300 rounded" readonly />
+        </div>
+<div class="form-row">
+            <label class="label">Longitude :</label>
+            <input type="text" id="longitude" class="w-50 p-2 border border-gray-300 rounded" readonly />
+        </div>
 
 
 
