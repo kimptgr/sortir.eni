@@ -70,7 +70,7 @@ final class TripController extends AbstractController
             return $this->redirectToRoute('app_trip_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('trip/newCampus.html.twig', [
+        return $this->render('trip/new.html.twig', [
             'trip' => $trip,
             'form' => $form,
         ]);
@@ -120,7 +120,7 @@ final class TripController extends AbstractController
             return $this->redirectToRoute('app_trip_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('trip/campusEdit.html.twig', [
+        return $this->render('trip/edit.html.twig', [
             'trip' => $trip,
             'form' => $form,
         ]);
@@ -184,7 +184,7 @@ final class TripController extends AbstractController
             if (count($message) > 0) {
                 $this->addFlash($message[0], $message[1]);
             }
-                return $this->redirectToRoute('app_trip_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_trip_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('trip/cancel.html.twig', [
