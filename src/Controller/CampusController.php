@@ -16,11 +16,24 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[IsGranted("ROLE_ADMIN")]
 final class CampusController extends AbstractController
 {
-    #[Route(name: 'app_campus_index', methods: ['GET'])]
-    public function index(CampusRepository $campusRepository): Response
+    #[Route(name: 'app_campus_index', methods: ['GET', 'POST'])]
+    public function index(CampusRepository $campusRepository, Request $request, EntityManagerInterface $entityManager): Response
     {
+        $campus = new Campus();
+        $form = $this->createForm(CampusType::class, $campus);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($campus);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_campus_index', [], Response::HTTP_SEE_OTHER);
+        }
+
         return $this->render('campus/index.html.twig', [
             'campuses' => $campusRepository->findAll(),
+            'campus' => $campus,
+            'form' => $form,
         ]);
     }
 
