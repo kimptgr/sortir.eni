@@ -77,11 +77,12 @@
                         {% for participant in trip.participants %}
                             {% if participant.pseudo is defined and participant.pseudo is not null %}
                                 <tr>
-                                <th>{{ participant.pseudo }}</th>
+                                <th><a href="{{ path('app_profile', {'pseudo': participant.pseudo }) }}">{{ participant.pseudo }}</a></th>
                             {% else %}
                                 <th>{{ participant.email }}</th>
                             {% endif %}
                                 <th>{{ participant.firstName }} {{ participant.lastName }}</th>
+
                             </tr>
                         {% endfor %}
                         </tbody>
@@ -100,11 +101,5 @@
         <form method="post" action="{{ path('app_trip_show', { id: trip.id }) }}">
             <button type="submit">Participer</button>
         </form>
-    </div>
-    <div class="absolute bottom-4 left-4">
-        <span class="sm:hidden">XS</span>
-        <span class="hidden sm:block md:hidden">SM</span>
-        <span class="hidden md:block lg:hidden">MD</span>
-        <span class="hidden lg:block xl:hidden">LG</span>
     </div>
 {% endblock %}

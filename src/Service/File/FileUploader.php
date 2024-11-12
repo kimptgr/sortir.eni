@@ -29,6 +29,10 @@ class FileUploader
      */
     public function upload(UploadedFile $file): string
     {
+
+
+
+
         // Extraire le nom de fichier d'origine sans extension
         $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
 

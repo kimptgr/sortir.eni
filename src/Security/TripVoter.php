@@ -63,16 +63,6 @@ class TripVoter extends Voter{
         /** @var Trip $trip */
         $trip = $subject;
 
-
-//        // LA VERIF
-//        // Si l'utilisateur est l'auteur de la sortie, il peut modifier ou supprimer
-//        if ($attribute === self::EDIT || $attribute === self::DELETE) {
-//            return $user === $trip->getOrganizer();
-//        }
-
-        // Par défaut, l'accès est refusé
-        //return false;
-
         // Découpage des responsabilités en donnant la vérification à +rs autres fonctions
         return match ($attribute) {
             self::EDIT => $this->canEdit($trip, $user),
@@ -86,11 +76,11 @@ class TripVoter extends Voter{
     }
 
     private function canEdit(Trip $trip, Participant $participant): bool {
-            return $participant === $trip->getOrganizer();
+            return in_array('ROLE_ADMIN', $participant->getRoles()) || $participant === $trip->getOrganizer();
     }
 
     private function canDelete(Trip $trip, Participant $participant): bool {
-        return $participant === $trip->getOrganizer();
+        return in_array('ROLE_ADMIN', $participant->getRoles()) || $participant === $trip->getOrganizer();
     }
 
     private function canPublish(Trip $trip, Participant $participant): bool {
@@ -98,7 +88,8 @@ class TripVoter extends Voter{
     }
 
     private function canCancel(Trip $trip, Participant $participant): bool {
-       return $participant === $trip->getOrganizer()
+       return in_array('ROLE_ADMIN', $participant->getRoles())
+           ||$participant === $trip->getOrganizer()
             && ($trip->getState()->getWording() == STATE_CREATED
                 || $trip->getState()->getWording() == STATE_OPEN
                 || $trip->getState()->getWording() == STATE_CLOSED

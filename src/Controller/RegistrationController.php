@@ -6,6 +6,7 @@ use App\Entity\Participant;
 use App\Form\ParticipantFormType;
 use App\Form\ParticipantFormTypePassword;
 use App\Form\RegistrationFormType;
+use App\Repository\ParticipantRepository;
 use App\Service\File\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Container\ContainerInterface;
@@ -24,6 +25,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Security\Http\Logout\LogoutUrlGenerator;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security as SensioSecurity;
 
 
 class RegistrationController extends AbstractController
@@ -91,18 +93,16 @@ class RegistrationController extends AbstractController
     // ---------------------------------------------------------------------------------------------------------------------
 
 
-    #[Route('/profile', name: 'app_profile')]
-    #[isGranted('ROLE_USER')]
-    public function profile(Security $security, LogoutUrlGenerator $logoutUrlGenerator): Response
+    #[Route('/profile/{pseudo?}', name: 'app_profile')]
+    public function profile(Security $security, LogoutUrlGenerator $logoutUrlGenerator, ParticipantRepository $repository, ?string $pseudo=null): Response
     {
-        $user = $this->getUser();
-
-        if (!$user) {
-            return $this->redirectToRoute('app_login');
+        if ($pseudo === null){
+            $participant = $this->getUser();
+        }else {
+            $participant = $repository->findOneBy(['pseudo' => $pseudo]);
         }
 
-
-        if (!$user->isActive()) {
+        if ($participant === $this->getUser() && !$participant->isActive()) {
             $this->addFlash('danger', 'Votre compte est désactivé. Veuillez contacter l\'administration.');
 
             // Déconnecter l'utilisateur en générant l'URL de déconnexion
@@ -111,7 +111,7 @@ class RegistrationController extends AbstractController
         }
 
         return $this->render('registration/profile.html.twig', [
-            'user' => $user,
+            'user' => $participant,
         ]);
     }
 
@@ -120,24 +120,19 @@ class RegistrationController extends AbstractController
     // =========================================================================================================
 
 
-    #[Route('/edit', name: 'app_edit_profile')]
+    #[Route('/edit/{pseudo?}', name: 'app_edit_profile')]
+    #[SensioSecurity("is_granted('EDIT', participant)")]
     public function editProfile(Request $request,
                                 EntityManagerInterface $entityManager,
-
-                                FileUploader $fileUploader
+                                FileUploader $fileUploader,
+                                ParticipantRepository $repository,
+                                ?string $pseudo=null
     ): Response {
 
-
-
-
-
-        // Récupérer l'utilisateur connecté
-        $user = $this->getUser();
-
-
-
-        if (!$user) {
-            return $this->redirectToRoute('app_login');
+        if ($pseudo === null){
+            $user = $this->getUser();
+        }else {
+            $user = $repository->findOneBy(['pseudo' => $pseudo]);
         }
 
 
@@ -154,10 +149,10 @@ class RegistrationController extends AbstractController
             $brochureFile = $form->get('brochure')->getData(); // est null
 
 
+            $allowedMimeTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
 
 
-
-            if ($brochureFile) {
+            if ($brochureFile && in_array($brochureFile->getMimeType(), $allowedMimeTypes)) {
                 // Utiliser le service FileUploader pour gérer l'upload
                 $oldFilename = $user->getBrochureFilename(); // on chope l'ancien repertoire
 
@@ -167,6 +162,9 @@ class RegistrationController extends AbstractController
 
                 $fileUploader->delete($oldFilename); // on supprime l'ancien repertoire parce qu'inutile
 
+            }
+            else{
+                throw new \Exception('Type de fichier non autorisé ou inexistant');
             }
 
 
