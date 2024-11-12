@@ -33,18 +33,19 @@ class RefreshTripService
 
     private function refreshStartDate(Trip $trip, $states): void
     {
-        $timezone = new \DateTimeZone('Europe/Paris');
         $tripStartDateTime = $trip->getStartDateTime();
-        $tripStartDateTime->setTimezone($timezone);
         $tripEndDateTime = clone $tripStartDateTime;
         $tripEndDateTime->modify('+' . $trip->getDuration() . ' minutes');
         $tripRegistrationDeadLine = $trip->getRegistrationDeadLine();
-        $actualDateTime = new \DateTime('now',$timezone);
+        $actualDateTime = new \DateTime('now');
 
         //Le diff ici crée un dateInterval à partir de la différence entre  $actualDateTime et $tripEndDateTime
         //Negatif si $actualDateTime est antérieur à $tripEndDateTime.
         $diffEndDateTime = $actualDateTime->diff($tripEndDateTime);
 
+        dump($actualDateTime);
+        dump($tripStartDateTime);
+        dump($tripEndDateTime);
 
 
         // Check si archivé -> historisé
@@ -63,18 +64,15 @@ class RefreshTripService
         //        Test si activité en cour
         // Ici diffEnDateTime  si le date est avant
         if ($tripEndDateTime > $actualDateTime && $tripStartDateTime <= $actualDateTime) {
-            dump("On rentre ici");
             $trip->setState($this->findStateByWording($states, STATE_ACTIVITY_IN_PROGRESS));
             $this->entityManager->persist($trip);
         }
 
         // Check si activité est terminée
-//        Le ->invert permet de retourner un +1 si la date est suppérieur à la date passé dans le diff() et 0 pour l'inverse
         if ($tripEndDateTime<$actualDateTime) {
             $trip->setState($this->findStateByWording($states, STATE_ACTIVITY_PAST));
             $this->entityManager->persist($trip);
         }
-
 
 
 
