@@ -39,6 +39,7 @@ when@test:
 
 when@prod:
     monolog:
+        channels: ['security']
         handlers:
             main:
                 type: fingers_crossed

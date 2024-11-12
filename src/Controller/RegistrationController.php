@@ -6,7 +6,6 @@ use App\Entity\Participant;
 use App\Form\ParticipantFormType;
 use App\Form\ParticipantFormTypePassword;
 use App\Form\RegistrationFormType;
-use App\Repository\ParticipantRepository;
 use App\Service\File\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Container\ContainerInterface;
@@ -36,6 +35,10 @@ class RegistrationController extends AbstractController
     {
 
     }
+
+
+
+
 
     #[Route('/register', name: 'app_register')]
     #[isGranted('ROLE_ADMIN')]
@@ -131,16 +134,24 @@ class RegistrationController extends AbstractController
             $user = $repository->findOneBy(['pseudo' => $pseudo]);
         }
 
+
+
         // Créer et remplir le formulaire avec les données de l'utilisateur
         $form = $this->createForm(ParticipantFormType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+
+
             /** @var UploadedFile $brochureFile */
             $brochureFile = $form->get('brochure')->getData(); // est null
 
-            if ($brochureFile) {
+
+            $allowedMimeTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+
+
+            if ($brochureFile && in_array($brochureFile->getMimeType(), $allowedMimeTypes)) {
                 // Utiliser le service FileUploader pour gérer l'upload
                 $oldFilename = $user->getBrochureFilename(); // on chope l'ancien repertoire
 
@@ -151,6 +162,26 @@ class RegistrationController extends AbstractController
                 $fileUploader->delete($oldFilename); // on supprime l'ancien repertoire parce qu'inutile
 
             }
+            else{
+                throw new \Exception('Type de fichier non autorisé ou inexistant');
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
             $entityManager->persist($user);
 
