@@ -114,6 +114,9 @@ informations du champ  (état de validation / messages d'erreur) .
 {% if button_delete %}
 <button type="submit" name="delete" class="my-4 ml-4 rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Supprimer</button>
 {%  endif %}
+{% if button_annuler %}
+<button type="submit" name="cancel" class="my-4 ml-4 rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Annuler l'évênement</button>
+{% endif %}
 <button type="button" class=" my-4 ml-4 text-sm/6 font-semibold text-gray-900" onclick="window.history.back();">Annuler</button>
 
 {{ form_end(form) }}

@@ -57,9 +57,9 @@ final class TripController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $trip->setOrganizer($this->getUser());
             if ($request->request->has('save')) {
-                $message = $tripService->setTripState($trip, "Créée");
+                $message = $tripService->setTripState($trip, STATE_CREATED);
             } else {
-                $message = $tripService->setTripState($trip, "Ouverte");
+                $message = $tripService->setTripState($trip, STATE_OPEN);
             }
 
             $this->addFlash($message[0] , $message[1]);
@@ -102,17 +102,39 @@ final class TripController extends AbstractController
         $form = $this->createForm(TripType::class, $trip);
         $form->handleRequest($request);
 
+
+
+        if ($request->request->has('delete')) {
+            if ($trip->getState()->getWording() != STATE_CREATED){
+                $this->addflash("error","Vous ne pouvez pas supprimer un evenement publié, vous devez l'annulez");
+                return $this->redirectToRoute('app_trip_index', [], Response::HTTP_SEE_OTHER);
+            }
+            $tripService->deleteTrip($trip);
+            $this->addFlash("success", "Événement supprimé");
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_trip_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+
+
+
+        if($request->request->has('cancel')){
+            if($trip->getState()->getWording() != STATE_CREATED){
+                return $this->redirectToRoute('app_trip_cancel',['id'=>$trip->getId()], Response::HTTP_SEE_OTHER);
+            }
+        }
+
+
+
         if ($form->isSubmitted() && $form->isValid()) {
 
             if ($request->request->has('save')) {
-                $tripService->setTripState($trip, "Créée");
+                $tripService->setTripState($trip,STATE_CREATED );
 
             }
-            if ($request->request->has('delete')) {
-                $tripService->deleteTrip($trip);
-
-            } else {
-                $tripService->setTripState($trip, "Ouverte");
+            else {
+                $tripService->setTripState($trip, STATE_OPEN);
             }
 
             $entityManager->flush();
@@ -145,7 +167,7 @@ final class TripController extends AbstractController
     #[IsGranted('PUBLISH', subject: 'trip')]
     public function publish(Trip $trip, TripService $tripService): Response
     {
-        $tripService->setTripState($trip, 'Ouverte');
+        $tripService->setTripState($trip, STATE_OPEN);
         return $this->redirectToRoute('app_trip_index', [], Response::HTTP_SEE_OTHER);
     }
 

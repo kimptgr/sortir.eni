@@ -33,13 +33,11 @@ class TripType extends AbstractType
                 'widget' => 'single_text',
                 'label' => 'Date et heure de la sortie :',
                 'required' => true,
-                'data' => (new \DateTime())->modify('+1 hour'),
             ])
             ->add('registrationDeadline', null, [
                 'required' => true,
                 'widget' => 'single_text',
                 'label' => "Date limite de d'inscription :",
-                'data' => new \DateTime(),
             ])
             ->add('nbRegistrationMax', null, [
                 'required' => true,
