@@ -31,6 +31,7 @@ final class TripController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function index(RefreshTripService $refreshTripService, Request $request, TripRepository $tripRepository, TripFilterService $tripFilterService): Response
     {
+
         $refreshTripService->refreshTrip();
 
         $filterChoices = new TripFilterModel();
