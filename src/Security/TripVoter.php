@@ -90,12 +90,11 @@ class TripVoter extends Voter{
     }
 
     private function canCancel(Trip $trip, Participant $participant): bool {
-       return in_array('ROLE_ADMIN', $participant->getRoles())
-           ||$participant === $trip->getOrganizer()
-            && ($trip->getState()->getWording() == STATE_CREATED
-                || $trip->getState()->getWording() == STATE_OPEN
-                || $trip->getState()->getWording() == STATE_CLOSED
-            );
+        $isOpenOrClosed = $trip->getState()->getWording() == STATE_OPEN || $trip->getState()->getWording() == STATE_CLOSED;
+        $isAdmin = in_array('ROLE_ADMIN', $participant->getRoles());
+        $isOrganizer = $participant === $trip->getOrganizer();
+
+        return ($isOpenOrClosed && ($isAdmin || $isOrganizer));
     }
 
     private function canDesist(Trip $trip, Participant $participant): bool {
