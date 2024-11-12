@@ -29,4 +29,18 @@ class APICityPlaceController extends AbstractController
 
     }
 
+    #[Route('/api/city_places/{placeId}', name: 'api_places_info', methods: ['GET'])]
+    public function getPlaceInfo(int $placeId, CityRepository $cityRepository): JsonResponse
+    {
+        $place = $cityRepository->find($placeId);
+        if (!$place) {
+            return $this->json(['error' => 'Place not found'], Response::HTTP_NOT_FOUND);
+        }
+
+        return $this->json($place, Response::HTTP_OK, [], ['groups' => ['place_info']]);
+
+    }
+
+
+
 }

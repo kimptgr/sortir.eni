@@ -2,8 +2,12 @@
 
 {% block javascript %}
 <script>
+    // initialisation à zéro pour ensuite le remplacer dans le javascript
     {% set apiCityPlacesUrl = path('api_city_places', {'cityId': 0}) %}
+    {% set apiPlaceInfoUrl = path('api_places_info', { 'placeId':0}) %}
     const apiCityPlacesUrl = '{{ apiCityPlacesUrl }}';
+    const apiPlaceInfoUrl = '{{ apiCityPlacesUrl }}';
+
 </script>
 {% endblock %}
 
@@ -84,6 +88,23 @@ informations du champ  (état de validation / messages d'erreur) .
         widget_class: 'w-50 p-2 border border-gray-300 rounded ' ~ (form.place.vars.valid ? 'border-gray-300' : 'border-red-500'),
         error_item_class: 'label-error',
     }) }}
+
+<div class="form-row">
+    <label class="label">Rue :</label>
+    <input type="text" id="street" class="w-50 p-2 border border-gray-300 rounded" readonly />
+</div>
+<div class="form-row">
+    <label class="label">Code postal :</label>
+    <input type="text" id="postalCode" class="w-50 p-2 border border-gray-300 rounded" readonly />
+</div>
+<div class="form-row">
+    <label class="label">Latitude :</label>
+    <input type="text" id="latitude" class="w-50 p-2 border border-gray-300 rounded" readonly />
+</div>
+<div class="form-row">
+    <label class="label">Longitude :</label>
+    <input type="text" id="longitude" class="w-50 p-2 border border-gray-300 rounded" readonly />
+</div>
 
 
 

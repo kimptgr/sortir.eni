@@ -5,9 +5,11 @@ namespace App\Controller;
 use App\Form\ParticipantFilterType;
 use App\Models\ParticipantFilterModel;
 use App\Repository\ParticipantRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -53,11 +55,66 @@ class UserController extends AbstractController
 
         $participants = $participantRepository->findParticipantsByFilters($filterModel);
 
+
+
+
         return $this->render('registration/listUser.html.twig', [
             'form' => $form->createView(),
             'participants' => $participants,
         ]);
     }
+
+    #[Route('/delete-participants', name: 'delete_participants', methods: ['POST'])]
+    #[isGranted('ROLE_ADMIN')]
+    public function deleteParticipants(Request $request, ParticipantRepository $participantRepository, EntityManagerInterface $entityManager): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+        $ids = $data['ids'] ?? [];
+
+        if (!is_array($ids)) {
+            return new JsonResponse(['error' => 'Invalid data'], 400);
+        }
+
+        foreach ($ids as $id) {
+            $participant = $participantRepository->find($id);
+            if ($participant) {
+                $entityManager->remove($participant);
+            }
+        }
+
+        $entityManager->flush();
+
+        return new JsonResponse(['success' => true]);
+    }
+
+
+    #[Route('/active-participants/{id}', name: 'active_participants')]
+    #[isGranted('ROLE_ADMIN')]
+    public function activParticipants(int $id, ParticipantRepository $participantRepository, EntityManagerInterface $entityManager): Response
+    {
+        // Récupérer le participant par son ID
+        $participant = $participantRepository->find($id);
+
+        if (!$participant) {
+            throw $this->createNotFoundException('Participant introuvable.');
+        }
+
+        // Changer l'état de l'activation
+        if ($participant->isActive()) {
+            $participant->setActive(false);
+        } else {
+            $participant->setActive(true);
+        }
+
+        // Enregistrer les modifications dans la base de données
+        $entityManager->persist($participant);
+        $entityManager->flush();
+
+        // Redirection vers la liste des participants
+        return $this->redirectToRoute('participant_list');
+    }
+
+
 
 
 

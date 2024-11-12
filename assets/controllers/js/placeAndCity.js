@@ -3,6 +3,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const citySelect = document.getElementById('trip_city');
     const placeSelect = document.getElementById('trip_place');
+    const streetSelected = document.getElementById('street');
+    const postalCodeSelected = document.getElementById('postalCode');
+    const latitudeSelected = document.getElementById('latitude');
+    const longitudeSelected = document.getElementById('longitude');
 
 
     citySelect.addEventListener('change', function () {
@@ -27,4 +31,24 @@ document.addEventListener('DOMContentLoaded', function () {
             placeSelect.innerHTML = '<option value="">Choisissez un lieu</option>';
         }
     });
+
+
+    placeSelect.addEventListener('change', function () {
+        const placeId = placeSelect.value;
+
+        if(placeId) {
+            url = apiPlaceInfoUrl.replace('0', placeId);
+            fetch(url)
+                .then(response => response.json())
+                .then(data=> {
+                    const placeData = data[0];
+                    streetSelected.value = placeData.street;
+                    postalCodeSelected.value = placeData.postalCode;
+                    latitudeSelected.value = placeData.latitude;
+                    longitudeSelected.value = placeData.longitude;
+                })
+
+        }
+    })
+
 });
