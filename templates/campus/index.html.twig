@@ -28,7 +28,7 @@
         {% endfor %}
         <tr>
             {{ form_start(form) }}
-            <td>{{ form_input(form) }}</td>
+            <td>{{ form_widget(form) }}</td>
             <td><button class="btn">{{ button_label|default('Enregistrer') }}</button></td>
             {{ form_end(form) }}
         </tr>
