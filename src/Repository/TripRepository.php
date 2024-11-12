@@ -48,6 +48,8 @@ class TripRepository extends ServiceEntityRepository
             ->addSelect('pa')
             ->leftJoin('pa.campus', 'pac')
             ->addSelect('pac')
+            ->andWhere('s != :stateH')
+            ->setParameter('stateH', STATE_HISTORICIZED)
         ;
 
         if ($filterChoices->getRelativeCampus() !== null) {
@@ -86,7 +88,7 @@ class TripRepository extends ServiceEntityRepository
                 ->andWhere(':participants NOT MEMBER OF t.participants')
                 ->setParameter('participants', $userInSession)
                 ->andWhere('s.wording = :state')
-                ->setParameter('state', 'Ouverte');
+                ->setParameter('state', STATE_OPEN);
         }
         if ($filterChoices->getOldTrips()) {
             $now = (new dateTime())->format('Y-m-d H:i:s');

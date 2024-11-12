@@ -4,8 +4,7 @@
 
 body {
     background-image: url("../image/bg1.jpg");
-    @apply min-h-screen bg-cover bg-fixed bg-center bg-no-repeat h-screen flex flex-col bg-gray-100;
-    height : 100vh;
+    @apply min-h-screen bg-cover bg-fixed bg-center bg-no-repeat lg:h-screen flex flex-col bg-gray-100;
 }
 
 nav {
@@ -36,20 +35,20 @@ main > div.flash {
 }
 
 .container-filter {
-    @apply grow-0 flex-col bg-yellow-300/70 rounded-lg shadow-lg m-6 p-6;
+    @apply grow-0 flex-col bg-yellow-300/70 rounded-lg shadow-lg sm:m-5 m-1 sm:p-5 p-2;
 
     h2 {
         @apply font-bold
     }
 
     .list-filter {
-        @apply grid md:grid-cols-1 lg:grid-cols-[1fr_1fr_150px] gap-4 ;
+        @apply grid md:grid-cols-1 lg:grid-cols-[1fr_1fr_150px] gap-1 ;
 
         .main-input-group {
-            @apply w-full flex flex-col justify-items-start flex flex-col justify-between h-full;
+            @apply w-full flex flex-col justify-items-start justify-between h-full;
 
             .input-group {
-                @apply  items-center ;
+                @apply  items-center p-1 lg:px-3;
             }
             .input-group label {
                 @apply font-semibold;
@@ -58,12 +57,16 @@ main > div.flash {
             .input-group input {
                 @apply rounded ;
             }
+
+            .input-group input:focus, .input-group input:active, .input-group select:focus, .input-group select:active  {
+                @apply border-lime-500 outline-1 outline-lime-500 outline-offset-2 ring-lime-500
+            }
             .input-group-checkbox {
-                @apply justify-center p-2;
+                @apply justify-center p-1;
             }
 
             .input-group-checkbox input[type="checkbox"] {
-                @apply w-5 h-5 accent-green-500 transition-all duration-300 ease-in-out;
+                @apply w-5 h-5 accent-lime-500 transition-all duration-300 ease-in-out;
             }
 
             .input-group-checkbox input[type="checkbox"]:hover {
@@ -75,7 +78,7 @@ main > div.flash {
             }
 
             .input-group-checkbox input[type="checkbox"]:focus {
-                @apply outline-2 outline-purple-500 outline-offset-2;
+                @apply outline-1 outline-lime-500 outline-offset-1;
             }
         }
     }
@@ -137,6 +140,10 @@ table a:hover::after {
     width: 100%;
 }
 
+.container-btn-add {
+    @apply mt-2
+}
+
 /*Style for profil*/
 .main-container {
     @apply container mx-auto mt-7 px-4 flex-col ;
@@ -170,17 +177,15 @@ h2 {
 
 /*ediProfil*/
 .form-row, .input-group {
-    @apply flex gap-2 p-4;
+    @apply flex gap-2 p-2;
 }
 
 .form-row label, .input-group label {
-    width: 30%;
-    @apply items-center text-left font-medium text-gray-700 ;
+    @apply items-center text-left font-medium text-gray-700 md:w-4/6 w-1/3;
 }
 
 .form-row input, .form-row select, .input-group input, .input-group select {
-    width: 70%;
-    @apply p-2 border border-gray-300 rounded-md focus:ring;
+    @apply p-2 border border-gray-300 rounded-md focus:ring md:w-4/6 w-1/2 ;
 }
 
 .label-error {

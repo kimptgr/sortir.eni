@@ -32,7 +32,6 @@ class TripService
             $flashMessage = ['warning', "Vous êtes déjà sur la liste des participants, pensez à l'enregistrer dans votre agenda ;)"];
         } else if ($trip->getParticipants()->count() >= $trip->getNbRegistrationMax()) {
             $flashMessage = ['error', 'Oups, évènement full !'];
-
         } else if ($trip->getState()->getWording() != 'Ouverte') {
             $flashMessage = ['error', 'Désolé les inscriptions ne sont pas ouvertes !'];
         } else if ($trip->getRegistrationDeadline() <= new DateTime()) {
@@ -63,23 +62,26 @@ class TripService
         }
 
         switch ($stateWording) {
-            case 'Créée':
+            case STATE_CREATED:
                 $flashMessage = ["success", "enregistré"];
                 break;
-            case 'Ouverte':
+            case STATE_OPEN:
                 $flashMessage = ["success", "publié"];
                 break;
-            case 'Clôturée':
+            case STATE_CLOSED:
                 $flashMessage = ["success", "Clôture des inscriptions"];
                 break;
-            case 'Activité en cours':
+            case STATE_ACTIVITY_IN_PROGRESS:
                 $flashMessage = ["success", "Activité en cours"];
                 break;
-            case 'Activité passée':
+            case STATE_ACTIVITY_PAST:
                 $flashMessage = ["success", "Activité passée"];
                 break;
-            case 'Activité annulée':
+            case STATE_ACTIVITY_CANCELED:
                 $flashMessage = ["success", "Sortie annulée"];
+                break;
+            case STATE_HISTORICIZED:
+                $flashMessage = ["success", "Sortie historisée"];
                 break;
         }
 
@@ -96,26 +98,29 @@ class TripService
         $security = $this->security;
         $userInSession = $security->getUser();
         $flashMessage = [];
-        if ($userInSession != $trip->getOrganizer()
-            && $trip->getParticipants()->contains($userInSession)
-            && ($trip->getState()->getWording() == 'Ouverte' || $trip->getState()->getWording() == 'Clôturée')) {
-            $trip->removeParticipant($userInSession);
-            $this->entityManager->persist($trip);
-            $this->entityManager->flush();
-            $flashMessage = ["success", "Désinscription effectuée"];
+        if (count($trip->getParticipants()) === $trip->getNbRegistrationMax()
+            && $trip->getRegistrationDeadline() > getDate()) {
+            $this->setTripState($trip, STATE_OPEN);
         }
+
+        $trip->removeParticipant($userInSession);
+        $this->entityManager->persist($trip);
+        $this->entityManager->flush();
+        $flashMessage = ["success", "Désinscription effectuée"];
+
         return $flashMessage;
     }
 
     public function cancelTrip(Trip $trip, string $reason)
     {
         $flashMessage = [];
-        if ($trip->getState()->getWording() != 'Activité en cours') {
+        if ($trip->getState()->getWording() != STATE_ACTIVITY_IN_PROGRESS) {
             $newDescription = $trip->getInfo() . '[MOTIF D\'ANNULATION : ' . $reason . ']';
             $trip->setInfo($newDescription);
-            $flashMessage = $this->setTripState($trip, 'Activité annulée');
+            $flashMessage = $this->setTripState($trip, STATE_ACTIVITY_CANCELED);
+        } else {
+            $flashMessage = ['error', 'Une activité en cours ne peut être annulée'];
         }
-        $flashMessage = ['error', 'Une activité en cours ne peut être annulée'];
 
         return $flashMessage;
     }
