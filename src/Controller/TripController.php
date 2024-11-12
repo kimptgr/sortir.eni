@@ -69,7 +69,7 @@ final class TripController extends AbstractController
             return $this->redirectToRoute('app_trip_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('trip/new.html.twig', [
+        return $this->render('trip/newCampus.html.twig', [
             'trip' => $trip,
             'form' => $form,
         ]);
@@ -119,7 +119,7 @@ final class TripController extends AbstractController
             return $this->redirectToRoute('app_trip_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('trip/edit.html.twig', [
+        return $this->render('trip/campusEdit.html.twig', [
             'trip' => $trip,
             'form' => $form,
         ]);

@@ -30,38 +30,10 @@ final class CampusController extends AbstractController
             return $this->redirectToRoute('app_campus_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('campus/index.html.twig', [
+        return $this->render('campus/campusList.html.twig', [
             'campuses' => $campusRepository->findAll(),
             'campus' => $campus,
             'form' => $form,
-        ]);
-    }
-
-    #[Route('/new', name: 'app_campus_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
-    {
-        $campus = new Campus();
-        $form = $this->createForm(CampusType::class, $campus);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($campus);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('app_campus_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->render('campus/new.html.twig', [
-            'campus' => $campus,
-            'form' => $form,
-        ]);
-    }
-
-    #[Route('/{id}', name: 'app_campus_show', methods: ['GET'])]
-    public function show(Campus $campus): Response
-    {
-        return $this->render('campus/show.html.twig', [
-            'campus' => $campus,
         ]);
     }
 
@@ -77,7 +49,7 @@ final class CampusController extends AbstractController
             return $this->redirectToRoute('app_campus_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('campus/edit.html.twig', [
+        return $this->render('campus/campusEdit.html.twig', [
             'campus' => $campus,
             'form' => $form,
         ]);

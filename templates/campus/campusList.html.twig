@@ -3,13 +3,14 @@
 {% block title %}Gestion campus | {{ parent() }}{% endblock %}
 
 {% block body %}
-    <h1>Gérer les campus</h1>
-
-    <table class="table">
-        <thead>
+    <h1 class="mt-2">Gérer les campus</h1>
+    <div class="main-container">
+        <div class="bloc-article">
+            <table class="table-trips table-trips w-full">
+                <thead>
             <tr>
                 <th>Campus</th>
-                <th>actions</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -28,12 +29,12 @@
         {% endfor %}
         <tr>
             {{ form_start(form) }}
-            <td>{{ form_widget(form) }}</td>
-            <td><button class="btn">{{ button_label|default('Enregistrer') }}</button></td>
+            <td>{{ form_widget(form, { 'label': false }) }}</td>
+            <td><button class="btn-add">{{ button_label|default('Enregistrer') }}</button></td>
             {{ form_end(form) }}
         </tr>
         </tbody>
     </table>
-
-    <a href="{{ path('app_campus_new') }}">Create new</a>
+    </div>
+    </div>
 {% endblock %}

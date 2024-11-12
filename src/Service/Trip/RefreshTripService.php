@@ -43,11 +43,6 @@ class RefreshTripService
         //Negatif si $actualDateTime est antérieur à $tripEndDateTime.
         $diffEndDateTime = $actualDateTime->diff($tripEndDateTime);
 
-        dump($actualDateTime);
-        dump($tripStartDateTime);
-        dump($tripEndDateTime);
-
-
         // Check si archivé -> historisé
         // Le diff() permet de retourner un dateInterval
         if (($diffEndDateTime->m >= 1 || $diffEndDateTime->y > 0) && $trip->getState()->getWording() !== STATE_HISTORICIZED) {
