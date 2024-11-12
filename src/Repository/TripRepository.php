@@ -24,6 +24,9 @@ class TripRepository extends ServiceEntityRepository
 
     public function findTripRefresh()
     {
+//        On récupère tout les évenements qui sont a 1mois et 1 jour pour avoir le temps de mettre à jour les
+//        évenement le jour ou il passe de passé à historisé. Dans ce cas on part du principe qu'il y aura au minimum
+//        1 refresh par jour, se sera surement + dans la réalité.
         $dateTime = new DateTime("now");
         $dateTime->modify('-1 month -1 day');
         $querybuilder = $this->createQueryBuilder('trip')

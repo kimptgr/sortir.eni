@@ -13,6 +13,7 @@ class RefreshTripService
     private $stateRepository;
     private $tripRepository;
 
+
     public function __construct(EntityManagerInterface $entityManager, StateRepository $stateRepository, TripRepository $tripRepository)
     {
         $this->entityManager = $entityManager;
@@ -23,7 +24,7 @@ class RefreshTripService
     public function refreshTrip()
     {
         $trips = $this->tripRepository->findTripRefresh();
-        $states = $this->stateRepository->findAll();
+        $states = $this->stateRepository->findAllState();
         foreach ($trips as $trip) {
             $this->refreshStartDate($trip, $states);
             $this->entityManager->persist($trip);
@@ -45,31 +46,28 @@ class RefreshTripService
 
         // Check si archivé -> historisé
         // Le diff() permet de retourner un dateInterval
+        // Ici on regarde si le moi est >= a 1 et l'année > 0
         if (($diffEndDateTime->m >= 1 || $diffEndDateTime->y > 0) && $trip->getState()->getWording() !== STATE_HISTORICIZED) {
             $trip->setState($this->findStateByWording($states, STATE_HISTORICIZED));
-            $this->entityManager->persist($trip);
         }
 
         // Test si activité a dépassé la date d'inscription
         if ($tripRegistrationDeadLine < $actualDateTime) {
             $trip->setState($this->findStateByWording($states, STATE_CLOSED));
-            $this->entityManager->persist($trip);
         }
 
         //        Test si activité en cour
         // Ici diffEnDateTime  si le date est avant
         if ($tripEndDateTime > $actualDateTime && $tripStartDateTime <= $actualDateTime) {
             $trip->setState($this->findStateByWording($states, STATE_ACTIVITY_IN_PROGRESS));
-            $this->entityManager->persist($trip);
         }
 
         // Check si activité est terminée
-        if ($tripEndDateTime<$actualDateTime) {
+        if ($tripEndDateTime>$actualDateTime) {
             $trip->setState($this->findStateByWording($states, STATE_ACTIVITY_PAST));
-            $this->entityManager->persist($trip);
         }
 
-
+        $this->entityManager->persist($trip);
 
     }
 
