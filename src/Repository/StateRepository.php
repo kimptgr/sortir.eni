@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\State;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -20,6 +21,17 @@ class StateRepository extends ServiceEntityRepository
     public function findByWording(string $wording){
         return $this->findOneBy(['wording' => $wording]);
     }
+
+    public function findAllState()
+    {
+        // On sélectionne tous les champs de l'entité `State`
+        $querybuilder = $this->createQueryBuilder('state');
+
+        // Exécute la requête pour obtenir des objets `State`
+        $query = $querybuilder->getQuery();
+        return $query->getResult();
+    }
+
 
     //    /**
     //     * @return State[] Returns an array of State objects

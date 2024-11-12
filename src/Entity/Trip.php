@@ -29,16 +29,16 @@ class Trip
     #[Assert\NotNull]
     private ?\DateTimeInterface $startDateTime = null;
 
-//    #[Assert\Callback]
-//    public function validateStartDateTime(ExecutionContextInterface $context){
-//        $dateNow = new \DateTime();
-//        $tomorow = $dateNow->modify('+2 day');
-//        if ($this->startDateTime < $tomorow){
-//            $context->buildViolation("La date du début de l'évenement doit être postérieur à jour + 2 à la date actuelle")
-//                ->atPath('startDateTime')
-//                ->addViolation();
-//        }
-//    }
+    #[Assert\Callback]
+    public function validateStartDateTime(ExecutionContextInterface $context) :void{
+        $dateNow = new \DateTime();
+        $tomorow = $dateNow->modify('+2 day');
+        if ($this->startDateTime < $tomorow){
+            $context->buildViolation("La date du début de l'évenement doit être postérieur à jour + 2 à la date actuelle")
+                ->atPath('startDateTime')
+                ->addViolation();
+        }
+    }
 
 
 
@@ -58,16 +58,16 @@ class Trip
     #[Assert\NotNull]
     private ?\DateTimeInterface $registrationDeadline = null;
 
-//    #[Assert\Callback]
-//    public function validateDateRegistration(ExecutionContextInterface $context){
-//        $dateNow = new \DateTime();
-//        $tomorow = $dateNow->modify('+1 day');
-//        if ($this->registrationDeadline < $tomorow){
-//            $context->buildViolation("La date de fin de l'évenement doit être postérieur à jour + 1 à la date actuelle")
-//                ->atPath('registrationDeadline')
-//                ->addViolation();
-//        }
-//    }
+    #[Assert\Callback]
+    public function validateDateRegistration(ExecutionContextInterface $context){
+        $dateNow = new \DateTime();
+        $tomorow = $dateNow->modify('+1 day');
+        if ($this->registrationDeadline < $tomorow){
+            $context->buildViolation("La date de fin d'inscription de l'évenement doit être postérieur à jour + 1 à la date actuelle")
+                ->atPath('registrationDeadline')
+                ->addViolation();
+        }
+    }
 
     #[ORM\Column]
     private ?int $nbRegistrationMax = null;
