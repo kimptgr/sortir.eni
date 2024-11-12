@@ -53,6 +53,9 @@ class UserController extends AbstractController
 
         $participants = $participantRepository->findParticipantsByFilters($filterModel);
 
+
+
+
         return $this->render('registration/listUser.html.twig', [
             'form' => $form->createView(),
             'participants' => $participants,

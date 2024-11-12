@@ -3,80 +3,69 @@
 {% block title %}Comptes existants{% endblock %}
 
 {% block body %}
-    <div class="max-w-4xl mx-auto p-6  rounded-lg shadow-md">
-        <h1 class="text-2xl font-semibold text-gray-800 mb-6">Filtrer les comptes</h1>
 
-        {{ form_start(form) }}
-        <div class="space-y-4">
-            <div class="flex justify-between items-center">
-                <div class="w-full">
-                    {{ form_row(form.username) }}
+        <div class="max-w-4xl mx-auto p-6 rounded-lg shadow-md">
+            <!-- Formulaire de filtrage -->
+            <h1 class="text-2xl font-semibold text-gray-800 mb-6">Filtrer les comptes</h1>
+            {{ form_start(form) }}
+            <div class="space-y-4">
+                <!-- Champs du formulaire -->
+                <div class="flex justify-between items-center">
+                    <div class="w-full">{{ form_row(form.username) }}</div>
                 </div>
+                <!-- Ajoutez d'autres champs du formulaire ici -->
+                <button type="submit" class="w-full py-3 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-500 transition">Filtrer</button>
             </div>
-            <div class="flex justify-between items-center">
-                <div class="w-full">
-                    {{ form_row(form.email) }}
-                </div>
-            </div>
-            <div class="flex justify-between items-center">
-                <div class="w-full">
-                    {{ form_row(form.role) }}
-                </div>
-            </div>
-            <div class="flex justify-between items-center">
-                <div class="w-full">
-                    {{ form_row(form.isActive) }}
-                </div>
-            </div>
-            <button type="submit" class="w-full py-3 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-500 transition">Filtrer</button>
+            {{ form_end(form) }}
         </div>
-        {{ form_end(form) }}
-    </div>
 
-    <!-- Liste des participants -->
-    <div class="mt-8 max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
-        <h2 class="text-xl font-semibold text-gray-800 mb-4">Participants</h2>
-        <ul class="space-y-4">
-            {% for participant in participants %}
-                <li class="flex items-center justify-between p-4 bg-gray-100 rounded-lg">
-
-{#                                        {% if participant.isActive %}
-                    <button class="w-full py-3 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-500 transition ">Rendre inactif</button>
-                    {% else %}
-                    <button class="w-full py-3 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-500 transition ">Rendre actif</button>
-                    {% endif %}
-                    <button class="w-full py-3 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-500 transition ">supprimer</button>#}
-
-                    <div class="flex items-center space-x-4">
-                        <input name='selected' type="checkbox" class="form-checkbox text-blue-600">
-                        <div>
-                            <strong class="text-lg">{{ participant.pseudo }}</strong> - <span class="text-gray-600">{{ participant.email }}</span>
+        <!-- Liste des participants -->
+        <div class="mt-8 max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">Participants</h2>
+            <ul id="participants-list" class="space-y-4">
+                {% for participant in participants %}
+                    <li data-id="{{ participant.id }}" class="participant-item flex items-center justify-between p-4 bg-gray-100 rounded-lg">
+                        <div class="flex items-center space-x-4">
+                            <input type="checkbox" class="form-checkbox text-blue-600 participant-checkbox" data-id="{{ participant.id }}">
+                            <div>
+                                <strong class="text-lg">{{ participant.pseudo }}</strong> - <span class="text-gray-600">{{ participant.email }}</span>
+                            </div>
                         </div>
-                    </div>
-                    <div class="text-sm text-gray-500">
-                        <em class="text-green-600">{{ participant.isActive ? 'Actif' : 'Inactif' }}</em>
-                    </div>
+                        <div class="text-sm text-gray-500">
+                            <em class="{{ participant.isActive ? 'text-green-600' : 'text-red-600' }}">{{ participant.isActive ? 'Actif' : 'Inactif' }}</em>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
 
-                </li>
-            {% endfor %}
-        </ul>
-
-        <!-- Actions sur les utilisateurs sélectionnés -->
-        <div class="flex justify-between items-center mt-6 space-x-4">
-            <button type='submit' class="text-white font-semibold py-2 px-4">
-                Supprimer
-            </button>
-            <div class="flex space-x-4">
-                <button type='submit' class="text-white font-semibold py-2 px-4 ">
-                    Rendre inactif
-                </button>
-                <button type='submit' class="text-white font-semibold py-2 px-4">
-                    Rendre actif
-                </button>
+            <!-- Actions sur les utilisateurs sélectionnés -->
+            <div class="flex justify-between items-center mt-6 space-x-4">
+                <button id="delete-button" class="text-white bg-red-600 font-semibold py-2 px-4 rounded hover:bg-red-500">Supprimer</button>
             </div>
         </div>
 
+        <script>
+            document.getElementById('delete-button').addEventListener('click', function () {
+                // Récupérer toutes les cases cochées
+                const checkboxes = document.querySelectorAll('.participant-checkbox:checked');
+                const idsToDelete = Array.from(checkboxes).map(checkbox => checkbox.dataset.id);
+
+                if (idsToDelete.length > 0) {
+                    // Supprimer les éléments sélectionnés
+                    idsToDelete.forEach(id => {
+                        const item = document.querySelector(`li[data-id='${id}']`);
+                        if (item) {
+                            item.remove();
+                        }
+                    });
+
+                    // Vous pouvez ajouter un appel AJAX ici pour supprimer les éléments du serveur si nécessaire
+                    console.log('Suppression des éléments avec les identifiants : ', idsToDelete);
+                } else {
+                    alert('Veuillez sélectionner au moins un participant à supprimer.');
+                }
+            });
+        </script>
+    {% endblock %}
 
 
-    </div>
-{% endblock %}
