@@ -6,6 +6,7 @@ use App\Entity\Participant;
 use App\Form\ParticipantFormType;
 use App\Form\ParticipantFormTypePassword;
 use App\Form\RegistrationFormType;
+use App\Repository\ParticipantRepository;
 use App\Service\File\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Container\ContainerInterface;
@@ -91,10 +92,18 @@ class RegistrationController extends AbstractController
     // ---------------------------------------------------------------------------------------------------------------------
 
 
-    #[Route('/profile', name: 'app_profile')]
+    #[Route('/profile/{pseudo?}', name: 'app_profile')]
     #[isGranted('ROLE_USER')]
-    public function profile(Security $security, LogoutUrlGenerator $logoutUrlGenerator): Response
+    public function profile(Security $security, LogoutUrlGenerator $logoutUrlGenerator, ParticipantRepository $repository, ?string $pseudo=null): Response
     {
+        if($pseudo !== null){
+            $participant = $repository->findOneBy(['pseudo' => $pseudo]);
+            return $this->render('registration/profile.html.twig', [
+                'user' => $participant,
+            ]);
+
+        }
+
         $user = $this->getUser();
 
         if (!$user) {

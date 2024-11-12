@@ -77,11 +77,12 @@
                         {% for participant in trip.participants %}
                             {% if participant.pseudo is defined and participant.pseudo is not null %}
                                 <tr>
-                                <th>{{ participant.pseudo }}</th>
+                                <th><a href="{{ path('app_profile', {'pseudo': participant.pseudo }) }}">{{ participant.pseudo }}</a></th>
                             {% else %}
                                 <th>{{ participant.email }}</th>
                             {% endif %}
                                 <th>{{ participant.firstName }} {{ participant.lastName }}</th>
+
                             </tr>
                         {% endfor %}
                         </tbody>

@@ -99,7 +99,7 @@
                                 {% endif %}
                             {% endfor %}
                         </td>
-                        <td>{{ trip.organizer.lastName ~ trip.organizer.firstName }}</td>
+                        <td><a href="{{ path('app_profile', {'pseudo': trip.organizer.pseudo }) }}">{{ trip.organizer.lastName ~ trip.organizer.firstName }}</a></td>
                         <td>
                             {% if is_granted('EDIT', trip) %}
                                 <a href="{{ path('app_trip_edit', {'id': trip.id}) }}">Modifier</a>

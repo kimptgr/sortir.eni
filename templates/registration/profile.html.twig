@@ -48,7 +48,9 @@
 
         <!-- Buttons for editing profile and logging out -->
         <div class="flex justify-between align-items-center mt-6">
+            {% if is_granted('EDIT', user) %}
             <a href="{{ path('app_edit_profile') }}" class="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 px-6 rounded-lg shadow-md transition duration-300 ease-in-out">Modifier le profil</a>
+            {% endif %}
             <a href="{{ path('app_logout') }}" class="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-6 rounded-lg shadow-md transition duration-300 ease-in-out">Déconnexion</a>
         </div>
     </div>
