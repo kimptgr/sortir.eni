@@ -37,10 +37,6 @@ class RegistrationController extends AbstractController
 
     }
 
-
-
-
-
     #[Route('/register', name: 'app_register')]
     #[isGranted('ROLE_ADMIN')]
     public function register(
@@ -94,7 +90,6 @@ class RegistrationController extends AbstractController
 
 
     #[Route('/profile/{pseudo?}', name: 'app_profile')]
-    #[SensioSecurity("is_granted('EDIT', participant)")]
     public function profile(Security $security, LogoutUrlGenerator $logoutUrlGenerator, ParticipantRepository $repository, ?string $pseudo=null): Response
     {
         if ($pseudo === null){
@@ -121,27 +116,20 @@ class RegistrationController extends AbstractController
     // =========================================================================================================
 
 
-    #[Route('/edit', name: 'app_edit_profile')]
+    #[Route('/edit/{pseudo?}', name: 'app_edit_profile')]
+    #[SensioSecurity("is_granted('EDIT', participant)")]
     public function editProfile(Request $request,
                                 EntityManagerInterface $entityManager,
-
-                                FileUploader $fileUploader
+                                FileUploader $fileUploader,
+                                ParticipantRepository $repository,
+                                ?string $pseudo=null
     ): Response {
 
-
-
-
-
-        // Récupérer l'utilisateur connecté
-        $user = $this->getUser();
-
-
-
-        if (!$user) {
-            return $this->redirectToRoute('app_login');
+        if ($pseudo === null){
+            $user = $this->getUser();
+        }else {
+            $user = $repository->findOneBy(['pseudo' => $pseudo]);
         }
-
-
 
         // Créer et remplir le formulaire avec les données de l'utilisateur
         $form = $this->createForm(ParticipantFormType::class, $user);
@@ -149,14 +137,8 @@ class RegistrationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-
-
             /** @var UploadedFile $brochureFile */
             $brochureFile = $form->get('brochure')->getData(); // est null
-
-
-
-
 
             if ($brochureFile) {
                 // Utiliser le service FileUploader pour gérer l'upload
@@ -169,23 +151,6 @@ class RegistrationController extends AbstractController
                 $fileUploader->delete($oldFilename); // on supprime l'ancien repertoire parce qu'inutile
 
             }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
             $entityManager->persist($user);
 
