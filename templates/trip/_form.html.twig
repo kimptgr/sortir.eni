@@ -11,7 +11,7 @@
 </script>
 {% endblock %}
 
-{{ form_start(form) }}
+{{ form_start(form, { attr: { id: 'form-new-trip' } }) }}
 
         <div class="form-row">
             {{ form_label(form.name) }}
@@ -73,6 +73,12 @@
         </div>
 
 
+    {{ form_row(form.registrationDeadline, {
+        row_class: 'form-row',
+        label_class: 'label',
+        widget_class: 'w-50 p-2 border border-gray-300 rounded ' ~ (form.registrationDeadline.vars.valid ? 'border-gray-300' : 'border-red-500'),
+        error_item_class: 'label-error',
+    }) }}
 
 <div class="form-row">
             {{ form_label(form.relativeCampus) }}
@@ -82,6 +88,12 @@
             </div>
         </div>
 
+    {{ form_row(form.duration, {
+        row_class: 'form-row',
+        label_class: 'label',
+        widget_class: 'w-50 p-2 border border-gray-300 rounded ' ~ (form.duration.vars.valid ? 'border-gray-300' : 'border-red-500'),
+        error_item_class: 'label-error',
+    }) }}
 
 <div class="form-row">
             {{ form_label(form.city) }}
@@ -99,8 +111,47 @@
             </div>
         </div>
 
+    {{ form_row(form.city, {
+        row_class: 'form-row',
+        label_class: 'label',
+        widget_class: 'w-50 p-2 border border-gray-300 rounded ' ~ (form.city.vars.valid ? 'border-gray-300' : 'border-red-500'),
+        error_item_class: 'label-error',
+    }) }}
 
 
+    {{ form_row(form.place, {
+        row_class: 'form-row',
+        label_class: 'label',
+        widget_class: 'w-50 p-2 border border-gray-300 rounded ' ~ (form.place.vars.valid ? 'border-gray-300' : 'border-red-500'),
+        error_item_class: 'label-error',
+    }) }}
+{# MODAL #}
+{# Modale pour créer une nouvelle adresse #}
+<div id="modal-add-place" hidden>
+    <meta name="csrf-token" content="{{ csrfToken }}">
+    <div class="modal-content">
+        <h2 id="placetitle">Ajouter un nouveau lieu</h2>
+        <div class="form-row">
+            <label for="place_name">Nom</label>
+            <input type="text" id="place_name" name="name">
+        </div>
+        <div class="form-row">
+            <label for="place_street">Rue</label>
+            <input type="text" id="place_street" name="street">
+        </div>
+        <div class="form-row">
+            <label for="place_latitude">Latitude</label>
+            <input type="number" id="place_latitude" name="latitude" step="0.000001">
+        </div>
+        <div class="form-row">
+            <label for="place_longitude">Longitude</label>
+            <input type="number" id="place_longitude" name="longitude" step="0.000001">
+        </div>
+        <button type="button" id="btn-close-form" class="btn btn-search">Annuler l'ajout du lieu</button>
+        <button type="button" id="form-nouveau-lieu" class="btn btn-add font-bold">Enregistrer le lieu</button>
+    </div>
+</div>
+{# ENDMOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOODAL #}
 <div class="form-row">
             <label class="label">Rue :</label>
             <input type="text" id="street" class="w-50 p-2 border border-gray-300 rounded" readonly />

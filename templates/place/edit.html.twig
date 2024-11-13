@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Éditer Lieu | {{ parent() }}{% endblock %}
+
+{% block body %}
+    <div class="main-container">
+        <h1>Éditer Lieu</h1>
+        <div class="bloc-article">
+            <div class="list-filter">
+                {{ form_start(form) }}
+                <div class="main-input-group">
+                    <div class="input-group flex flex-col">
+                        {{ form_label(form) }}
+                        {{ form_widget(form) }}
+                        <div class="main-input-group">
+                            <button class="btn-add">{{ button_label|default('Modifier') }}</button>
+                        </div>
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{ include('place/_delete_form.html.twig') }}
+{% endblock %}

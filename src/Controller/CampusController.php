@@ -17,6 +17,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 final class CampusController extends AbstractController
 {
     #[Route(name: 'app_campus_index', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function index(CampusRepository $campusRepository, Request $request, EntityManagerInterface $entityManager): Response
     {
         $campus = new Campus();
@@ -38,6 +39,7 @@ final class CampusController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_campus_edit', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function edit(Request $request, Campus $campus, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(CampusType::class, $campus);
@@ -56,6 +58,7 @@ final class CampusController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_campus_delete', methods: ['POST'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function delete(Request $request, Campus $campus, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$campus->getId(), $request->getPayload()->getString('_token'))) {

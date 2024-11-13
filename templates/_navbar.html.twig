@@ -1,16 +1,13 @@
 <nav class="bg-white bg-no-repeat bg-cover bg-center">
-    <div class="container mx-auto flex items-center justify-between p-4">
-
+    <div class="container mx-auto flex items-center justify-between p-4 relative">
         <!-- Logo et Titre du site -->
         <div class="flex items-center space-x-4">
-            <!-- Logo -->
             <a href="{{ path('main') }}"><img src="{{ asset('img/logo_bus.png') }}" alt="Logo" class="w-32 h-32 mr-6 object-contain" ></a>
-            <!-- Titre du site -->
             <a class="text-3xl font-poppins text-gray-800" href="{{ path('main') }}">sortir.com</a>
         </div>
 
         <!-- Bouton hamburger pour le mode mobile -->
-        <button class="lg:hidden text-gray-800 focus:outline-none" type="button" aria-expanded="false" aria-label="Toggle navigation" onclick="document.getElementById('navbarMenu').classList.toggle('hidden')">
+        <button class="lg:hidden text-gray-800 focus:outline-none" type="button" aria-expanded="false" aria-label="Toggle navigation" onclick="toggleMenu()">
             <div class="flex flex-col items-center">
                 <svg class="w-6 h-6 mt-2"  fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
@@ -18,10 +15,8 @@
             </div>
         </button>
 
-
-
         <!-- Liens de navigation (desktop) -->
-        <div class="hidden lg:flex lg:items-center lg:justify-end space-x-8" >
+        <div class="hidden lg:flex lg:items-center lg:justify-end space-x-8">
             <ul class="flex space-x-8">
                 <li><a class="text-gray-600 hover:text-gray-800" href="{{ path('main') }}">Accueil</a></li>
                 <li><a class="text-gray-600 hover:text-gray-800" href="{{ path('app_trip_index') }}">Liste des événements</a></li>
@@ -43,12 +38,10 @@
         </div>
 
         <!-- Menu mobile -->
-        <div id="navbarMenu" class="md:hidden absolute top-20 left-0 right-0 bg-white shadow-lg rounded-b-lg p-4 space-y-4" >
-            <ul class="space-y-4" >
+        <div id="navbarMenu" class="hidden md:hidden absolute top-20 left-0 right-0 bg-white shadow-lg rounded-b-lg p-4 space-y-4">
+            <ul class="space-y-4">
                 <li><a class="block text-gray-800 py-2 px-4 hover:bg-gray-100 rounded" href="{{ path('main') }}">Accueil</a></li>
                 <li><a class="block text-gray-800 py-2 px-4 hover:bg-gray-100 rounded" href="{{ path('app_trip_index') }}">Liste des événements</a></li>
-
-
                 {% if app.user %}
                     <li><a class="block text-gray-800 py-2 px-4 hover:bg-gray-100 rounded" href="{{ path('app_profile') }}">Profil</a></li>
                     <li><a class="block text-gray-800 py-2 px-4 hover:bg-gray-100 rounded" href="{{ path('app_logout') }}">Se déconnecter</a></li>
@@ -64,12 +57,11 @@
         </div>
 
         <!-- Menu tablette -->
-        <div id="navbarMenu" class="hidden md:flex lg:hidden absolute top-20 left-0 right-0 bg-white shadow-lg rounded-b-lg p-4 space-y-4" >
-            <ul class="space-y-4" >
+        <div id="navbarMenuTablet" class="hidden sm:flex lg:hidden absolute top-20 left-0 right-0 bg-white shadow-lg rounded-b-lg p-4 space-y-4" >
+            <ul class="space-y-4">
                 <li><a class="block text-gray-800 py-2 px-4 hover:bg-gray-100 rounded" href="{{ path('main') }}">Accueil</a></li>
                 <li><a class="block text-gray-800 py-2 px-4 hover:bg-gray-100 rounded" href="{{ path('app_trip_index') }}">Liste des événements</a></li>
                 <li><a class="block text-gray-800 py-2 px-4 hover:bg-gray-100 rounded" href="{{ path('app_trip_new') }}">Créer événement</a></li>
-
                 {% if app.user %}
                     <li><a class="block text-gray-800 py-2 px-4 hover:bg-gray-100 rounded" href="{{ path('app_profile') }}">Profil</a></li>
                     <li><a class="block text-gray-800 py-2 px-4 hover:bg-gray-100 rounded" href="{{ path('app_logout') }}">Se déconnecter</a></li>
@@ -84,6 +76,76 @@
             </ul>
         </div>
     </div>
+
+    <script>
+
+        // Fonction pour basculer l'affichage du menu
+        function toggleMenu() {
+            const menuM = document.getElementById(classChoiceMediaQueries());
+            menuM.classList.toggle('hidden');  // Basculer l'affichage du menu
+
+        }
+
+
+        // Vérifier la taille de l'écran et appliquer les actions sur les menus
+        function classChoiceMediaQueries() {
+            if (window.innerWidth <= 640) {
+                return 'navbarMenu';  // Menu mobile
+            } else if (window.innerWidth > 640 && window.innerWidth <= 1024) {
+                return 'navbarMenuTablet';  // Menu tablette
+            }
+            return null;  // Aucun menu spécifique pour les tailles plus grandes
+        }
+
+
+        const navbarMenu = document.getElementById('navbarMenu');
+        const navbarMenuTablet = document.getElementById('navbarMenuTablet');
+
+        // Fonction pour gérer l'affichage en fonction de la largeur de la fenêtre
+        function handleScreenResize() {
+            if (window.innerWidth <= 640) {
+                if (navbarMenu && navbarMenu.classList.contains('hidden')) {
+                    // Rien à faire si déjà caché
+                } else if (navbarMenu) {
+                    navbarMenu.classList.add('hidden');
+                }
+
+                if (navbarMenuTablet) {
+                    navbarMenuTablet.classList.add('hidden'); // Toujours cacher ce menu pour mobile
+                }
+            } else if (window.innerWidth > 640 && window.innerWidth <= 1024) {
+                if (navbarMenuTablet && navbarMenuTablet.classList.contains('hidden')) {
+                    // Rien à faire si déjà caché
+                } else if (navbarMenuTablet) {
+                    navbarMenuTablet.classList.add('hidden');
+                }
+
+                if (navbarMenu) {
+                    navbarMenu.classList.add('hidden'); // Toujours cacher ce menu pour tablette
+                }
+            } else {
+                // Pour les écrans de grande taille
+                if (navbarMenu) {
+                    navbarMenu.classList.add('hidden'); // Cacher pour les grands écrans
+                }
+
+                if (navbarMenuTablet) {
+                    navbarMenuTablet.classList.add('hidden'); // Cacher aussi pour les grands écrans
+                }
+            }
+        }
+
+        // Appeler la fonction lors du redimensionnement de la fenêtre
+        window.addEventListener('resize', handleScreenResize);
+
+        // Appeler la fonction lors du chargement de la page pour appliquer les classes correctes
+        handleScreenResize();
+
+
+
+
+    </script>
+
     <!-- Ombre au bas de la navbar -->
     <div class="h-1 bg-gray-300 shadow-lg"></div>
 </nav>
