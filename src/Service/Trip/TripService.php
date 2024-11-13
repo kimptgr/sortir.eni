@@ -99,7 +99,8 @@ class TripService
         $userInSession = $security->getUser();
         $flashMessage = [];
         if (count($trip->getParticipants()) === $trip->getNbRegistrationMax()
-            && $trip->getRegistrationDeadline() > getDate()) {
+            && $trip->getRegistrationDeadline() > getDate()
+            && ($trip->getState()->getWording() !== STATE_ACTIVITY_CANCELED || $trip->getState()->getWording() !== STATE_ACTIVITY_PAST ))  {
             $this->setTripState($trip, STATE_OPEN);
         }
 

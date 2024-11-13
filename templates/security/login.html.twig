@@ -4,9 +4,6 @@
 
 {% block body %}
     <form method="post">
-        {% if error %}
-            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-        {% endif %}
         <div class="main-container">
             <h1 class="h3 mb-3 font-weight-normal">Connexion</h1>
             <div class="bloc-article flex flex-col items-center justify-center">
@@ -18,7 +15,7 @@
                                    class="form-control" autocomplete="email" required autofocus>
                         </div>
                         <div class="form-row mb-4">
-                            <label for="inputPassword">Password</label>
+                            <label for="inputPassword">Mot de passe</label>
                             <input type="password" name="_password" id="inputPassword" class="form-control"
                                    autocomplete="current-password" required>
                         </div>
@@ -33,19 +30,24 @@
                         <div class="checkbox mb-3">
                             <a href="{{ path('app_forgot_password_request') }}">Mot de passe Oublié ?</a>
                         </div>
+                        {% if app.user %}
+                            <div class="text-red-500 h-12">
+                                <p class="font-weight-bold">
+                                    {{ app.user.userIdentifier }} est déjà connecté.</p>
+                                <a href="{{ path('app_logout') }}">Clique ici pour
+                                        te déconnecter.</a>
+
+                            </div>
+                        {% endif %}
+                        {% if error %}
+                            <div class="text-red-500 h-10">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                        {% endif %}
 
                         <button class="btn btn-lg btn-search" type="submit">
                             Connexion
                         </button>
                     </div>
-                {% if app.user %}
-                    <div class="mx-auto text-red-500">
-                        <p class="font-weight-bold">
-                            {{ app.user.userIdentifier }} est déjà connecté.</p>
-                        <p><a href="{{ path('app_logout') }}">Clique ici pour
-                                te déconnecter.</a></p>
-                    </div>
-                {% endif %}
+
             </div>
         </div>
     </form>

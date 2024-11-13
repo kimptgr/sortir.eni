@@ -25,7 +25,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 #[Route('/reset-password')]
 class ResetPasswordController extends AbstractController
 {
-    // Import d'un trait qui est un morceau de code contenant des méthodes qui n'a pas besoin d'être instancié
+    // Import d'un TRAIT qui est un morceau de code contenant des méthodes qui n'a pas besoin d'être instancié
     use ResetPasswordControllerTrait;
 
     public function __construct(
@@ -167,7 +167,8 @@ class ResetPasswordController extends AbstractController
             ->htmlTemplate('reset_password/email.html.twig')
             ->context([
                 'resetToken' => $resetToken,
-                'url' => $url
+                'url' => $url,
+                'prenom' => $user->getFirstName(),
             ])
         ;
 

@@ -196,7 +196,7 @@ h2 {
 
 
 .form-row, .input-group {
-    @apply flex gap-2 p-2;
+    @apply flex gap-2 p-2 align-baseline;
 }
 
 .form-row label, .input-group label {
