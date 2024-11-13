@@ -12,6 +12,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -33,13 +34,11 @@ class TripType extends AbstractType
                 'widget' => 'single_text',
                 'label' => 'Date et heure de la sortie :',
                 'required' => true,
-                'data' => (new \DateTime())->modify('+1 hour'),
             ])
             ->add('registrationDeadline', null, [
                 'required' => true,
                 'widget' => 'single_text',
                 'label' => "Date limite de d'inscription :",
-                'data' => new \DateTime(),
             ])
             ->add('nbRegistrationMax', null, [
                 'required' => true,
@@ -55,14 +54,14 @@ class TripType extends AbstractType
                 ],
                 'label' => 'Durée :',
             ])
-            ->add('info', null, [
-                'label' => 'Description et infos :',
-                'required' => true,
-                'attr' => [
-                    'rows' => 15,
-                    'placeholder' => 'Entrez votre description ici...',
-                ],
-            ])
+             ->add('info', TextareaType::class, [
+                  'label' => 'Description et infos :',
+                  'required' => true,
+                  'attr' => [
+                      'rows' => 8,
+                      'placeholder' => 'Entrez votre description ici...',
+                  ],
+              ])
             ->add('relativeCampus', EntityType::class, [
                 'required' => true,
                 'class' => Campus::class,

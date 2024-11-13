@@ -3,36 +3,74 @@
 {% block javascript %}
 <script>
     // initialisation à zéro pour ensuite le remplacer dans le javascript
-{% set apiCityPlacesUrl = path('api_city_places', {'cityId': 0}) %}
-{% set apiPlaceInfoUrl = path('api_places_info', { 'placeId':0}) %}
-const apiCityPlacesUrl = '{{ apiCityPlacesUrl }}';
-const apiPlaceInfoUrl = '{{ apiCityPlacesUrl }}';
+    {% set apiCityPlacesUrl = path('api_city_places', {'cityId': 0}) %}
+    {% set apiPlaceInfoUrl = path('api_places_info', { 'placeId':0}) %}
+    const apiCityPlacesUrl = '{{ apiCityPlacesUrl }}';
+    const apiPlaceInfoUrl = '{{ apiCityPlacesUrl }}';
 
 </script>
 {% endblock %}
 
 {{ form_start(form, { attr: { id: 'form-new-trip' } }) }}
 
-    {#    Utilisation d'un ternaire pour changer la couleur de "border" des champs ayant une erreur, le .vars est utilisé pour extraire les
-informations du champ  (état de validation / messages d'erreur) .
-    J'avais oublié un essapce après le rouded, cela créait une erreur lors de la concatenation avec ~
+        <div class="form-row">
+            {{ form_label(form.name) }}
+            {{ form_widget(form.name, {'attr': {'class': (form.name.vars.errors|length > 0 ? 'error' : '')}}) }}
+            <div class="label-error">
+                {{ form_errors(form.name) }}
+            </div>
+        </div>
 
-    my-4 marge vertical (haut et bas de 4)
-    #}
 
-    {{ form_row(form.name, {
-        row_class: 'form-row',
-        label_class: 'label',
-        widget_class: 'w-50 p-2 border border-gray-300 rounded ' ~ (form.name.vars.valid ? 'border-gray-300' : 'border-red-500'),
-        error_item_class: 'label-error',
-    }) }}
 
-    {{ form_row(form.startDateTime, {
-        row_class: 'form-row',
-        label_class: 'label',
-        widget_class: 'w-50 p-2 border border-gray-300 rounded ' ~ (form.startDateTime.vars.valid ? 'border-gray-300' : 'border-red-500'),
-        error_item_class: 'label-error',
-    }) }}
+
+<div class="form-row">
+            {{ form_label(form.startDateTime) }}
+            {{ form_widget(form.startDateTime, {'attr': {'class': (form.startDateTime.vars.errors|length > 0 ? 'error' : '')}}) }}
+            <div class="label-error">
+                {{ form_errors(form.startDateTime) }}
+            </div>
+        </div>
+
+
+
+<div class="form-row">
+            {{ form_label(form.registrationDeadline) }}
+            {{ form_widget(form.registrationDeadline, {'attr': {'class': (form.registrationDeadline.vars.errors|length > 0 ? 'error' : '')}}) }}
+            <div class="label-error">
+                {{ form_errors(form.registrationDeadline) }}
+            </div>
+        </div>
+
+<div class="form-row">
+            {{ form_label(form.nbRegistrationMax) }}
+            {{ form_widget(form.nbRegistrationMax, {'attr': {'class': (form.nbRegistrationMax.vars.errors|length > 0 ? 'error' : '')}}) }}
+            <div class="label-error">
+                {{ form_errors(form.nbRegistrationMax) }}
+            </div>
+        </div>
+
+
+<div class="form-row">
+            {{ form_label(form.duration) }}
+            {{ form_widget(form.duration, {'attr': {'class': (form.duration.vars.errors|length > 0 ? 'error' : '')}}) }}
+            <div class="label-error">
+                {{ form_errors(form.duration) }}
+            </div>
+        </div>
+
+
+<div class="form-row">
+            {{ form_label(form.info) }}
+            {{ form_widget(form.info, {
+                'attr': {
+                    'class': form.info.vars.errors|length > 0 ? 'error' : '',
+                }
+            }) }}
+            <div class="label-error">
+                {{ form_errors(form.info) }}
+            </div>
+        </div>
 
 
     {{ form_row(form.registrationDeadline, {
@@ -42,12 +80,13 @@ informations du champ  (état de validation / messages d'erreur) .
         error_item_class: 'label-error',
     }) }}
 
-    {{ form_row(form.nbRegistrationMax, {
-        row_class: 'form-row',
-        label_class: 'label',
-        widget_class: 'w-50 p-2 border border-gray-300 rounded ' ~ (form.nbRegistrationMax.vars.valid ? 'border-gray-300' : 'border-red-500'),
-        error_item_class: 'label-error',
-    }) }}
+<div class="form-row">
+            {{ form_label(form.relativeCampus) }}
+            {{ form_widget(form.relativeCampus, {'attr': {'class': (form.relativeCampus.vars.errors|length > 0 ? 'error' : '')}}) }}
+            <div class="label-error">
+                {{ form_errors(form.relativeCampus) }}
+            </div>
+        </div>
 
     {{ form_row(form.duration, {
         row_class: 'form-row',
@@ -56,23 +95,21 @@ informations du champ  (état de validation / messages d'erreur) .
         error_item_class: 'label-error',
     }) }}
 
-    {{ form_row(form.info, {
-        row_class: 'form-row',
-        label_class: 'label',
-        widget_class: 'w-50 p-2 border border-gray-300 rounded ' ~ (form.info.vars.valid ? 'border-gray-300' : 'border-red-500'),
-        error_item_class: 'label-error',
-        attr: {
-            rows: 15,
-            placeholder: 'Entrez votre description ici...'
-        }
-    }) }}
+<div class="form-row">
+            {{ form_label(form.city) }}
+            {{ form_widget(form.city, {'attr': {'class': (form.city.vars.errors|length > 0 ? 'error' : '')}}) }}
+            <div class="label-error">
+                {{ form_errors(form.city) }}
+            </div>
+        </div>
 
-    {{ form_row(form.relativeCampus, {
-        row_class: 'form-row',
-        label_class: 'label',
-        widget_class: 'w-50 p-2 border border-gray-300 rounded ' ~ (form.relativeCampus.vars.valid ? 'border-gray-300' : 'border-red-500'),
-        error_item_class: 'label-error',
-    }) }}
+<div class="form-row">
+            {{ form_label(form.place) }}
+            {{ form_widget(form.place, {'attr': {'class': (form.place.vars.errors|length > 0 ? 'error' : '')}}) }}
+            <div class="label-error">
+                {{ form_errors(form.place) }}
+            </div>
+        </div>
 
     {{ form_row(form.city, {
         row_class: 'form-row',
@@ -116,38 +153,35 @@ informations du champ  (état de validation / messages d'erreur) .
 </div>
 {# ENDMOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOODAL #}
 <div class="form-row">
-    <label class="label">Rue :</label>
-    <input type="text" id="street" class="w-50 p-2 border border-gray-300 rounded" readonly/>
-</div>
+            <label class="label">Rue :</label>
+            <input type="text" id="street" class="w-50 p-2 border border-gray-300 rounded" readonly />
+        </div>
 <div class="form-row">
-    <label class="label">Code postal :</label>
-    <input type="text" id="postalCode" class="w-50 p-2 border border-gray-300 rounded" readonly/>
-</div>
+            <label class="label">Code postal :</label>
+            <input type="text" id="postalCode" class="w-50 p-2 border border-gray-300 rounded" readonly />
+        </div>
 <div class="form-row">
-    <label class="label">Latitude :</label>
-    <input type="text" id="latitude" class="w-50 p-2 border border-gray-300 rounded" readonly/>
-</div>
+            <label class="label">Latitude :</label>
+            <input type="text" id="latitude" class="w-50 p-2 border border-gray-300 rounded" readonly />
+        </div>
 <div class="form-row">
-    <label class="label">Longitude :</label>
-    <input type="text" id="longitude" class="w-50 p-2 border border-gray-300 rounded" readonly/>
-</div>
+            <label class="label">Longitude :</label>
+            <input type="text" id="longitude" class="w-50 p-2 border border-gray-300 rounded" readonly />
+        </div>
 
 
-<button type="submit"
-        class=" my-4 ml-4 rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">{{ button_label|default('Publier la sortie') }}</button>
-<button type="submit" name="save"
-        class="my-4 ml-4 rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-    Enregistrer
-</button>
-{% if button_delete %}
-    <button type="submit" name="delete"
-            class="my-4 ml-4 rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-        Supprimer
-    </button>
+
+{% if button_label != '' %}
+<button type="submit" class=" my-4 ml-4 rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">{{ button_label }}</button>
 {% endif %}
-<button type="button" class=" my-4 ml-4 text-sm/6 font-semibold text-gray-900" onclick="window.history.back();">
-    Annuler
-</button>
+<button type="submit" name="save" class="my-4 ml-4 rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Enregistrer</button>
+{% if button_delete %}
+<button type="submit" name="delete" class="my-4 ml-4 rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Supprimer</button>
+{%  endif %}
+{% if button_annuler %}
+<button type="submit" name="cancel" class="my-4 ml-4 rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Annuler l'évênement</button>
+{% endif %}
+<button type="button" class=" my-4 ml-4 text-sm/6 font-semibold text-gray-900" onclick="window.history.back();">Annuler</button>
 
 {{ form_end(form) }}
 

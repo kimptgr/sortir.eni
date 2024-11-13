@@ -55,20 +55,9 @@ final class TripController extends AbstractController
         $form = $this->createForm(TripType::class, $trip);
         $form->handleRequest($request);
 
+
         if ($form->isSubmitted() && $form->isValid()) {
-            $trip->setOrganizer($this->getUser());
-            if ($request->request->has('save')) {
-                $message = $tripService->setTripState($trip, "Créée");
-            } else {
-                $message = $tripService->setTripState($trip, "Ouverte");
-            }
-
-            $this->addFlash($message[0] , $message[1]);
-
-            $entityManager->persist($trip);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('app_trip_index', [], Response::HTTP_SEE_OTHER);
+            return $this->submitTrip( $tripService,  $trip,  $request,  $entityManager);
         }
 
         //Création d'un jeton CSRF pour la création d'un lieu
@@ -100,6 +89,7 @@ final class TripController extends AbstractController
     #[IsGranted("EDIT", subject: 'trip')]
     public function edit(TripService $tripService, Request $request, Trip $trip, EntityManagerInterface $entityManager): Response
     {
+
         if ($this->getUser() != $trip->getOrganizer()) {
             throw $this->createAccessDeniedException();
         }
@@ -107,28 +97,23 @@ final class TripController extends AbstractController
         $form = $this->createForm(TripType::class, $trip);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
 
-            if ($request->request->has('save')) {
-                $tripService->setTripState($trip, "Créée");
-
-            }
-            if ($request->request->has('delete')) {
-                $tripService->deleteTrip($trip);
-
-            } else {
-                $tripService->setTripState($trip, "Ouverte");
-            }
-
-            $entityManager->flush();
-
-            return $this->redirectToRoute('app_trip_index', [], Response::HTTP_SEE_OTHER);
+        if ($request->request->has('delete')) {
+            return $this->deleteTrip($tripService, $trip, $entityManager);
         }
 
-        return $this->render('trip/edit.html.twig', [
-            'trip' => $trip,
-            'form' => $form,
-        ]);
+
+        if ($request->request->has('cancel')) {
+            return $this->redirectToRoute('app_trip_cancel', ['id' => $trip->getId()], Response::HTTP_SEE_OTHER);
+
+        }
+
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            return $this->submitTrip( $tripService,  $trip,  $request,  $entityManager);
+        }
+
+        return $this->render('trip/edit.html.twig', ['trip' => $trip, 'form' => $form,]);
     }
 
     #[Route('/{id}', name: 'app_trip_delete', methods: ['POST'])]
@@ -150,7 +135,7 @@ final class TripController extends AbstractController
     #[IsGranted('PUBLISH', subject: 'trip')]
     public function publish(Trip $trip, TripService $tripService): Response
     {
-        $tripService->setTripState($trip, 'Ouverte');
+        $tripService->setTripState($trip, STATE_OPEN);
         return $this->redirectToRoute('app_trip_index', [], Response::HTTP_SEE_OTHER);
     }
 
@@ -189,11 +174,43 @@ final class TripController extends AbstractController
             if (count($message) > 0) {
                 $this->addFlash($message[0], $message[1]);
             }
-            return $this->redirectToRoute('app_trip_index', [], Response::HTTP_SEE_OTHER);
+                return $this->redirectToRoute('app_trip_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('trip/cancel.html.twig', [
             'trip' => $trip,
         ]);
     }
+
+
+    private function deleteTrip(TripService $tripService, Trip $trip, EntityManagerInterface $entityManager)
+    {
+        if ($trip->getState()->getWording() != STATE_CREATED){
+            $this->addflash("error","Vous ne pouvez pas supprimer un evenement publié, vous devez l'annulez");
+            return $this->redirectToRoute('app_trip_index', [], Response::HTTP_SEE_OTHER);
+        }
+        $tripService->deleteTrip($trip);
+        $this->addFlash("success", "Événement supprimé");
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_trip_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    private function submitTrip(TripService $tripService, Trip $trip, Request $request, EntityManagerInterface $entityManager)
+    {
+        $trip->setOrganizer($this->getUser());
+        if ($request->request->has('save')) {
+            $message = $tripService->setTripState($trip, STATE_CREATED);
+        } else {
+            $message = $tripService->setTripState($trip, STATE_OPEN);
+        }
+
+        $this->addFlash($message[0] , $message[1]);
+
+        $entityManager->persist($trip);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_trip_index', [], Response::HTTP_SEE_OTHER);
+    }
+
 }

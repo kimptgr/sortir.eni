@@ -22,6 +22,7 @@ class TripVoter extends Voter{
     const DESIST = 'DESIST';
     const PARTICIPATE = 'PARTICIPATE';
 
+
     /**
      * Méthode hérités : supports() en charge de vérifier sir le voter doit s'appliquer en fonction de l'action et du sujet
      * @param string $attribute action demandée (les actions définies dans les constantes)
@@ -76,7 +77,8 @@ class TripVoter extends Voter{
     }
 
     private function canEdit(Trip $trip, Participant $participant): bool {
-            return in_array('ROLE_ADMIN', $participant->getRoles()) || $participant === $trip->getOrganizer();
+        return  $trip->getState()->getWording() === STATE_CREATED && in_array('ROLE_ADMIN', $participant->getRoles()) &&
+            $participant === $trip->getOrganizer();
     }
 
     private function canDelete(Trip $trip, Participant $participant): bool {
@@ -88,12 +90,11 @@ class TripVoter extends Voter{
     }
 
     private function canCancel(Trip $trip, Participant $participant): bool {
-       return in_array('ROLE_ADMIN', $participant->getRoles())
-           ||$participant === $trip->getOrganizer()
-            && ($trip->getState()->getWording() == STATE_CREATED
-                || $trip->getState()->getWording() == STATE_OPEN
-                || $trip->getState()->getWording() == STATE_CLOSED
-            );
+        $isOpenOrClosed = $trip->getState()->getWording() == STATE_OPEN || $trip->getState()->getWording() == STATE_CLOSED;
+        $isAdmin = in_array('ROLE_ADMIN', $participant->getRoles());
+        $isOrganizer = $participant === $trip->getOrganizer();
+
+        return ($isOpenOrClosed && ($isAdmin || $isOrganizer));
     }
 
     private function canDesist(Trip $trip, Participant $participant): bool {
@@ -111,4 +112,6 @@ class TripVoter extends Voter{
             && !$participants->contains($participant)
             && $trip->getState()->getWording() == STATE_OPEN ;
     }
+
+
 }
