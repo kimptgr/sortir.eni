@@ -195,7 +195,7 @@ h2 {
 .btn-add, button[type="submit"], input[type="submit"]  {
     @apply bg-fuchsia-400 text-white py-2 p-2 rounded hover:bg-fuchsia-700
 }
-.btn-search[type="submit"] {
+.btn-search[type="submit"], .btn-search {
     @apply bg-lime-500 text-white font-bold py-2 px-4 rounded-lg shadow-md hover:bg-green-500 hover:shadow-lg transition duration-200 ease-in-out py-2 p-2
 }
 button[type="reset"], input[type="reset"] {

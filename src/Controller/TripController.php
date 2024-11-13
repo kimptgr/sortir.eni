@@ -20,6 +20,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use function PHPUnit\Framework\isNull;
 
@@ -47,7 +48,7 @@ final class TripController extends AbstractController
 
     #[Route('/new', name: 'app_trip_new', methods: ['GET', 'POST'])]
     #[IsGranted("ROLE_USER")]
-    public function new(Request $request,TripService $tripService, EntityManagerInterface $entityManager): Response
+    public function new(Request $request,TripService $tripService, EntityManagerInterface $entityManager, CsrfTokenManagerInterface $csrfTokenManager): Response
     {
         $trip = new Trip();
 
@@ -70,9 +71,13 @@ final class TripController extends AbstractController
             return $this->redirectToRoute('app_trip_index', [], Response::HTTP_SEE_OTHER);
         }
 
+        //Création d'un jeton CSRF pour la création d'un lieu
+        $csrfToken = $csrfTokenManager->getToken('create_lieu')->getValue();
+
         return $this->render('trip/new.html.twig', [
             'trip' => $trip,
             'form' => $form,
+            'csrfToken' => $csrfToken,
         ]);
     }
 

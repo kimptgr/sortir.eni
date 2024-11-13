@@ -8,6 +8,11 @@ document.addEventListener('DOMContentLoaded', function () {
     const latitudeSelected = document.getElementById('latitude');
     const longitudeSelected = document.getElementById('longitude');
 
+    const closeFormAddPlace = document.getElementById('btn-close-form');
+    const modal = document.getElementById('modal-add-place');
+    const formNewPlace = document.getElementById('form-nouveau-lieu');
+    const placetitleElement = document.getElementById('placetitle');
+
 
     citySelect.addEventListener('change', function () {
         const cityId = citySelect.value;
@@ -25,6 +30,9 @@ document.addEventListener('DOMContentLoaded', function () {
                         option.textContent = place.name ;
                         placeSelect.appendChild(option);
                     });
+                    const option = document.createElement('option');
+                    option.textContent ='Ajoutez Lieu';
+                    placeSelect.appendChild(option);
                 })
                 .catch(error => console.error('Error fetching places:', error));
         } else {
@@ -35,8 +43,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     placeSelect.addEventListener('change', function () {
         const placeId = placeSelect.value;
-
-        if(placeId) {
+        if (placeId ==='Ajoutez Lieu'){
+            displayFormAddPlace();
+        }
+        else if(placeId) {
             url = apiPlaceInfoUrl.replace('0', placeId);
             fetch(url)
                 .then(response => response.json())
@@ -47,8 +57,58 @@ document.addEventListener('DOMContentLoaded', function () {
                     latitudeSelected.value = placeData.latitude;
                     longitudeSelected.value = placeData.longitude;
                 })
-
         }
     })
 
+    closeFormAddPlace.addEventListener('click',  () => {modal.hidden = true});
+    formNewPlace.addEventListener('click', sendPlaceForm);
+
+    function displayFormAddPlace(){
+        let userCityChoice = citySelect.options[citySelect.value].textContent;
+        let titleText = 'Nouveau lieu pour '+ userCityChoice;
+        placetitleElement.innerText = titleText;
+        modal.hidden = !modal.hidden;
+    }
+
+    // Soumettre le formulaire en AJAX pour ajouter un nouveau lieu
+    function sendPlaceForm (e) {
+        e.preventDefault();
+        const formData = new FormData();
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+
+        formData.append('csrf_token', csrfToken);
+        formData.append('name', document.getElementById('place_name').value);
+        formData.append('street', document.getElementById('place_street').value);
+        formData.append('latitude', document.getElementById('place_latitude').value);
+        formData.append('longitude', document.getElementById('place_longitude').value);
+        formData.append('cityId', citySelect.options[citySelect.value].value);
+
+        fetch('/place/place/create', {
+            method: 'POST',
+            body: formData,
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Ajouter le nouveau lieu en avant dernier du select
+                    let newOption = new Option(data.place.name, data.place.id, true, true);
+                    let beforeLastIndex = placeSelect.options.length - 1;
+                    placeSelect.add(newOption, beforeLastIndex);
+
+                    //Remplir les autres champs avec les informations du nouveau lieu
+                    streetSelected.value = data.place.street;
+                    postalCodeSelected.value = data.place.postalCode;
+                    latitudeSelected.value = data.place.latitude;
+                    longitudeSelected.value = data.place.longitude;
+
+                    // Fermer la modale et réinitialiser le formulaire
+                    modal.classList.add('hidden');
+                    formNewPlace.reset();
+                } else {
+                    alert('Erreur lors de l\'ajout du lieu');
+                }
+            })
+            .catch(error => console.error('Erreur lors de l\'ajout du lieu:', error));
+    }
 });
