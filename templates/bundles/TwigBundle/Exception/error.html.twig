@@ -1,0 +1,24 @@
+{# templates/bundles/TwigBundle/Exception/error404.html.twig #}
+{% extends 'base.html.twig' %}
+{% block title %}403| {{ parent() }}{% endblock %}
+{% block body %}
+    <div class="main-container">
+        <div class="bloc-article">
+    <h1>Oups ! Une erreur s’est glissée ici 🤔</h1>
+
+    <p>On dirait que quelque chose ne s'est pas passé comme prévu...
+        Nous avons cherché partout, mais impossible de trouver cette page ou de résoudre ce problème.</p>
+
+    <p>Peut-être que :</p>
+    <ul>
+        <li>Nos serveurs sont partis faire une sieste 🛌</li>
+        <li>Une licorne a grignoté quelques câbles 🦄</li>
+        <li>Ou tout simplement, c'est une <strong>erreur mystérieuse</strong> 🕵️</li>
+    </ul>
+
+    <p><strong>Pas de panique !</strong> Vous pouvez :</p>
+    <ol>
+        <li>Retourner à <a href="{{ path('app_trip_index') }}">la page d'accueil</a> (où tout est bien plus calme).</li>
+        <li>Réessayer plus tard – notre équipe de hamsters informaticiens est sur le coup ! 🐹</li>
+    </ol>
+{% endblock %}

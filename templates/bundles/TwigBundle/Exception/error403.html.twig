@@ -1,0 +1,20 @@
+{# templates/bundles/TwigBundle/Exception/error404.html.twig #}
+{% extends 'base.html.twig' %}
+{% block title %}403| {{ parent() }}{% endblock %}
+{% block body %}
+    <div class="main-container">
+        <div class="bloc-article">
+            <h1>403 - Accès refusé 🛑</h1>
+            <p>
+                Oh là là ! Il semble que vous essayez de vous faufiler dans une zone secrète.
+                Mais malheureusement, les portes sont fermées à double tour !
+
+            </p>
+            <p> Vous avez bien tenté d’entrer, mais seuls les élus ont le droit de franchir ce seuil.
+                Nous vous suggérons de faire demi-tour… ou de partir en quête de la clé magique ! 🔑
+
+            </p>
+              <p>  P.S. : Ne prenez pas ça personnellement. La prochaine fois, apportez des cookies ! 🍪 </p>
+        </div>
+    </div>
+{% endblock %}

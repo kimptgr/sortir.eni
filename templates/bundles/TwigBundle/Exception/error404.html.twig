@@ -1,0 +1,13 @@
+{# templates/bundles/TwigBundle/Exception/error404.html.twig #}
+{% extends 'base.html.twig' %}
+{% block title %}404 | {{ parent() }}{% endblock %}
+{% block body %}
+    <div class="main-container">
+        <div class="bloc-article">
+            <h1>Page introuvable</h1>
+            <p>
+                La page demandée est introuvable. Vérifier qu'il n'y a pas de faute d'orthographe dans l'URL ou <a href="{{ path('app_trip_index') }}">retourner à la page d'accueil</a>.
+            </p>
+        </div>
+    </div>
+{% endblock %}
