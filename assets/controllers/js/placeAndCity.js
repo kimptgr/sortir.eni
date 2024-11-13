@@ -60,7 +60,11 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     })
 
-    closeFormAddPlace.addEventListener('click',  () => {modal.hidden = true});
+    closeFormAddPlace.addEventListener('click',  () => {modal.hidden = true;
+        document.querySelectorAll('.hide-on-modal').forEach(element => {
+            element.style.display = "block";
+        });
+    });
     formNewPlace.addEventListener('click', sendPlaceForm);
 
     function displayFormAddPlace(){
@@ -68,6 +72,9 @@ document.addEventListener('DOMContentLoaded', function () {
         let titleText = 'Nouveau lieu pour '+ userCityChoice;
         placetitleElement.innerText = titleText;
         modal.hidden = !modal.hidden;
+        document.querySelectorAll('.hide-on-modal').forEach(element => {
+            element.style.display = "none";
+        });
     }
 
     // Soumettre le formulaire en AJAX pour ajouter un nouveau lieu
@@ -103,7 +110,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     longitudeSelected.value = data.place.longitude;
 
                     // Fermer la modale et réinitialiser le formulaire
-                    modal.classList.add('hidden');
+                    modal.hidden = !modal.hidden;
+
                     formNewPlace.reset();
                 } else {
                     alert('Erreur lors de l\'ajout du lieu');

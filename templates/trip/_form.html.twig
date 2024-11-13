@@ -11,8 +11,13 @@
 </script>
 {% endblock %}
 
-{{ form_start(form, { attr: { id: 'form-new-trip' } }) }}
-
+{{ form_start(form, {
+    attr: {
+        id: 'form-new-trip',
+        class: 'grid grid-cols-1 lg:grid-cols-2 gap-4'
+    }
+}) }}
+<div>
         <div class="form-row">
             {{ form_label(form.name) }}
             {{ form_widget(form.name, {'attr': {'class': (form.name.vars.errors|length > 0 ? 'error' : '')}}) }}
@@ -71,7 +76,8 @@
                 {{ form_errors(form.info) }}
             </div>
         </div>
-
+</div>
+<div>
 
 
 <div class="form-row">
@@ -125,25 +131,25 @@
     </div>
 </div>
 {# ENDMOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOODAL #}
-<div class="form-row">
+<div class="form-row hide-on-modal">
             <label class="label">Rue :</label>
             <input type="text" id="street" class="w-50 p-2 border border-gray-300 rounded" readonly />
         </div>
-<div class="form-row">
+<div class="form-row hide-on-modal">
             <label class="label">Code postal :</label>
             <input type="text" id="postalCode" class="w-50 p-2 border border-gray-300 rounded" readonly />
         </div>
-<div class="form-row">
+<div class="form-row hide-on-modal">
             <label class="label">Latitude :</label>
             <input type="text" id="latitude" class="w-50 p-2 border border-gray-300 rounded" readonly />
         </div>
-<div class="form-row">
+<div class="form-row hide-on-modal">
             <label class="label">Longitude :</label>
             <input type="text" id="longitude" class="w-50 p-2 border border-gray-300 rounded" readonly />
         </div>
+</div>
 
-
-
+<div class="lg:col-span-2 hide-on-modal">
 {% if button_label != '' %}
     <button type="submit" class="text-center w-30 my-4 ml-4 rounded-md bg-green-500 hover:bg-green-600 px-3 py-2 text-sm font-semibold text-white">{{ button_label }}</button>
 {% endif %}
@@ -159,5 +165,5 @@
 
 <!-- Bouton Annuler (retour) -->
 <button type="button" class="my-4 ml-4 text-sm font-semibold text-gray-900  hover:bg-gray-300" onclick="window.history.back();">Annuler</button>
-
+</div>
 {{ form_end(form) }}
