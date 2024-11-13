@@ -27,11 +27,6 @@ final class PlaceController extends AbstractController
         $form = $this->createForm(PlaceType::class, $place);
         $form->handleRequest($request);
 
-        $csrfToken = $request->request->get('csrf_token');
-        if (!$this->isCsrfTokenValid('create_lieu', $csrfToken)) {
-            return new JsonResponse(['error' => 'Action non autorisée'], 403);
-        }
-
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($place);
             $entityManager->flush();
@@ -68,6 +63,7 @@ final class PlaceController extends AbstractController
     #[IsGranted('ROLE_ADMIN')]
     public function delete(Request $request, Place $place, EntityManagerInterface $entityManager): Response
     {
+
         if ($this->isCsrfTokenValid('delete'.$place->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($place);
             $entityManager->flush();
@@ -80,6 +76,11 @@ final class PlaceController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function create(Request $request, CityRepository $cityRepository, EntityManagerInterface $entityManager): JsonResponse
     {
+        $csrfToken = $request->request->get('csrf_token');
+        if (!$this->isCsrfTokenValid('create_lieu', $csrfToken)) {
+            return new JsonResponse(['error' => 'Action non autorisée'], 403);
+        }
+
         try {
             $place = new Place();
             $place->setName($request->request->get('name'));
