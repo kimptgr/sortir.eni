@@ -85,48 +85,13 @@
                 </thead>
                 <tbody>
                 {% for trip in trips %}
-                    <tr onclick='window.location.href="{{ path('app_trip_show', {'id': trip.id}) }}";'>
-
-                        <td>{{ trip.name }}</td>
-                        <td>{{ trip.startDateTime ? trip.startDateTime| date("d/m/Y H:i") : '' }}</td>
-                        <td>{{ trip.registrationDeadline ? trip.registrationDeadline|date| date("d/m/Y H:i") : '' }}</td>
-                        <td>{{ (trip.participants | length )  ~ " / " ~ trip.nbRegistrationMax  }}</td>
-                        <td>{{ trip.state.wording }}</td>
-                        <td>
-                            {% for participant in trip.participants %}
-                                {% if participant == app.user %}
-                                    X
-                                {% endif %}
-                            {% endfor %}
-                        </td>
-                        <td><a href="{{ path('app_profile', {'pseudo': trip.organizer.pseudo }) }}">{{ trip.organizer.lastName ~ trip.organizer.firstName }}</a></td>
-                        <td>
-                            {% if is_granted('EDIT', trip) %}
-                                <a href="{{ path('app_trip_edit', {'id': trip.id}) }}">Modifier</a>
-                            {% else %}
-                                <a href="{{ path('app_trip_show', {'id': trip.id}) }}">Afficher</a>
-                            {% endif %}
-
-                            {% if is_granted('PUBLISH', trip) %}
-                                - <a href="{{ path('app_trip_publish', {'id': trip.id}) }}">Publier</a>
-                            {% endif %}
-
-                            {% if is_granted('CANCEL', trip) %}
-                                - <a href="{{ path('app_trip_cancel', {'id': trip.id}) }}"> Annuler</a>
-                            {% endif %}
-
-                            {% if is_granted('DESIST', trip) %}
-                                - <a href="{{ path('app_trip_desist', {'id': trip.id}) }}"> Se désister</a>
-
-                            {% elseif is_granted('PARTICIPATE', trip) %}
-                                - <a href="{{ path('app_trip_participate', {'id': trip.id}) }}"> S'inscrire</a>
-                            {% endif %}
-                        </td>
-                    </tr>
-                {% else %}
-                    <tr>
-                        <td colspan="8">no records found</td>
-                    </tr>
+                    {% if trip.state.wording != "Historisée" %}
+                        {% if trip.state.wording == "Créée" and trip.organizer.id == app.user.id %}
+                            {% include '/trip/trip_diplay.html.twig' %}
+                        {% elseif trip.state.wording != "Créée" %}
+                            {% include '/trip/trip_diplay.html.twig' %}
+                        {% endif %}
+                    {% endif %}
                 {% endfor %}
                 </tbody>
             </table>
@@ -135,4 +100,5 @@
             <button class="text-center w-30 my-4 ml-4 rounded-md bg-fuchsia-500 hover:bg-fuchsia-800 px-3 py-2 text-sm font-semibold text-white" onclick='location.href="{{ path('app_trip_new') }}"'>Nouvelle sortie</button>
         </div>
     </div>
+
 {% endblock %}
