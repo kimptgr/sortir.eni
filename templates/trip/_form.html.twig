@@ -145,16 +145,23 @@
 
 
 {% if button_label != '' %}
-<button type="submit" class=" my-4 ml-4 rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">{{ button_label }}</button>
+    <button type="submit" class="text-center w-30 my-4 ml-4 rounded-md bg-green-400 px-3 py-2 text-sm font-semibold text-white hover:bg-green-600">{{ button_label }}</button>
 {% endif %}
-<button type="submit" name="save" class="my-4 ml-4 rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Enregistrer</button>
+
+<!-- Bouton Enregistrer -->
+<button type="submit" name="save" class="my-4 ml-4 rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Enregistrer</button>
+
+<!-- Bouton Supprimer -->
 {% if button_delete %}
-<button type="submit" name="delete" class="my-4 ml-4 rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Supprimer</button>
-{%  endif %}
-{% if button_annuler %}
-<button type="submit" name="cancel" class="my-4 ml-4 rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Annuler l'évênement</button>
+    <button type="submit" name="delete" class="my-4 ml-4 rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600">Supprimer</button>
 {% endif %}
-<button type="button" class=" my-4 ml-4 text-sm/6 font-semibold text-gray-900" onclick="window.history.back();">Annuler</button>
+
+<!-- Bouton Annuler l'événement -->
+{% if button_annuler %}
+    <button type="submit" name="cancel" class="my-4 ml-4 rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600">Annuler l'événement</button>
+{% endif %}
+
+<!-- Bouton Annuler (retour) -->
+<button type="button" class="my-4 ml-4 text-sm font-semibold text-gray-900" onclick="window.history.back();">Annuler</button>
 
 {{ form_end(form) }}
-

@@ -9,57 +9,73 @@
         <div class="bloc-article">
             <div class="main-content-box">
                 <div class="content-box">
-                    <div class="flex">
-                        <div>Nom de la sortie&nbsp;:&nbsp;</div>
-                        <div>{{ trip.name }}</div>
+
+                    <div class="flex mb-4 p-2 text-left bg-gray-100 rounded-md">
+                        <div class="w-1/2 font-bold" >Nom de la sortie&nbsp;:&nbsp;</div>
+                        <div class="text-left flex-grow">{{ trip.name }}</div>
                     </div>
-                    <div class="flex">
-                        <div>Date et heure de la sortie&nbsp;:&nbsp;</div>
-                        <div>{{ trip.startDateTime | date("d/m/Y H:i") }}</div>
+
+                    <div class="flex  mb-4 p-2 text-left bg-gray-100 rounded-md">
+                        <div class="w-1/2 font-bold" >Date et heure de la sortie&nbsp;:&nbsp;</div>
+                        <div class="text-left flex-grow">{{ trip.startDateTime | date("d/m/Y H:i") }}</div>
                     </div>
-                    <div class="flex">
-                        <div>Date limite d'inscription&nbsp;:&nbsp;</div>
-                        <div>{{ trip.registrationDeadline | date("d/m/Y H:i") }}</div>
+
+                    <div class="flex mb-4 p-2 text-left bg-gray-100 rounded-md">
+                        <div class="w-1/2 font-bold" >Date limite d'inscription&nbsp;:&nbsp;</div>
+                        <div class="text-left flex-grow">{{ trip.registrationDeadline | date("d/m/Y H:i") }}</div>
                     </div>
-                    <div class="flex">
-                        <div>Nombre de places&nbsp;:&nbsp;</div>
-                        <div>{{ trip.nbRegistrationMax }}</div>
+
+                    <div class="flex mb-4 p-2 text-left bg-gray-100 rounded-md">
+                        <div class="w-1/2 font-bold" >Nombre de places&nbsp;:&nbsp;</div>
+                        <div class="text-left flex-grow">{{ trip.nbRegistrationMax }}</div>
                     </div>
-                    <div class="flex">
-                        <div>Durée&nbsp;:&nbsp;</div>
-                        <div>{{ trip.duration }} minutes</div>
+
+                    <div class="flex mb-4 p-2 text-left bg-gray-100 rounded-md">
+                        <div class="w-1/2 font-bold" >Durée&nbsp;:&nbsp;</div>
+                        <div class="text-left flex-grow">{{ trip.duration }} minutes</div>
                     </div>
-                    <div class="flex">
-                        <div>description et infos&nbsp;:&nbsp;</div>
-                        <div>{{ trip.info }}</div>
+
+                    <div class="flex mb-4 p-2 text-left bg-gray-100 rounded-md">
+                        <div class="w-1/2 font-bold" >Description et infos&nbsp;:&nbsp;</div>
+                        <textarea class="text-left flex-grow"  rows="4" cols="15" disabled>{{ trip.info }}</textarea>
                     </div>
+
                 </div>
+
                 <div class="content-box">
-                    <div class="flex">
-                        <div>Campus&nbsp;:&nbsp;</div>
-                        <div>{{ trip.relativeCampus.name }}</div>
+
+                    <div class="flex mb-4 p-2 text-left bg-gray-100 rounded-md">
+                        <div class="w-1/2 font-bold" >Campus&nbsp;:&nbsp;</div>
+                        <div class="text-left flex-grow">{{ trip.relativeCampus.name }}</div>
                     </div>
-                    <div class="flex">
-                        <div>Lieu&nbsp;:&nbsp;</div>
-                        <div>{{ trip.place.name }}</div>
+
+                    <div class="flex mb-4 p-2 text-left bg-gray-100 rounded-md">
+                        <div class="w-1/2 font-bold" >Lieu&nbsp;:&nbsp;</div>
+                        <div class="text-left flex-grow">{{ trip.place.name }}</div>
                     </div>
-                    <div class="flex">
-                        <div>Rue&nbsp;:&nbsp;</div>
-                        <div>{{ trip.place.street }}</div>
+
+                    <div class="flex mb-4 p-2 text-left bg-gray-100 rounded-md">
+                        <div class="w-1/2 font-bold" >Rue&nbsp;:&nbsp;</div>
+                        <div class="text-left flex-grow">{{ trip.place.street }}</div>
                     </div>
-                    <div class="flex">
-                        <div>Ville&nbsp;:&nbsp;</div>
-                        <div>{{ trip.place.city.name }} {{ trip.place.city.postalCode }}</div>
+
+                    <div class="flex mb-4 p-2 text-left bg-gray-100 rounded-md">
+                        <div class="w-1/2 font-bold" >Ville&nbsp;:&nbsp;</div>
+                        <div class="text-left flex-grow">{{ trip.place.city.name }} {{ trip.place.city.postalCode }}</div>
                     </div>
-                    <div class="flex">
-                        <div>Latitude&nbsp;:&nbsp;</div>
-                        <div>{{ trip.place.latitude }}</div>
+
+                    <div class="flex mb-4 p-2 text-left bg-gray-100 rounded-md">
+                        <div class="w-1/2 font-bold" >Latitude&nbsp;:&nbsp;</div>
+                        <div class="text-left flex-grow">{{ trip.place.latitude }}</div>
                     </div>
-                    <div class="flex">
-                        <div>Longitude&nbsp;:&nbsp;</div>
-                        <div>{{ trip.place.longitude }}</div>
+
+                    <div class="flex mb-4 p-2 text-left bg-gray-100 rounded-md">
+                        <div class="w-1/2 font-bold" >Longitude&nbsp;:&nbsp;</div>
+                        <div class="text-left flex-grow">{{ trip.place.longitude }}</div>
                     </div>
+
                 </div>
+
             </div>
             <div class="list-participant">
                 <div>
@@ -91,15 +107,23 @@
             </div>
         </div>
 
-        {% if app.user.id == trip.organizer.id %}
-            <a class="" href="{{ path('app_trip_edit', {'id': trip.id}) }}">edit</a>
+        <div class="flex justify-center">
+        {% if app.user.id == trip.organizer.id and trip.state.wording == "Créée" %}
+            <a class="text-center w-20 my-4 ml-4 rounded-md bg-blue-400 px-3 py-2 text-sm font-semibold text-white hover:bg-blue-600 " href="{{ path('app_trip_edit', {'id': trip.id}) }}">Modifier</a>
         {% endif %}
 
-        {% if app.user.id == trip.organizer.id %}
+        {% if app.user.id == trip.organizer.id and trip.state.wording == "Créée" %}
             {{ include('trip/_delete_form.html.twig') }}
         {% endif %}
+            {% if app.user.id != trip.organizer.id and trip.state.wording == "Ouvert" %}
         <form method="post" action="{{ path('app_trip_show', { id: trip.id }) }}">
-            <button type="submit">Participer</button>
+            <button class="text-center w-20 my-4 ml-4 rounded-md bg-indigo-400 px-3 py-2 text-sm font-semibold text-white hover:bg-indigo-600 " type="submit">Participer</button>
         </form>
+            {% endif  %}
+
+            {% if app.user.id == trip.organizer.id and trip.state.wording == "Ouverte" %}
+                <a class="text-center w-20 my-4 ml-4 rounded-md bg-red-500 px-3 py-2 text-sm font-semibold text-white hover:bg-red-600" href="{{ path('app_trip_cancel', {'id': trip.id}) }}">Annuler</a>
+            {% endif %}
+    </div>
     </div>
 {% endblock %}
