@@ -219,3 +219,21 @@ input.error {
     border: 1px solid red;
 }
 
+@keyframes disappearAnimation {
+    0% {
+        opacity: 1;
+        visibility: visible;
+    }
+    50%{
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        visibility: hidden;
+    }
+}
+
+#messageFlash{
+    animation-name: disappearAnimation;
+    animation-duration: 2000ms;
+}
