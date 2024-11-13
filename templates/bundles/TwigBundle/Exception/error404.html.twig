@@ -4,10 +4,17 @@
 {% block body %}
     <div class="main-container">
         <div class="bloc-article">
-            <h1>Page introuvable</h1>
-            <p>
-                La page demandée est introuvable. Vérifier qu'il n'y a pas de faute d'orthographe dans l'URL ou <a href="{{ path('app_trip_index') }}">retourner à la page d'accueil</a>.
-            </p>
-        </div>
-    </div>
+    <h1>404 - Page non trouvée 🚫</h1>
+
+    <p>Oups ! Il semble que cette page ait pris la poudre d'escampette...</p>
+
+    <p>Vous avez bien cherché, mais cette page reste introuvable. Elle est peut-être partie explorer d’autres recoins du web, ou alors elle n’a jamais existé !</p>
+
+    <p>Voici ce que vous pouvez faire :</p>
+    <ul>
+        <li>Vérifier l’adresse et réessayer – peut-être qu'une petite coquille s'est glissée ? 🧐</li>
+        <li>Retourner à <a href="{{ path('app_trip_index') }}">la page d'accueil</a> pour repartir du bon pied.</li>
+    </ul>
+
+    <p>Et si vous avez besoin d’aide, n’hésitez pas à nous contacter. Nous sommes là pour vous guider ! 🌟</p>
 {% endblock %}

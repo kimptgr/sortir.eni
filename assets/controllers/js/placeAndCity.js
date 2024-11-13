@@ -60,11 +60,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     })
 
-    closeFormAddPlace.addEventListener('click',  () => {modal.hidden = true;
-        document.querySelectorAll('.hide-on-modal').forEach(element => {
-            element.style.display = "block";
-        });
-    });
+    closeFormAddPlace.addEventListener('click', closeAddPlaceForm);
     formNewPlace.addEventListener('click', sendPlaceForm);
 
     function displayFormAddPlace(){
@@ -111,12 +107,26 @@ document.addEventListener('DOMContentLoaded', function () {
 
                     // Fermer la modale et réinitialiser le formulaire
                     modal.hidden = !modal.hidden;
+                    closeAddPlaceForm();
 
-                    formNewPlace.reset();
+                   // formNewPlace.reset();
                 } else {
-                    alert('Erreur lors de l\'ajout du lieu');
+                    const errorContainer = document.getElementById('error-messages');
+                    errorContainer.innerHTML = ''; // Clear previous errors
+                    data.errors.forEach(error => {
+                        const errorItem = document.createElement('div');
+                        errorItem.className = 'text-red-500'; // Tailwind style for error
+                        errorItem.textContent = error;
+                        errorContainer.appendChild(errorItem);
+                    })
                 }
             })
             .catch(error => console.error('Erreur lors de l\'ajout du lieu:', error));
+    }
+    function closeAddPlaceForm(){
+        modal.hidden = true;
+        document.querySelectorAll('.hide-on-modal').forEach(element => {
+            element.style.display = "block";
+        });
     }
 });

@@ -3,10 +3,10 @@
 {% block javascript %}
 <script>
     // initialisation à zéro pour ensuite le remplacer dans le javascript
-    {% set apiCityPlacesUrl = path('api_city_places', {'cityId': 0}) %}
-    {% set apiPlaceInfoUrl = path('api_places_info', { 'placeId':0}) %}
-    const apiCityPlacesUrl = '{{ apiCityPlacesUrl }}';
-    const apiPlaceInfoUrl = '{{ apiCityPlacesUrl }}';
+{% set apiCityPlacesUrl = path('api_city_places', {'cityId': 0}) %}
+{% set apiPlaceInfoUrl = path('api_places_info', { 'placeId':0}) %}
+const apiCityPlacesUrl = '{{ apiCityPlacesUrl }}';
+const apiPlaceInfoUrl = '{{ apiCityPlacesUrl }}';
 
 </script>
 {% endblock %}
@@ -18,152 +18,160 @@
     }
 }) }}
 <div>
-        <div class="form-row">
-            {{ form_label(form.name) }}
-            {{ form_widget(form.name, {'attr': {'class': (form.name.vars.errors|length > 0 ? 'error' : '')}}) }}
-            <div class="label-error">
-                {{ form_errors(form.name) }}
-            </div>
+    <div class="form-row">
+        {{ form_label(form.name) }}
+        {{ form_widget(form.name, {'attr': {'class': (form.name.vars.errors|length > 0 ? 'error' : '')}}) }}
+        <div class="label-error">
+            {{ form_errors(form.name) }}
         </div>
+    </div>
 
 
-
-
-<div class="form-row">
-            {{ form_label(form.startDateTime) }}
-            {{ form_widget(form.startDateTime, {'attr': {'class': (form.startDateTime.vars.errors|length > 0 ? 'error' : '')}}) }}
-            <div class="label-error">
-                {{ form_errors(form.startDateTime) }}
-            </div>
+    <div class="form-row">
+        {{ form_label(form.startDateTime) }}
+        {{ form_widget(form.startDateTime, {'attr': {'class': (form.startDateTime.vars.errors|length > 0 ? 'error' : '')}}) }}
+        <div class="label-error">
+            {{ form_errors(form.startDateTime) }}
         </div>
+    </div>
 
 
-
-<div class="form-row">
-            {{ form_label(form.registrationDeadline) }}
-            {{ form_widget(form.registrationDeadline, {'attr': {'class': (form.registrationDeadline.vars.errors|length > 0 ? 'error' : '')}}) }}
-            <div class="label-error">
-                {{ form_errors(form.registrationDeadline) }}
-            </div>
+    <div class="form-row">
+        {{ form_label(form.registrationDeadline) }}
+        {{ form_widget(form.registrationDeadline, {'attr': {'class': (form.registrationDeadline.vars.errors|length > 0 ? 'error' : '')}}) }}
+        <div class="label-error">
+            {{ form_errors(form.registrationDeadline) }}
         </div>
+    </div>
 
-<div class="form-row">
-            {{ form_label(form.nbRegistrationMax) }}
-            {{ form_widget(form.nbRegistrationMax, {'attr': {'class': (form.nbRegistrationMax.vars.errors|length > 0 ? 'error' : '')}}) }}
-            <div class="label-error">
-                {{ form_errors(form.nbRegistrationMax) }}
-            </div>
+    <div class="form-row">
+        {{ form_label(form.nbRegistrationMax) }}
+        {{ form_widget(form.nbRegistrationMax, {'attr': {'class': (form.nbRegistrationMax.vars.errors|length > 0 ? 'error' : '')}}) }}
+        <div class="label-error">
+            {{ form_errors(form.nbRegistrationMax) }}
         </div>
+    </div>
 
 
-<div class="form-row">
-            {{ form_label(form.duration) }}
-            {{ form_widget(form.duration, {'attr': {'class': (form.duration.vars.errors|length > 0 ? 'error' : '')}}) }}
-            <div class="label-error">
-                {{ form_errors(form.duration) }}
-            </div>
+    <div class="form-row">
+        {{ form_label(form.duration) }}
+        {{ form_widget(form.duration, {'attr': {'class': (form.duration.vars.errors|length > 0 ? 'error' : '')}}) }}
+        <div class="label-error">
+            {{ form_errors(form.duration) }}
         </div>
+    </div>
 
 
-<div class="form-row">
-            {{ form_label(form.info) }}
-            {{ form_widget(form.info, {
-                'attr': {
-                    'class': form.info.vars.errors|length > 0 ? 'error' : '',
-                }
-            }) }}
-            <div class="label-error">
-                {{ form_errors(form.info) }}
-            </div>
+    <div class="form-row">
+        {{ form_label(form.info) }}
+        {{ form_widget(form.info, {
+            'attr': {
+                'class': form.info.vars.errors|length > 0 ? 'error' : '',
+            }
+        }) }}
+        <div class="label-error">
+            {{ form_errors(form.info) }}
         </div>
+    </div>
 </div>
 <div>
 
 
-<div class="form-row">
-            {{ form_label(form.relativeCampus) }}
-            {{ form_widget(form.relativeCampus, {'attr': {'class': (form.relativeCampus.vars.errors|length > 0 ? 'error' : '')}}) }}
-            <div class="label-error">
-                {{ form_errors(form.relativeCampus) }}
-            </div>
+    <div class="form-row">
+        {{ form_label(form.relativeCampus) }}
+        {{ form_widget(form.relativeCampus, {'attr': {'class': (form.relativeCampus.vars.errors|length > 0 ? 'error' : '')}}) }}
+        <div class="label-error">
+            {{ form_errors(form.relativeCampus) }}
         </div>
-
-<div class="form-row">
-            {{ form_label(form.city) }}
-            {{ form_widget(form.city, {'attr': {'class': (form.city.vars.errors|length > 0 ? 'error' : '')}}) }}
-            <div class="label-error">
-                {{ form_errors(form.city) }}
-            </div>
-        </div>
-
-<div class="form-row">
-            {{ form_label(form.place) }}
-            {{ form_widget(form.place, {'attr': {'class': (form.place.vars.errors|length > 0 ? 'error' : '')}}) }}
-            <div class="label-error">
-                {{ form_errors(form.place) }}
-            </div>
-        </div>
-
-{# MODAL #}
-{# Modale pour créer une nouvelle adresse #}
-<div id="modal-add-place" hidden>
-    <meta name="csrf-token" content="{{ csrfToken }}">
-    <div class="modal-content">
-        <h2 id="placetitle">Ajouter un nouveau lieu</h2>
-        <div class="form-row">
-            <label for="place_name">Nom</label>
-            <input type="text" id="place_name" name="name">
-        </div>
-        <div class="form-row">
-            <label for="place_street">Rue</label>
-            <input type="text" id="place_street" name="street">
-        </div>
-        <div class="form-row">
-            <label for="place_latitude">Latitude</label>
-            <input type="number" id="place_latitude" name="latitude" step="0.000001">
-        </div>
-        <div class="form-row">
-            <label for="place_longitude">Longitude</label>
-            <input type="number" id="place_longitude" name="longitude" step="0.000001">
-        </div>
-        <button type="button" id="btn-close-form" class="btn btn-search">Annuler l'ajout du lieu</button>
-        <button type="button" id="form-nouveau-lieu" class="btn btn-add font-bold">Enregistrer le lieu</button>
     </div>
-</div>
-{# ENDMOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOODAL #}
-<div class="form-row hide-on-modal">
+
+    <div class="form-row">
+        {{ form_label(form.city) }}
+        {{ form_widget(form.city, {'attr': {'class': (form.city.vars.errors|length > 0 ? 'error' : '')}}) }}
+        <div class="label-error">
+            {{ form_errors(form.city) }}
+        </div>
+    </div>
+
+    <div class="form-row">
+        {{ form_label(form.place) }}
+        {{ form_widget(form.place, {'attr': {'class': (form.place.vars.errors|length > 0 ? 'error' : '')}}) }}
+        <div class="label-error">
+            {{ form_errors(form.place) }}
+        </div>
+    </div>
+
+    {# MODAL #}
+    {# Modale pour créer une nouvelle adresse #}
+    <div id="modal-add-place" hidden>
+        <meta name="csrf-token" content="{{ csrfToken }}">
+        <div class="modal-content">
+            <h2 id="placetitle">Ajouter un nouveau lieu</h2>
+            <div class="form-row">
+                <label for="place_name">Nom</label>
+                <input type="text" id="place_name" name="name">
+            </div>
+            <div class="form-row">
+                <label for="place_street">Rue</label>
+                <input type="text" id="place_street" name="street">
+            </div>
+            <div class="form-row">
+                <label for="place_latitude">Latitude</label>
+                <input type="number" id="place_latitude" name="latitude" step="0.000001">
+            </div>
+            <div class="form-row">
+                <label for="place_longitude">Longitude</label>
+                <input type="number" id="place_longitude" name="longitude" step="0.000001">
+            </div>
+            <button type="button" id="btn-close-form" class="btn btn-search">Annuler l'ajout du lieu</button>
+            <button type="button" id="form-nouveau-lieu" class="btn btn-add font-bold">Enregistrer le lieu</button>
+        </div>
+        <div id="error-messages" class="mb-4 text-sm"></div>
+    </div>
+    {# Fin de la Modale #}
+    <div class="hide-on-modal">
+        <div class="form-row">
             <label class="label">Rue :</label>
-            <input type="text" id="street" class="w-50 p-2 border border-gray-300 rounded" readonly />
+            <input type="text" id="street" class="w-50 p-2 border border-gray-300 rounded" readonly/>
         </div>
-<div class="form-row hide-on-modal">
+        <div class="form-row">
             <label class="label">Code postal :</label>
-            <input type="text" id="postalCode" class="w-50 p-2 border border-gray-300 rounded" readonly />
+            <input type="text" id="postalCode" class="w-50 p-2 border border-gray-300 rounded" readonly/>
         </div>
-<div class="form-row hide-on-modal">
+        <div class="form-row">
             <label class="label">Latitude :</label>
-            <input type="text" id="latitude" class="w-50 p-2 border border-gray-300 rounded" readonly />
+            <input type="text" id="latitude" class="w-50 p-2 border border-gray-300 rounded" readonly/>
         </div>
-<div class="form-row hide-on-modal">
+        <div class="form-row">
             <label class="label">Longitude :</label>
-            <input type="text" id="longitude" class="w-50 p-2 border border-gray-300 rounded" readonly />
+            <input type="text" id="longitude" class="w-50 p-2 border border-gray-300 rounded" readonly/>
         </div>
+    </div>
 </div>
 
 <div class="lg:col-span-2 hide-on-modal">
-{% if button_label != '' %}
-    <button type="submit" class="text-center w-30 my-4 ml-4 rounded-md bg-green-500 hover:bg-green-600 px-3 py-2 text-sm font-semibold text-white">{{ button_label }}</button>
-{% endif %}
+    {% if button_label != '' %}
+        <button type="submit"
+                class="text-center w-30 my-4 ml-4 rounded-md bg-green-500 hover:bg-green-600 px-3 py-2 text-sm font-semibold text-white">{{ button_label }}</button>
+    {% endif %}
 
-<!-- Bouton Enregistrer -->
-<button type="submit" name="save" class="my-4 ml-4 rounded-md bg-indigo-500 hover:bg-indigo-600 px-3 py-2 text-sm font-semibold text-white">Enregistrer</button>
+    <!-- Bouton Enregistrer -->
+    <button type="submit" name="save"
+            class="my-4 ml-4 rounded-md bg-indigo-500 hover:bg-indigo-600 px-3 py-2 text-sm font-semibold text-white">
+        Enregistrer
+    </button>
 
-<!-- Bouton Supprimer -->
-{% if button_delete %}
-    <button type="submit" name="delete" class="my-4 ml-4 rounded-md bg-red-400 hover:bg-red-600 px-3 py-2 text-sm font-semibold">Supprimer</button>
-{% endif %}
+    <!-- Bouton Supprimer -->
+    {% if button_delete %}
+        <button type="submit" name="delete"
+                class="my-4 ml-4 rounded-md bg-red-400 hover:bg-red-600 px-3 py-2 text-sm font-semibold">Supprimer
+        </button>
+    {% endif %}
 
 
-<!-- Bouton Annuler (retour) -->
-<button type="button" class="my-4 ml-4 text-sm font-semibold text-gray-900  hover:bg-gray-300" onclick="window.history.back();">Annuler</button>
+    <!-- Bouton Annuler (retour) -->
+    <button type="button" class="my-4 ml-4 text-sm font-semibold text-gray-900  hover:bg-gray-300"
+            onclick="window.history.back();">Annuler
+    </button>
 </div>
 {{ form_end(form) }}

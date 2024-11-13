@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PlaceRepository::class)]
 class Place
@@ -19,18 +20,32 @@ class Place
 
     #[ORM\Column(length: 255)]
     #[Groups(['place_list'])]
+    #[Assert\NotBlank(message: 'Le nom ne peut pas être vide')]
+    #[Assert\Length(
+        maxMessage: 'Le nom ne peut pas dépasser {{ limit }} caractères de long',
+        max: 255
+    )]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
     #[Groups(['place_list'])]
+    #[Assert\NotBlank(message: 'La rue ne peut pas être vide')]
+    #[Assert\Length(
+        maxMessage: 'La rue ne peut pas dépasser {{ limit }} caractères',
+        max: 255
+    )]
     private ?string $street = null;
 
     #[ORM\Column]
     #[Groups(['place_list'])]
+    #[Assert\NotBlank(message: 'La latitude est requise')]
+    #[Assert\Type('float', message:"La latitude doit être un nombre")]
     private ?float $latitude = null;
 
     #[ORM\Column]
     #[Groups(['place_list'])]
+    #[Assert\NotBlank(message: 'La longitude est requise')]
+#[Assert\Type('float', message:"La longitude doit être un nombre")]
     private ?float $longitude = null;
 
     #[ORM\ManyToOne(inversedBy: 'places')]

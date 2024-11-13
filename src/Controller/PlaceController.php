@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Security\Csrf\CsrfToken;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 #[Route('/place')]
 final class PlaceController extends AbstractController
@@ -74,7 +75,10 @@ final class PlaceController extends AbstractController
 
     #[Route('/place/create', name: 'place-create', methods: ['POST'])]
     #[IsGranted('ROLE_USER')]
-    public function create(Request $request, CityRepository $cityRepository, EntityManagerInterface $entityManager): JsonResponse
+    public function create(Request $request,
+                           CityRepository $cityRepository,
+                           EntityManagerInterface $entityManager,
+                           ValidatorInterface $validator): JsonResponse
     {
         $csrfToken = $request->request->get('csrf_token');
         if (!$this->isCsrfTokenValid('create_lieu', $csrfToken)) {
@@ -100,6 +104,17 @@ final class PlaceController extends AbstractController
             }
             $place->setCity($city);
 
+            $errors = $validator->validate($place);
+            if (count($errors) > 0) {
+                $errorsArray = [];
+                foreach ($errors as $error) {
+                    $errorsArray[] = $error->getMessage();
+                }
+                return new JsonResponse([
+                    'success' => false,
+                    'errors' => $errorsArray,
+                ], 400);
+            }
             $entityManager->persist($place);
             $entityManager->flush();
 

@@ -93,12 +93,18 @@ class ParticipantFormType extends AbstractType
                 ]),
     ],
                 ))*/
-            ->add('lastName')
-            ->add('firstName')
+            ->add('lastName', TextType::class, [
+    'label' => 'Nom',
+])
+            ->add('firstName', TextType::class, [
+        'label' => 'Prénom',
+    ])
             ->add('pseudo', TextType::class, [
                 'label' => 'Pseudo',
             ])
-            ->add('phoneNumber')
+            ->add('phoneNumber', TextType::class, [
+                'label' => 'Téléphone',
+            ])
 
 /*            ->add('enrolledTrips', EntityType::class, [
                 'class' => Trip::class,
