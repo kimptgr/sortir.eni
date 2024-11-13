@@ -66,6 +66,7 @@ class TripType extends AbstractType
                 'required' => true,
                 'class' => Campus::class,
                 'choice_label' => 'name',
+                'label'=>'Campus :',
             ])
 
             ->add('city', EntityType::class, [
@@ -74,12 +75,14 @@ class TripType extends AbstractType
                 'required' => false,
                 'mapped' => false,
                 'placeholder' => 'Choisissez une ville',
+                'label'=>'Ville :',
             ])
 
             ->add('place', EntityType::class, [
                 'class'=> Place::class,
                 'choice_label' => 'name',
                 'placeholder' => 'Choisissez un lieu',
+                'label'=>'Lieu :',
             ]);
     }
 
