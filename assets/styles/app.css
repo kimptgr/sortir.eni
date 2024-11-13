@@ -219,10 +219,9 @@ button[type="reset"], input[type="reset"] {
 }
 
 
+/*#navbarMenu, #navbarMenuTablet{*/
 
-#navbarMenu{
-    margin-top: 10vh;
-}
+/*}*/
 
 .has-error {
     @apply border border-red-500 rounded-md;
