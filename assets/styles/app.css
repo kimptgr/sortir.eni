@@ -140,6 +140,25 @@ table a:hover::after {
     width: 100%;
 }
 
+
+.table-participant{
+    @apply rounded-lg shadow-lg px-4 pb-4; ;
+}
+.table-participant tr{
+
+}
+.table-participant th{
+    @apply bg-purple-500 text-white ;
+}
+
+.table-participant tbody tr:nth-child(odd){
+    @apply bg-yellow-100 ;
+}
+.table-participant tbody tr:nth-child(even) {
+    background-color: white;
+}
+
+
 .container-btn-add {
     @apply mt-2
 }
@@ -196,9 +215,9 @@ h2 {
     @apply text-red-500 text-sm h-4
 }
 
-.btn-add, button[type="submit"], input[type="submit"]  {
-    @apply bg-fuchsia-400 text-white py-2 p-2 rounded hover:bg-fuchsia-700
-}
+/*.btn-add, button[type="submit"], input[type="submit"]  {*/
+/*    @apply bg-fuchsia-400 text-white py-2 p-2 rounded hover:bg-fuchsia-700*/
+/*}*/
 .btn-search[type="submit"], .btn-search {
     @apply bg-lime-500 text-white font-bold py-2 px-4 rounded-lg shadow-md hover:bg-green-500 hover:shadow-lg transition duration-200 ease-in-out py-2 p-2
 }
