@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion lieu | {{ parent() }}{% endblock %}
+
+{% block body %}
+<h1 class="mt-2">Gérer les lieux</h1>
+<div class="main-container">
+    <div class="bloc-article">
+        <table class="table-trips table-trips w-full">
+            <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Rue</th>
+                <th>Latitude</th>
+                <th>Longitude</th>
+                <th>Ville</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for place in places %}
+            <tr>
+                <td>{{ place.name }}</td>
+                <td>{{ place.street }}</td>
+                <td>{{ place.latitude }}</td>
+                <td>{{ place.longitude }}</td>
+                <td>
+                    <a href="{{ path('app_place_edit', {'id': place.id}) }}">Modifier</a>
+                    - {{ include('place/_delete_form.html.twig') }}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        <tr>
+            {{ form_start(form) }}
+            <td colspan="2">{{ form_widget(form) }}</td>
+            <td colspan="3"><button class="btn-add">{{ button_label|default('Enregistrer') }}</button></td>
+            {{ form_end(form) }}
+        </tr>
+        </tbody>
+    </table>
+    </div>
+</div>
+{% endblock %}

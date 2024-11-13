@@ -41,6 +41,31 @@ class APICityPlaceController extends AbstractController
 
     }
 
+    #[Route('/api/places', name: 'api_place_create', methods: ['POST'])]
+    public function createPlace(Request $request): JsonResponse
+    {
+        $place = new Place();
+        $place->setName($request->request->get('name'));
+        $place->setStreet($request->request->get('street'));
+        $place->setPostalCode($request->request->get('postal_code'));
+        $place->setLatitude($request->request->get('latitude'));
+        $place->setLongitude($request->request->get('longitude'));
 
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($place);
+        $entityManager->flush();
+
+        return new JsonResponse([
+            'success' => true,
+            'place' => [
+                'id' => $place->getId(),
+                'name' => $place->getName(),
+                'street' => $place->getStreet(),
+                'postal_code' => $place->getPostalCode(),
+                'latitude' => $place->getLatitude(),
+                'longitude' => $place->getLongitude(),
+            ],
+        ]);
+    }
 
 }

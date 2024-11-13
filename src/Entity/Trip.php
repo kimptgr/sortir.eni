@@ -34,7 +34,7 @@ class Trip
         $dateNow = new \DateTime();
         $tomorow = $dateNow->modify('+2 day');
         if ($this->startDateTime < $tomorow){
-            $context->buildViolation("La date du début de l'évenement doit être postérieur à jour + 2 à la date actuelle")
+            $context->buildViolation("La date du début de l'évenement doit être deux jours après la date actuelle")
                 ->atPath('startDateTime')
                 ->addViolation();
         }
@@ -63,7 +63,7 @@ class Trip
         $dateNow = new \DateTime();
         $tomorow = $dateNow->modify('+1 day');
         if ($this->registrationDeadline < $tomorow){
-            $context->buildViolation("La date de fin d'inscription de l'évenement doit être postérieur à jour + 1 à la date actuelle")
+            $context->buildViolation("L'inscription de l'évenement doit être postérieur d'un jour à la date actuelle")
                 ->atPath('registrationDeadline')
                 ->addViolation();
         }

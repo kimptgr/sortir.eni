@@ -63,10 +63,10 @@ class TripService
 
         switch ($stateWording) {
             case STATE_CREATED:
-                $flashMessage = ["success", "enregistré"];
+                $flashMessage = ["success", "Évenement enregistré (invisible pour les autres utilisateurs)"];
                 break;
             case STATE_OPEN:
-                $flashMessage = ["success", "publié"];
+                $flashMessage = ["success", "Évenement publié et ouvert aux inscriptions"];
                 break;
             case STATE_CLOSED:
                 $flashMessage = ["success", "Clôture des inscriptions"];
