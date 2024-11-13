@@ -72,14 +72,6 @@
             </div>
         </div>
 
-
-    {{ form_row(form.registrationDeadline, {
-        row_class: 'form-row',
-        label_class: 'label',
-        widget_class: 'w-50 p-2 border border-gray-300 rounded ' ~ (form.registrationDeadline.vars.valid ? 'border-gray-300' : 'border-red-500'),
-        error_item_class: 'label-error',
-    }) }}
-
 <div class="form-row">
             {{ form_label(form.relativeCampus) }}
             {{ form_widget(form.relativeCampus, {'attr': {'class': (form.relativeCampus.vars.errors|length > 0 ? 'error' : '')}}) }}
@@ -87,13 +79,6 @@
                 {{ form_errors(form.relativeCampus) }}
             </div>
         </div>
-
-    {{ form_row(form.duration, {
-        row_class: 'form-row',
-        label_class: 'label',
-        widget_class: 'w-50 p-2 border border-gray-300 rounded ' ~ (form.duration.vars.valid ? 'border-gray-300' : 'border-red-500'),
-        error_item_class: 'label-error',
-    }) }}
 
 <div class="form-row">
             {{ form_label(form.city) }}
@@ -111,20 +96,6 @@
             </div>
         </div>
 
-    {{ form_row(form.city, {
-        row_class: 'form-row',
-        label_class: 'label',
-        widget_class: 'w-50 p-2 border border-gray-300 rounded ' ~ (form.city.vars.valid ? 'border-gray-300' : 'border-red-500'),
-        error_item_class: 'label-error',
-    }) }}
-
-
-    {{ form_row(form.place, {
-        row_class: 'form-row',
-        label_class: 'label',
-        widget_class: 'w-50 p-2 border border-gray-300 rounded ' ~ (form.place.vars.valid ? 'border-gray-300' : 'border-red-500'),
-        error_item_class: 'label-error',
-    }) }}
 {# MODAL #}
 {# Modale pour créer une nouvelle adresse #}
 <div id="modal-add-place" hidden>
