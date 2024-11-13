@@ -7,13 +7,16 @@
    {# <link rel="icon" href="{{ asset('images/logo.ico') }}" type="image/x-icon">#}
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
 
-    {% block stylesheets %}
+{#    {% block stylesheets %}
         <link rel="stylesheet" href="{{ asset('styles/app.css') }}">
-    {% endblock %}
+    {% endblock %}#}
 
     {% block javascripts %}
-        <script src="{{ asset('assets/app.js') }}" type="module"></script>
+        {% block importmap %}{{ importmap('app') }}{% endblock %}
+        {#<script src="{{ asset('assets/app.js') }}" type="module"></script>#}
     {% endblock %}
+
+
 
     <style>
         /*html, body {*/
