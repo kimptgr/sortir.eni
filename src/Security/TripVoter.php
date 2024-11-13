@@ -77,7 +77,7 @@ class TripVoter extends Voter{
     }
 
     private function canEdit(Trip $trip, Participant $participant): bool {
-        return  $trip->getState()->getWording() === STATE_CREATED && in_array('ROLE_ADMIN', $participant->getRoles()) &&
+        return  $trip->getState()->getWording() === STATE_CREATED &&
             $participant === $trip->getOrganizer();
     }
 

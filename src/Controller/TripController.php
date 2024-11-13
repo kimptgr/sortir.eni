@@ -87,7 +87,7 @@ final class TripController extends AbstractController
 
     #[Route('/{id}/edit', name: 'app_trip_edit', methods: ['GET', 'POST'])]
     #[IsGranted("EDIT", subject: 'trip')]
-    public function edit(TripService $tripService, Request $request, Trip $trip, EntityManagerInterface $entityManager): Response
+    public function edit(TripService $tripService, Request $request, Trip $trip, EntityManagerInterface $entityManager, CsrfTokenManagerInterface $csrfTokenManager): Response
     {
 
         if ($this->getUser() != $trip->getOrganizer()) {
@@ -112,8 +112,8 @@ final class TripController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             return $this->submitTrip( $tripService,  $trip,  $request,  $entityManager);
         }
-
-        return $this->render('trip/edit.html.twig', ['trip' => $trip, 'form' => $form,]);
+        $csrfToken = $csrfTokenManager->getToken('create_lieu')->getValue();
+        return $this->render('trip/edit.html.twig', ['trip' => $trip, 'form' => $form, 'csrfToken' => $csrfToken,]);
     }
 
     #[Route('/{id}', name: 'app_trip_delete', methods: ['POST'])]
