@@ -118,14 +118,14 @@
             {% endif %}
 
 
-            {% if app.user.id != trip.organizer.id and trip.state.wording == "Ouvert" %}
+            {% if app.user.id != trip.organizer.id and trip.state.wording == "Ouverte" %}
                 <form method="post" action="{{ path('app_trip_show', { id: trip.id }) }}">
-                    <button class="text-center w-20 my-4 ml-4 rounded-md bg-indigo-400 px-3 py-2 text-sm font-semibold text-white hover:bg-indigo-600 " type="submit">Participer</button>
+                    <button class="text-center w-60 my-4 ml-4 rounded-md bg-fuchsia-600 px-3 py-2 text-sm font-semibold text-white hover:bg-fuchsia-800 " type="submit">Participer</button>
                 </form>
             {% endif  %}
 
             {% if app.user.id == trip.organizer.id and trip.state.wording == "Ouverte" %}
-                <a class="text-center w-20 my-4 ml-4 rounded-md bg-red-500 px-3 py-2 text-sm font-semibold text-white hover:bg-red-600" href="{{ path('app_trip_cancel', {'id': trip.id}) }}">Annuler</a>
+                <a class="text-center w-40 my-4 ml-4 rounded-md bg-red-500 px-3 py-2 text-sm font-semibold text-white hover:bg-red-600" href="{{ path('app_trip_cancel', {'id': trip.id}) }}">Annuler</a>
             {% endif %}
         </div>
     </div>
