@@ -13,6 +13,7 @@ composer install
 echo "Initialisation de Tailwind CSS"
 composer require symfonycasts/tailwind-bundle
 php bin/console tailwind:init
+php bin/console tailwind:build
 echo "Tailwind CSS est configuré"
 
 # Suppression de la base de données
