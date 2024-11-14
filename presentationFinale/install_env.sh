@@ -41,4 +41,8 @@ symfony console cache:clear
 symfony console asset:install
 symfony console asset:compile
 
+echo "Passage en environnement de production (prod)"
+sed -i 's/^APP_ENV=.*/APP_ENV=prod/' .env
+
+echo "Initialisation terminée avec succès. Bravo !"
 echo "Initialisation terminée avec succès. Bravo !"
