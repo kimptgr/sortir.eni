@@ -15,9 +15,17 @@ composer require symfonycasts/tailwind-bundle
 php bin/console tailwind:install
 echo "Tailwind CSS est configuré"
 
-# Création et migration de la base de données
+# Suppression de la base de données
+echo "Suppression de la base de données si elle existe..."
+symfony console doctrine:database:drop --force
+
+# Création de la base de données
 echo "Création de la base de données..."
-symfony console doctrine:database:create --if-not-exists
+symfony console doctrine:database:create
+
+# Génération et exécution des migrations
+echo "Exécution des migrations..."
+symfony console doctrine:migrations:migrate
 symfony console make:migration
 symfony console doctrine:migrations:migrate --no-interaction
 echo "Base de données créée et migrations appliquées"
