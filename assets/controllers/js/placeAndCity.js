@@ -19,6 +19,8 @@ document.addEventListener('DOMContentLoaded', function () {
     closeFormAddPlace.addEventListener('click', closeAddPlaceForm);
     formNewPlace.addEventListener('click', sendPlaceForm);
 
+    function handleCityChange(){
+        let cityId = citySelect.value;
         if (cityId) {
             let url = apiCityPlacesUrl.replace(/\/\d+$/, '/' + cityId);
             fetch(url)
