@@ -3,7 +3,7 @@
 # Clone du projet
 echo "Clonage du dépôt Git"
 git clone https://github.com/leotexier348/sortir.com.git
-cd sortir.com || exit 1
+cd sortir.com
 
 # Installation des dépendances PHP avec Composer
 echo "Installation des dépendances"
@@ -12,7 +12,8 @@ composer install
 # Initialisation de Tailwind CSS
 echo "Initialisation de Tailwind CSS"
 composer require symfonycasts/tailwind-bundle
-php bin/console tailwind:install
+php bin/console tailwind:init
+php bin/console tailwind:build
 echo "Tailwind CSS est configuré"
 
 # Suppression de la base de données
@@ -25,7 +26,6 @@ symfony console doctrine:database:create
 
 # Génération et exécution des migrations
 echo "Exécution des migrations..."
-symfony console doctrine:migrations:migrate
 symfony console make:migration
 symfony console doctrine:migrations:migrate --no-interaction
 echo "Base de données créée et migrations appliquées"
