@@ -65,8 +65,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function displayFormAddPlace(){
         let userCityChoice = citySelect.options[citySelect.value].textContent;
-        let titleText = 'Nouveau lieu pour '+ userCityChoice;
-        placetitleElement.innerText = titleText;
+        placetitleElement.innerText = 'Nouveau lieu pour '+ userCityChoice;
         modal.hidden = !modal.hidden;
         document.querySelectorAll('.hide-on-modal').forEach(element => {
             element.style.display = "none";
