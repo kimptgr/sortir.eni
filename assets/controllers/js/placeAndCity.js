@@ -14,7 +14,12 @@ document.addEventListener('DOMContentLoaded', function () {
     const placetitleElement = document.getElementById('placetitle');
 
 
-    citySelect.addEventListener('change', function () {
+    citySelect.addEventListener('change', handleCityChange);
+    placeSelect.addEventListener('change', handlePlaceSelection);
+    closeFormAddPlace.addEventListener('click', closeAddPlaceForm);
+    formNewPlace.addEventListener('click', sendPlaceForm);
+
+        function handleCityChange() {
         const cityId = citySelect.value;
 
         if (cityId) {
@@ -38,10 +43,9 @@ document.addEventListener('DOMContentLoaded', function () {
         } else {
             placeSelect.innerHTML = '<option value="">Choisissez un lieu</option>';
         }
-    });
+    }
 
-
-    placeSelect.addEventListener('change', function () {
+        function handlePlaceSelection() {
         const placeId = placeSelect.value;
         if (placeId ==='Ajoutez Lieu'){
             displayFormAddPlace();
@@ -58,11 +62,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     longitudeSelected.value = placeData.longitude;
                 })
         }
-    })
-
-    closeFormAddPlace.addEventListener('click', closeAddPlaceForm);
-    formNewPlace.addEventListener('click', sendPlaceForm);
-
+    }
     function displayFormAddPlace(){
         let userCityChoice = citySelect.options[citySelect.value].textContent;
         placetitleElement.innerText = 'Nouveau lieu pour '+ userCityChoice;
@@ -77,8 +77,6 @@ document.addEventListener('DOMContentLoaded', function () {
         e.preventDefault();
         const formData = new FormData();
         const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-
         formData.append('csrf_token', csrfToken);
         formData.append('name', document.getElementById('place_name').value);
         formData.append('street', document.getElementById('place_street').value);
