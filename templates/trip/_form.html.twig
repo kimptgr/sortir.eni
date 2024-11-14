@@ -5,7 +5,9 @@
     // initialisation à zéro pour ensuite le remplacer dans le javascript
 {% set apiCityPlacesUrl = path('api_city_places', {'cityId': 0}) %}
 {% set apiPlaceInfoUrl = path('api_places_info', { 'placeId':0}) %}
+{% set pathCreatePlaceUrl = path('place-create') %}
 const apiCityPlacesUrl = '{{ apiCityPlacesUrl }}';
+const pathCreatePlaceUrl = '{{ pathCreatePlaceUrl }}';
 const apiPlaceInfoUrl = '{{ apiPlaceInfoUrl  }}';
 
 </script>

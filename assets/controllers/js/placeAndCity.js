@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', function () {
         formData.append('longitude', document.getElementById('place_longitude').value);
         formData.append('cityId', citySelect.options[citySelect.value].value);
 
-        fetch('/place/place/create', {
+        fetch(pathCreatePlaceUrl, {
             method: 'POST',
             body: formData,
         })

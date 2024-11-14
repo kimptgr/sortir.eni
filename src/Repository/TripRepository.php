@@ -52,8 +52,7 @@ class TripRepository extends ServiceEntityRepository
             ->leftJoin('pa.campus', 'pac')
             ->addSelect('pac')
             ->andWhere('s != :stateH')
-            ->setParameter('stateH', STATE_HISTORICIZED)
-        ;
+            ->setParameter('stateH', STATE_HISTORICIZED);
 
         if ($filterChoices->getRelativeCampus() !== null) {
             $qb->andWhere('rc = :campus')
@@ -83,18 +82,16 @@ class TripRepository extends ServiceEntityRepository
         }
 
 
-        if ($filterChoices->getIParticipate() && $filterChoices->getImRegistered())
-        {
-            $qb
-            ->andWhere('s.wording = :state')
-            ->setParameter('state', STATE_OPEN);
-        }
-        else if ($filterChoices->getIParticipate()) {
+        if ($filterChoices->getIParticipate() && $filterChoices->getImRegistered()) {
+            $qb->andWhere('t.organizer = :organizer')
+                ->setParameter('organizer', $userInSession)
+                ->andWhere('s.wording = :state')
+                ->setParameter('state', STATE_OPEN);
+        } else if ($filterChoices->getIParticipate()) {
             $qb
                 ->andWhere(':participants MEMBER OF t.participants')
                 ->setParameter('participants', $userInSession);
-        }
-        else if ($filterChoices->getImRegistered()) {
+        } else if ($filterChoices->getImRegistered()) {
             $qb
                 ->andWhere(':participants NOT MEMBER OF t.participants')
                 ->setParameter('participants', $userInSession)
@@ -109,7 +106,7 @@ class TripRepository extends ServiceEntityRepository
                 ->setParameter('registrationDeadline', $now);
         }
 
-       return $qb->getQuery()->getResult();
+        return $qb->getQuery()->getResult();
     }
 
 }
