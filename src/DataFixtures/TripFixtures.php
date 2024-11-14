@@ -108,7 +108,7 @@ class TripFixtures extends Fixture implements DependentFixtureInterface
         $plage->setRegistrationDeadline($registrationDeadline);
         $plage->setNbRegistrationMax(5);
         $plage->setInfo("Venez vous dorer au soleil avec moi, je vous emmene a Nice aller retour dans l'aprem tkt");
-        $plage->setState($this->getReference("state_" . 1));
+        $plage->setState($this->getReference("state_" . 0));
         $plage->setOrganizer($this->getReference("participant_11"));
         $plage->setPlace($this->getReference('Plage'));
         $manager->persist($plage);
