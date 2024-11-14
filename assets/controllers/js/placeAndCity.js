@@ -20,22 +20,21 @@ document.addEventListener('DOMContentLoaded', function () {
     formNewPlace.addEventListener('click', sendPlaceForm);
 
         function handleCityChange() {
-        const cityId = citySelect.value;
-
+            let cityId = citySelect.value;
         if (cityId) {
-            const url = apiCityPlacesUrl.replace('0', cityId);
+            let url = apiCityPlacesUrl.replace(/\/\d+$/, '/' + cityId);
             fetch(url)
         .then(response => response.json())
                 .then(data => {
                     placeSelect.innerHTML = '<option value="">Choisissez un lieu</option>';
 
                     data.forEach(place => {
-                        const option = document.createElement('option');
+                        let option = document.createElement('option');
                         option.value = place.id;
                         option.textContent = place.name ;
                         placeSelect.appendChild(option);
                     });
-                    const option = document.createElement('option');
+                    let option = document.createElement('option');
                     option.textContent ='Ajoutez Lieu';
                     placeSelect.appendChild(option);
                 })
@@ -46,16 +45,16 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
         function handlePlaceSelection() {
-        const placeId = placeSelect.value;
+        let placeId = placeSelect.value;
         if (placeId ==='Ajoutez Lieu'){
             displayFormAddPlace();
         }
         else if(placeId) {
-            url = apiCityPlacesUrl.replace('0', placeId);
+            let url = apiCityPlacesUrl.replace(/\/\d+$/, '/' + placeId);
             fetch(url)
                 .then(response => response.json())
                 .then(data=> {
-                    const placeData = data[0];
+                    let  placeData = data[0];
                     streetSelected.value = placeData.street;
                     postalCodeSelected.value = placeData.city.postalCode;
                     latitudeSelected.value = placeData.latitude;

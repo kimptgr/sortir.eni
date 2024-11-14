@@ -58,16 +58,31 @@ class City
         return $this->postalCode;
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     public function setPostalCode(string $postalCode): static
     {
         $this->postalCode = $postalCode;
 
         return $this;
     }
-
-    /**
-     * @return Collection<int, Place>
-     */
     public function getPlaces(): Collection
     {
         return $this->places;
@@ -95,3 +110,24 @@ class City
         return $this;
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

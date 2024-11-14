@@ -102,7 +102,8 @@ final class PlaceController extends AbstractController
                     'error' => 'Ville non trouvée',
                 ], 408);
             }
-            $place->setCity($city);
+           // $place->setCity($city);
+            $city->addPlace($place);
 
             $errors = $validator->validate($place);
             if (count($errors) > 0) {
@@ -116,6 +117,7 @@ final class PlaceController extends AbstractController
                 ], 400);
             }
             $entityManager->persist($place);
+            $entityManager->persist($city);
             $entityManager->flush();
 
             return new JsonResponse([
