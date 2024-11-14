@@ -18,11 +18,11 @@ class City
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['place_list'])]
+    #[Groups(['place_info', 'place_list'])]
     private ?string $name = null;
 
     #[ORM\Column(length: 10)]
-    #[Groups(['place_list'])]
+    #[Groups(['place_info', 'place_list'])]
     private ?string $postalCode = null;
 
     /**

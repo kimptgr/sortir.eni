@@ -15,11 +15,11 @@ class Place
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['place_list'])]
+    #[Groups(['place_info', 'place_list'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['place_list'])]
+    #[Groups(['place_info', 'place_list'])]
     #[Assert\NotBlank(message: 'Le nom ne peut pas être vide')]
     #[Assert\Length(
         maxMessage: 'Le nom ne peut pas dépasser {{ limit }} caractères de long',
@@ -28,7 +28,7 @@ class Place
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['place_list'])]
+    #[Groups(['place_info', 'place_list'])]
     #[Assert\NotBlank(message: 'La rue ne peut pas être vide')]
     #[Assert\Length(
         maxMessage: 'La rue ne peut pas dépasser {{ limit }} caractères',
@@ -37,20 +37,20 @@ class Place
     private ?string $street = null;
 
     #[ORM\Column]
-    #[Groups(['place_list'])]
+    #[Groups(['place_info', 'place_list'])]
     #[Assert\NotBlank(message: 'La latitude est requise')]
     #[Assert\Type('float', message:"La latitude doit être un nombre")]
     private ?float $latitude = null;
 
     #[ORM\Column]
-    #[Groups(['place_list'])]
+    #[Groups(['place_info', 'place_list'])]
     #[Assert\NotBlank(message: 'La longitude est requise')]
 #[Assert\Type('float', message:"La longitude doit être un nombre")]
     private ?float $longitude = null;
 
     #[ORM\ManyToOne(inversedBy: 'places')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['place_list'])]
+    #[Groups(['place_info', 'place_list'])]
     private ?City $city = null;
 
     /**

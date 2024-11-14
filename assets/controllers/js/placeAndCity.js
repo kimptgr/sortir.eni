@@ -19,23 +19,23 @@ document.addEventListener('DOMContentLoaded', function () {
     closeFormAddPlace.addEventListener('click', closeAddPlaceForm);
     formNewPlace.addEventListener('click', sendPlaceForm);
 
-        function handleCityChange() {
-            let cityId = citySelect.value;
+    function handleCityChange() {
+        let cityId = citySelect.value;
         if (cityId) {
             let url = apiCityPlacesUrl.replace(/\/\d+$/, '/' + cityId);
             fetch(url)
-        .then(response => response.json())
+                .then(response => response.json())
                 .then(data => {
                     placeSelect.innerHTML = '<option value="">Choisissez un lieu</option>';
 
                     data.forEach(place => {
                         let option = document.createElement('option');
                         option.value = place.id;
-                        option.textContent = place.name ;
+                        option.textContent = place.name;
                         placeSelect.appendChild(option);
                     });
                     let option = document.createElement('option');
-                    option.textContent ='Ajoutez Lieu';
+                    option.textContent = 'Ajoutez Lieu';
                     placeSelect.appendChild(option);
                 })
                 .catch(error => console.error('Error fetching places:', error));
@@ -44,17 +44,16 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-        function handlePlaceSelection() {
+    function handlePlaceSelection() {
         let placeId = placeSelect.value;
-        if (placeId ==='Ajoutez Lieu'){
+        if (placeId === 'Ajoutez Lieu') {
             displayFormAddPlace();
-        }
-        else if(placeId) {
-            let url = apiCityPlacesUrl.replace(/\/\d+$/, '/' + placeId);
+        } else if (placeId) {
+            let url = apiPlaceInfoUrl.replace(/\/\d+$/, '/' + placeId);
             fetch(url)
                 .then(response => response.json())
-                .then(data=> {
-                    let  placeData = data[0];
+                .then(data => {
+                    let placeData = data;
                     streetSelected.value = placeData.street;
                     postalCodeSelected.value = placeData.city.postalCode;
                     latitudeSelected.value = placeData.latitude;
@@ -62,9 +61,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 })
         }
     }
-    function displayFormAddPlace(){
+
+    function displayFormAddPlace() {
         let userCityChoice = citySelect.options[citySelect.value].textContent;
-        placetitleElement.innerText = 'Nouveau lieu pour '+ userCityChoice;
+        placetitleElement.innerText = 'Nouveau lieu pour ' + userCityChoice;
         modal.hidden = !modal.hidden;
         document.querySelectorAll('.hide-on-modal').forEach(element => {
             element.style.display = "none";
@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Soumettre le formulaire en AJAX pour ajouter un nouveau lieu
-    function sendPlaceForm (e) {
+    function sendPlaceForm(e) {
         e.preventDefault();
         const formData = new FormData();
         const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
@@ -105,7 +105,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     modal.hidden = !modal.hidden;
                     closeAddPlaceForm();
 
-                   // formNewPlace.reset();
+                    // formNewPlace.reset();
                 } else {
                     const errorContainer = document.getElementById('error-messages');
                     errorContainer.innerHTML = ''; // Clear previous errors
@@ -119,7 +119,8 @@ document.addEventListener('DOMContentLoaded', function () {
             })
             .catch(error => console.error('Erreur lors de l\'ajout du lieu:', error));
     }
-    function closeAddPlaceForm(){
+
+    function closeAddPlaceForm() {
         modal.hidden = true;
         document.querySelectorAll('.hide-on-modal').forEach(element => {
             element.style.display = "block";
