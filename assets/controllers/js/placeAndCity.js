@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function () {
             displayFormAddPlace();
         }
         else if(placeId) {
-            url = apiPlaceInfoUrl.replace('0', placeId);
+            url = apiCityPlacesUrl.replace('0', placeId);
             fetch(url)
                 .then(response => response.json())
                 .then(data=> {
