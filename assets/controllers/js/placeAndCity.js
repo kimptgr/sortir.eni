@@ -19,8 +19,6 @@ document.addEventListener('DOMContentLoaded', function () {
     closeFormAddPlace.addEventListener('click', closeAddPlaceForm);
     formNewPlace.addEventListener('click', sendPlaceForm);
 
-    function handleCityChange() {
-        let cityId = citySelect.value;
         if (cityId) {
             let url = apiCityPlacesUrl.replace(/\/\d+$/, '/' + cityId);
             fetch(url)
@@ -72,7 +70,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Soumettre le formulaire en AJAX pour ajouter un nouveau lieu
-    function sendPlaceForm(e) {
+    function sendPlaceForm (e) {
         e.preventDefault();
         const formData = new FormData();
         const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
@@ -105,7 +103,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     modal.hidden = !modal.hidden;
                     closeAddPlaceForm();
 
-                    // formNewPlace.reset();
                 } else {
                     const errorContainer = document.getElementById('error-messages');
                     errorContainer.innerHTML = ''; // Clear previous errors
