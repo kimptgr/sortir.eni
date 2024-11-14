@@ -83,14 +83,10 @@ class TripRepository extends ServiceEntityRepository
 
 
         if ($filterChoices->getIParticipate() && $filterChoices->getImRegistered()) {
-            $qb->andWhere(
-                $qb->expr()->orX(
-                    't.organizer = :organizer',
-                    's.wording = :state'
-                )
-            )
-                ->setParameter('organizer', $userInSession)
-                ->setParameter('state', STATE_OPEN);
+            $qb->andWhere('s.wording = :state')
+                ->orWhere('t.organizer = :organizer')
+                ->setParameter('state', STATE_OPEN)
+                ->setParameter('organizer', $userInSession);
         } else if ($filterChoices->getIParticipate()) {
             $qb
                 ->andWhere(':participants MEMBER OF t.participants')
