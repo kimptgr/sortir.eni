@@ -26,7 +26,9 @@ class ParticipantImportService
 
         if (($handle = fopen($filePath, 'r')) !== false) {
             while (($data = fgetcsv($handle, 1000, ',')) !== false) {
-                $this->createUserFromData($data);
+                if (!empty($data)) {
+                    $this->createUserFromData($data);
+                }
             }
             fclose($handle);
         }
@@ -44,7 +46,7 @@ class ParticipantImportService
         $campusId = $data[7]; // ID du campus
 
         // Récupérer le campus via son repository
-        $campus = $this->entityManager->getRepository(Campus::class)->find(53);
+        $campus = $this->entityManager->getRepository(Campus::class)->find($campusId);
 
         // Vérifier si le campus existe, sinon gérer l'erreur
         if (!$campus) {
