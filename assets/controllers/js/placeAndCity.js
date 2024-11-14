@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 .then(data=> {
                     const placeData = data[0];
                     streetSelected.value = placeData.street;
-                    postalCodeSelected.value = placeData.postalCode;
+                    postalCodeSelected.value = placeData.city.postalCode;
                     latitudeSelected.value = placeData.latitude;
                     longitudeSelected.value = placeData.longitude;
                 })
