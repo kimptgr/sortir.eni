@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\City;
 use App\Repository\CityRepository;
+use App\Repository\PlaceRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\BrowserKit\Request;
@@ -29,17 +30,17 @@ class APICityPlaceController extends AbstractController
 
     }
 
-    #[Route('/api/city_places/{placeId}', name: 'api_places_info', methods: ['GET'])]
-    public function getPlaceInfo(int $placeId, CityRepository $cityRepository): JsonResponse
-    {
-        $place = $cityRepository->find($placeId);
-        if (!$place) {
-            return $this->json(['error' => 'Place not found'], Response::HTTP_NOT_FOUND);
-        }
-
-        return $this->json($place, Response::HTTP_OK, [], ['groups' => ['place_info']]);
-
-    }
+//    #[Route('/api/city_places/{placeId}', name: 'api_places_info', methods: ['GET'])]
+//    public function getPlaceInfo(int $placeId, PlaceRepository $placeRepository): JsonResponse
+//    {
+//        $place = $placeRepository->find($placeId);
+//        if (!$place) {
+//            return $this->json(['error' => 'Place not found'], Response::HTTP_NOT_FOUND);
+//        }
+//
+//        return $this->json($place, Response::HTTP_OK, [], ['groups' => ['place_info']]);
+//
+//    }
 
     #[Route('/api/places', name: 'api_place_create', methods: ['POST'])]
     public function createPlace(Request $request): JsonResponse

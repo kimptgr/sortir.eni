@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const cityId = citySelect.value;
 
         if (cityId) {
-            const url = apiCityPlacesUrl.replace('0', cityId);
+            const url = apiCityPlacesUrl.replace(/\/\d+$/, '/' + cityId);
             fetch(url)
         .then(response => response.json())
                 .then(data => {
@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function () {
             displayFormAddPlace();
         }
         else if(placeId) {
-            url = apiCityPlacesUrl.replace('0', placeId);
+            url = apiCityPlacesUrl.replace(/\/\d+$/, '/' + placeId);
             fetch(url)
                 .then(response => response.json())
                 .then(data=> {

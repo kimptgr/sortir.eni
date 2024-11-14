@@ -47,7 +47,8 @@ class RefreshTripService
         // Check si archivé -> historisé
         // Le diff() permet de retourner un dateInterval
         // Ici on regarde si le moi est >= a 1 et l'année > 0
-        if (($diffEndDateTime->m >= 1 || $diffEndDateTime->y > 0) && $trip->getState()->getWording() !== STATE_HISTORICIZED) {
+//        && $trip->getState()->getWording() !== STATE_HISTORICIZED)
+        if ($diffEndDateTime->m >= 1 && $diffEndDateTime->y > 0)  {
             $trip->setState($this->findStateByWording($states, STATE_HISTORICIZED));
         }
 

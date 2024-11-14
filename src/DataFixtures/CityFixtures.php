@@ -23,6 +23,7 @@ class CityFixtures extends Fixture
             ['name' => 'Montpellier', 'postalCode' => '34000'],
             ['name' => 'Bordeaux', 'postalCode' => '33000'],
             ['name' => 'Lille', 'postalCode' => '59000'],
+            ['name'=> 'Rennes', 'postalCode' => '35000'],
         ];
         $i=0;
         foreach ($cities as $cityData) {
