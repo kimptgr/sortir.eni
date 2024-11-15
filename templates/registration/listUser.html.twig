@@ -61,7 +61,7 @@
 
 
                     // AJAX
-                    fetch('/delete-participants', {
+                    fetch('{{ path('delete_participants') }}', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
