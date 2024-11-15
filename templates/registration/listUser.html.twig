@@ -32,7 +32,8 @@
                             </div>
                         </div>
                         <div class="text-sm text-gray-500">
-                            <a class="{{ participant.isActive ? 'text-green-600 activOne'  : 'text-red-600 nonActivOne' }}" href="/active-participants/{{ participant.id }}">{{ participant.isActive ? 'Actif' : 'Inactif' }}</a>
+                            <a class="{{ participant.isActive ? 'text-green-600 activOne'  : 'text-red-600 nonActivOne' }}" href="{{ path('active_participants', {id: participant.id}) }}">{{ participant.isActive ? 'Actif' : 'Inactif' }}</a>
+
                         </div>
                     </li>
                 {% endfor %}
