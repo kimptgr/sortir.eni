@@ -10,7 +10,7 @@ Ce projet est une application web collaborative réalisée dans le cadre de mes 
 
 👥 Réalisation
 
-    Projet réalisé en groupe de 3 étudiants dans le cadre d'un cursus de formation.
+    Projet réalisé en groupe de 3 étudiants (leotexier348, chomizzz et kimptgr) dans le cadre d'un cursus de formation.
     Technologies utilisées :
         Langage : PHP
         Framework : Symfony
@@ -42,7 +42,7 @@ This project is a collaborative web application developed as part of my studies 
 
 👥 Development
 
-    Project developed in a team of 3 students as part of a training program.
+    Project developed in a team of 3 students (leotexier348, chomizzz and kimptgr) as part of a training program.
     Technologies used:
         Language: PHP
         Framework: Symfony
