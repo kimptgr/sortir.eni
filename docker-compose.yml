@@ -1,5 +1,6 @@
 services:
   sortir_app:
+    container_name: sortir_app
     build:
       context: .
       dockerfile: Dockerfile
@@ -13,6 +14,7 @@ services:
       - sortir_db
 
   sortir_db:
+    container_name: sortir_db
     image: mysql:8.0
     environment:
       MYSQL_ROOT_PASSWORD: root
