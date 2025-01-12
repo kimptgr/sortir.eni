@@ -4,58 +4,14 @@
     <meta charset="UTF-8">
     <title>{% block title %}Welcome!{% endblock %}</title>
     <link rel="icon" href="{{ asset('img/faviconB.png') }}" type="image/x-icon">
-   {# <link rel="icon" href="{{ asset('images/logo.ico') }}" type="image/x-icon">#}
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
-
-{#    {% block stylesheets %}
-        <link rel="stylesheet" href="{{ asset('styles/app.css') }}">
-    {% endblock %}#}
-
     {% block javascripts %}
         {% block importmap %}{{ importmap('app') }}{% endblock %}
-        {#<script src="{{ asset('assets/app.js') }}" type="module"></script>#}
     {% endblock %}
-
-
-
-    <style>
-        /*html, body {*/
-        /*    height: 100%;*/
-        /*    margin: 0;*/
-        /*}*/
-        /*body {*/
-        /*    !*height: 100vh;*!*/
-        /*    background-image: url('https://firstclasse.com.my/wp-content/uploads/2019/01/Holiday-destinations-rich-famous-featured.jpg');*/
-        /*    background-size: cover;*/
-        /*    background-position: center;*/
-        /*    background-repeat: no-repeat;*/
-        /*    display: flex;*/
-        /*    flex-direction: column;*/
-        /*}*/
-        /*footer {*/
-        /*    margin-top: auto;*/
-        /*}*/
-        /*nav {*/
-        /*    width: 100vw;*/
-        /*}*/
-        /*main {*/
-        /*    background: white;*/
-        /*    margin-left: 10vw;*/
-        /*    margin-right: 10vw;*/
-        /*    margin-top: 2vh;*/
-        /*    margin-bottom: 2vh;*/
-        /*    border-radius: 10px;*/
-        /*    padding: 20px; !* Ajoutez un remplissage pour le contenu *!*/
-        /*    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); !* Optionnel : pour donner un effet d'ombre *!*/
-        /*    display: flex;*/
-        /*    flex-direction: column;*/
-        /*    height : 82vh;*/
-        /*}*/
-    </style>
 </head>
-<body class="">
+<body>
 {% include('_navbar.html.twig') %}
-<main class="">
+<main>
     {% for message in app.flashes('success') %}
         <div class="flash" id="messageFlash">
             <div class="bg-green-100 border border-green-400 text-green-700 px-6 py-4 rounded relative" role="alert">
